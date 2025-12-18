@@ -1,0 +1,24 @@
+pkgname="qnx-ncurses"
+pkgver=8.0.3
+pkgrel=0
+pkgdesc="QNX ncurses compatability"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="ncurses"
+options="!strip"
+
+package() {
+    mkdir -p "$pkgdir"/usr/lib
+    cd "$pkgdir"/usr/lib
+    ln -s libncursesw.so.6.4 libncursesw.so.1
+    ln -s libncursesw.so.1 libncurses.so.1
+    
+    ln -s libpanelw.so.6.4 libpanelw.so.1
+    ln -s libpanelw.so.1 libpanel.so.1
+
+    ln -s libformw.so.6.4 libformw.so.1
+    ln -s libformw.so.1 libform.so.1
+
+}
+

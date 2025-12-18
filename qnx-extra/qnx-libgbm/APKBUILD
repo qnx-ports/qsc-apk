@@ -1,0 +1,44 @@
+pkgname="qnx-libgbm"
+# This needs to be keeped in sync with the qnx-screen-{backend}
+_screen_common_mesa_version="25.1.1.00046T202510100921L"
+pkgver=8.0.3
+pkgrel=0
+pkgdesc="QNX screen libdrm"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-libdrm"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="libgbm_$_screen_common_mesa_version.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.board.common_mesa/$_screen_common_mesa_version/download
+"
+_qarch=$CARCH
+if [[ $CARCH == "aarch64" ]]; then
+    export _qarch=aarch64le
+fi
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving generic /usr"
+    cp -r "$srcdir"/target/qnx/usr/* "$pkgdir"/usr 
+
+    echo "Moving arch-specific ($_qarch) /usr"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/* "$pkgdir"/usr
+}
+
+
+dbg(){
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+32d9b03e60693629d26ee0024bab3804ece43f61fc9146cc2ba245d6f10e44ea09a00b4f72664ca6414f9778bb89dc82024bba11ac66eb9d72c48ca5d1fad6c2  libgbm_25.1.1.00046T202510100921L.qpkg
+"

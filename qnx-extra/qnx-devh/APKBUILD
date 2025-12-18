@@ -1,0 +1,67 @@
+pkgname="qnx-devh"
+pkgver=8.0.3
+pkgrel=1
+pkgdesc="QNX800 Device Input - HID Drivers"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-hid"
+makedepends="qnx-usb"
+subpackages="
+    $pkgname-dbg
+    $pkgname-usb
+"
+
+source="qnx-devh.qpkg::$QSC_URL/com.qnx.qnx800.target.input.devh/0.0.1.00443T202311201012L/download
+"
+
+if [[ $CARCH == "aarch64" ]]; then
+    _arch_name=aarch64le
+elif [[ $CARCH == "x86_64" ]]; then
+    _arch_name=x86_64
+    subpackages="$subpackages
+                 $pkgname-vmmouse:vmmouse:x86_64
+                 "
+fi
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+
+}
+
+package() {
+    cd $srcdir
+
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/usr/bin "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/lib "$pkgdir"/usr
+}
+
+dbg() {
+    pkgdesc="$pkgdesc (debug symbols)"
+
+    mkdir -p "$subpkgdir"/usr/bin
+    mkdir -p "$subpkgdir"/usr/lib/dll
+
+    amove usr/bin/*.sym
+    mv "$pkgdir"/usr/lib/dll/*.sym "$subpkgdir"/usr/lib/dll/
+}
+
+usb() {
+    depends="qnx-usb"
+
+    amove usr/lib/dll/devh-usb*
+}
+
+vmmouse() {
+    pkgdesc="$pkgdesc mouse support for virtual machine"
+       
+    amove usr/lib/libvmmouse*
+}
+
+
+sha512sums="
+cc13081dc9c2a0ea40a126c874c04a5209791d97093b1b8471431fb6697a1cb940a6bd3a95beffcb78b5af77b937c183dff67dc86c34319c795b7bff20c2332f  qnx-devh.qpkg
+"

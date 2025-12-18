@@ -1,0 +1,39 @@
+pkgname="qnx-hid"
+pkgver=8.0.3
+_hid_version=0.1.0.00008T202412121448L
+pkgrel=1
+pkgdesc="QNX io Hid"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-secpol"
+source="hid_$_hid_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.hid/$_hid_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/{bin,lib}
+    echo "Moving arch-specific ($_qarch) binaraies"
+    cp -r "$srcdir"/target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib
+}
+
+sha512sums="
+4bc85b873ac88fecd94b389d418ca593568aa8a01ef35d398b82c491f1db90ac74664992604dbfc3a5e945204ce9fd0f596beb9961b116db12d77d2a744acda1  hid_0.1.0.00008T202412121448L.qpkg
+"

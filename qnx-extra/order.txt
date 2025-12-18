@@ -1,0 +1,9 @@
+qnx-alsa
+qnx-devh
+qnx-fd-notify
+qnx-hid
+qnx-keyboard
+qnx-libgbm
+qnx-memstream
+qnx-screen
+qnx-ncurses

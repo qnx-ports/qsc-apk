@@ -1,0 +1,17 @@
+# qnx-alsa
+com.qnx.qnx800.target.sound.alsa/1.0.0.00247T202506201141L
+# qnx-devh
+com.qnx.qnx800.target.input.devh/0.0.1.00443T202311201012L
+# qnx-fs-notify
+com.qnx.qnx800.target.notify_fd/1.0.0.00103T202510151739L
+# qnx-hid
+com.qnx.qnx800.target.os_services.hid/0.1.0.00008T202412121448L
+# qnx-keyboard
+com.qnx.qnx800.target.input.keyboard/0.1.0.00007T202411230047L
+# qnx-libgbm
+com.qnx.qnx800.target.screen.board.common_mesa/25.1.1.00046T202510100921L
+# qnx-memstream
+com.qnx.qnx800.target.memstream/1.0.0.00103T202510151739L
+# qnx-nucrses
+# qnx-screen
+com.qnx.qnx800.target.screen.base/4.0.2.00431T202511200808L

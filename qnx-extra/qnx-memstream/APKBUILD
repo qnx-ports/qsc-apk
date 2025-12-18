@@ -1,0 +1,44 @@
+
+pkgname="qnx-memstream"
+pkgver=8.0.3
+_mem_stream_version=1.0.0.00103T202510151739L
+pkgrel=1
+pkgdesc="QNX800 support for Linux-style memstream dynamic memory buffer streams"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev"
+source="qnx-memstream_$_mem_stream_version.qpkg::$QSC_URL/com.qnx.qnx800.target.memstream/$_mem_stream_version/download"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr
+
+    if [[ $CARCH == "aarch64" ]]; then
+        _arch_name=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+        _arch_name=x86_64
+    fi
+
+    cp -r target/qnx/$_arch_name/usr/lib "$pkgdir"/usr
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/*.sym
+}
+
+
+
+sha512sums="
+92c9329911680ab0f66ed14f6a0691572390b8f7b9970923ed4e219f2c573183adb2831c91fb03697484905fc7de6a80c1c21accc8476def9be672a03f8539c9  qnx-memstream_1.0.0.00103T202510151739L.qpkg
+"

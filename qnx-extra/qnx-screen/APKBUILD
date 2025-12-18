@@ -1,0 +1,181 @@
+pkgname="qnx-screen"
+_gfx_pkgname="qnx"
+pkgver=8.0.3
+_screen_base_version=4.0.2.00431T202511200808L
+pkgrel=12
+_pkgdesc="QNX800 Screen Board Support"
+_dbg_pkgdesc="$pkgdesc debug symbols and binaries"
+pkgdesc=$_pkgdesc
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !check !tracedeps"
+depends="qnx-keyboard"
+subpackages="$pkgname-dev:screen_dev:noarch
+             $pkgname-dbg:debug
+             $_gfx_pkgname-khr-dev:_khr_dev:noarch
+             $_gfx_pkgname-egl
+             egl-headers:khr_dev
+             $_gfx_pkgname-vulkan:vulkan
+             vulkan-headers:khr_dev
+             $_gfx_pkgname-gles
+             gles-headers:khr_dev
+             $_gfx_pkgname-opencl
+             opencl-headers:khr_dev
+             $_gfx_pkgname-openvg
+             openvg-headers:khr_dev
+             "
+source="screen_base_$_screen_base_version.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.base/$_screen_base_version/download
+        egl.pc
+        glesv2.pc
+        vulkan.pc
+        "
+
+if [[ $CARCH == "aarch64" ]]; then
+    _arch_name=aarch64le
+elif [[ $CARCH == "x86_64" ]]; then
+    _arch_name=x86_64
+fi
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    depends="qnx-screen-backend"
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+
+    cp -r target/qnx/usr/include "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/usr/bin "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/usr/lib "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/sbin/* "$pkgdir"/usr/bin
+    cp -r target/qnx/$_arch_name/bin/* "$pkgdir"/usr/bin
+    cp -r target/qnx/$_arch_name/lib/* "$pkgdir"/usr/lib
+}
+
+debug() {
+    pkgdesc="$_dbg_pkgdesc"
+    depends="$pkgname=$pkgver-r$pkgrel"
+
+    mkdir -p "$subpkgdir"/usr/bin
+    mkdir -p "$subpkgdir"/usr/lib/dll
+
+    mv "$pkgdir"/usr/bin/*.sym "$subpkgdir"/usr/bin/
+    mv "$pkgdir"/usr/lib/*.sym "$subpkgdir"/usr/lib/
+    mv "$pkgdir"/usr/lib/dll/*.sym "$subpkgdir"/usr/lib/dll/
+}
+
+screen_dev() {
+    depends="$_gfx_pkgname-khr-dev"
+
+    default_dev
+    # move libWFD.so back
+    mkdir -p "$pkgdir"/usr/lib/pkgconfig
+    mv "$subpkgdir"/usr/lib/libWFD.so "$pkgdir"/usr/lib
+    mv "$srcdir"/egl.pc "$pkgdir"/usr/lib/pkgconfig
+    mv "$srcdir"/glesv2.pc "$pkgdir"/usr/lib/pkgconfig
+    mv "$srcdir"/vulkan.pc "$pkgdir"/usr/lib/pkgconfig
+}
+
+_khr_dev() {
+    pkgdesc="$_pkgdesc - KHR headers"
+
+    mkdir -p "$subpkgdir"/usr/include
+    mv "$pkgdir-dev"/usr/include/KHR "$subpkgdir"/usr/include
+}
+
+khr_dev() {
+    depends="$_gfx_pkgname-khr-dev"
+}
+
+dbg() {
+  # no-op
+  msg "no-op"
+}
+
+egl() {
+    pkgdesc="$_pkgdesc - EGL"
+
+    # runtimes and tools
+    mkdir -p "$subpkgdir"/usr/bin
+    mkdir -p "$subpkgdir"/usr/lib
+    mv "$pkgdir"/usr/bin/egl-* "$subpkgdir"/usr/bin
+    mv "$pkgdir"/usr/lib/libEGL* "$subpkgdir"/usr/lib
+    mv "$pkgdir-dev"/usr/lib/libEGL* "$subpkgdir"/usr/lib
+
+    # dev
+    local _header_path="$pkgdir/../egl-headers/usr/include"
+    mkdir -p "$_header_path"
+    mv "$pkgdir-dev"/usr/include/EGL "$_header_path"
+}
+
+vulkan() {
+    pkgdesc="$_pkgdesc - Vulkan"
+
+    # runtimes and tools
+    mkdir -p "$subpkgdir"/usr/bin
+    mkdir -p "$subpkgdir"/usr/lib
+    mv "$pkgdir"/usr/bin/vulkan* "$subpkgdir"/usr/bin
+    mv "$pkgdir"/usr/lib/libvulkan* "$subpkgdir"/usr/lib
+    mv "$pkgdir-dev"/usr/lib/libvulkan* "$subpkgdir"/usr/lib
+
+    # dev
+    local _header_path="$pkgdir/../vulkan-headers/usr/include"
+    mkdir -p "$_header_path"
+    mv "$pkgdir-dev"/usr/include/vulkan "$_header_path"
+    mv "$pkgdir-dev"/usr/include/vk_video "$_header_path"
+}
+
+gles() {
+    pkgdesc="$_pkgdesc - GLES"
+
+    # runtimes and tools
+    mkdir -p "$subpkgdir"/usr/lib
+    mv "$pkgdir"/usr/lib/libGLES* "$subpkgdir"/usr/lib
+    mv "$pkgdir-dev"/usr/lib/libGLES* "$subpkgdir"/usr/lib
+
+    # dev
+    local _header_path="$pkgdir/../gles-headers/usr/include"
+    mkdir -p "$_header_path"
+    mv "$pkgdir-dev"/usr/include/GLES* "$_header_path"
+}
+
+opencl() {
+    pkgdesc="$_pkgdesc - OpenCL"
+
+    # runtimes and tools
+    mkdir -p "$subpkgdir"/usr/bin
+    mkdir -p "$subpkgdir"/usr/lib
+    mv "$pkgdir"/usr/bin/clinfo "$subpkgdir"/usr/bin
+    mv "$pkgdir"/usr/lib/libOpenCL* "$subpkgdir"/usr/lib
+    mv "$pkgdir-dev"/usr/lib/libOpenCL* "$subpkgdir"/usr/lib
+
+    # dev
+    local _header_path="$pkgdir/../opencl-headers/usr/include"
+    mkdir -p "$_header_path"
+    mv "$pkgdir-dev"/usr/include/CL "$_header_path"
+}
+
+openvg() {
+    pkgdesc="$_pkgdesc - OpenVG and OpenVGU"
+
+    # runtimes and tools
+    mkdir -p "$subpkgdir"/usr/lib
+    mv "$pkgdir"/usr/lib/libOpenVG* "$subpkgdir"/usr/lib
+    mv "$pkgdir-dev"/usr/lib/libOpenVG* "$subpkgdir"/usr/lib
+
+    # dev
+    local _header_path="$pkgdir/../openvg-headers/usr/include"
+    mkdir -p "$_header_path"
+    mv "$pkgdir-dev"/usr/include/VG "$_header_path"
+}
+
+sha512sums="
+a63dda20076af949be33caec3deee0e9ba48edb0ded848d480e03414fe496ad20ce034ef7fe87d39ccbcb863bc37d8adc49262355bee42b6724d12e194b01e51  screen_base_4.0.2.00431T202511200808L.qpkg
+b317d8d7caf19a6859c85d9c021cd167d6b31bbc86361805ab1d056ba191324e0b323793d5c4bdf5db56d8c1c4d19e46f742a064494b36ab983230d9fef14222  egl.pc
+040a9ee943f8786de002b07858dc430521c09fa344e7476ef4b2140d506d85abf8ca9af3360c78e8058ef02c73427dca6e7b4334791bb80f581fb15fe1b5d991  glesv2.pc
+9781742375b7d208c9a5030a1dd9043ac9f527929eb3e79737f447012380004f86842d6323b5c04e9221373ac87b9041c4fe5e45e04651748b6124abb670935e  vulkan.pc
+"

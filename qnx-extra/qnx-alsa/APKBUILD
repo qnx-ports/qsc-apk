@@ -1,0 +1,48 @@
+pkgname="qnx-alsa"
+pkgver=8.0.3
+_version=1.0.0.00247T202506201141L
+pkgrel=5
+pkgdesc="QNX implementation of the Small Advanced Linux Sound Architecture (SALSA) application library."
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-libslog2"
+depends_dev="qnx-io-sock-dev"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="qnx-alsa_$_version.qpkg::$QSC_URL/com.qnx.qnx800.target.sound.alsa/$_version/download
+        alsa.pc
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr
+    
+    if [[ $CARCH == "aarch64" ]]; then
+        _arch_name=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+        _arch_name=x86_64
+    fi
+
+    cp -r target/qnx/$_arch_name/usr/bin "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/lib "$pkgdir"/usr
+    mkdir "$pkgdir"/usr/lib/pkgconfig
+    cp "$srcdir"/alsa.pc "$pkgdir"/usr/lib/pkgconfig
+}
+
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+6eb259d61a115be255a1e7ed014bb120b6bed1abe5e0a4f109aadf413231a0f54f0770ea2bccccfc1612c3513fcb2bb9ecd8ac6604d17234f244bd7c93929f79  qnx-alsa_1.0.0.00247T202506201141L.qpkg
+0bcd7d2879c6af55ecc5b4597a95261de4544fd239c787c295d0d8ec3693a0c3a4bbc9fb27303af34f0b787b6e8f8e4c90340a9f416db9849bc1d33c408cd5d5  alsa.pc
+"

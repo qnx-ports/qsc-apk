@@ -1,0 +1,37 @@
+pkgname="qnx-fd-notify"
+pkgver=8.0.3
+_fd_notify_version=1.0.0.00103T202510151739L
+pkgrel=1
+pkgdesc="QNX800 supports for various Linux-type Notification File Descriptor Interfaces"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev"
+source="qnx-fd-notify_$_fd_notify_version.qpkg::$QSC_URL/com.qnx.qnx800.target.notify_fd/$_fd_notify_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr
+    
+    if [[ $CARCH == "aarch64" ]]; then
+	_arch_name=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+	_arch_name=x86_64
+    fi
+
+    cp -r target/qnx/$_arch_name/usr/lib "$pkgdir"/usr
+}
+
+
+sha512sums="
+d3724fb045084e227f584eea1240cd1d57a639f4b4308addde74c4cac5903df42967deeb234d4083fad223850a743318bdc19538322df3b9d83117882bf97708  qnx-fd-notify_1.0.0.00103T202510151739L.qpkg
+"

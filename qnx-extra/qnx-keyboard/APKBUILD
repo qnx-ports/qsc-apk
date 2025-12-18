@@ -1,0 +1,29 @@
+pkgname="qnx-keyboard"
+pkgver=8.0.3
+_keyboard_version=0.1.0.00007T202411230047L
+pkgrel=1
+pkgdesc="QNX Keyboard Layout Files"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+source="usb_$_keyboard_version.qpkg::$QSC_URL/com.qnx.qnx800.target.input.keyboard/$_keyboard_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common usr"
+    cp -r "$srcdir"/target/qnx/usr/ "$pkgdir"
+}
+
+sha512sums="
+26570f8589a001969e2b82be1671826b1f646b16be391fcff2bfb62262a4a7e65ed288858ad9bb83f0e3535ba3b82ed8c3782d93339dd86a57ebc4a5e21a1d1c  usb_0.1.0.00007T202411230047L.qpkg
+"
