@@ -1,0 +1,129 @@
+pkgname="qnx-utils"
+pkgver=8.0.3
+_utils_version=0.0.2.02572T202508191702L
+_utils_base_d_version=0.0.1.00135T202311191043L
+pkgrel=9
+pkgdesc="QNX System Utilities"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-io-sock"
+makedepends="qnx-io-sock-dev"
+subpackages="$pkgname-dbg"
+
+_add_qpkg_file() {
+    local _link="$1"
+    local _file="$2"_"$3"
+    source="$source $_file.qpkg::$QSC_URL/$_link/$3/download"
+}
+
+_move_qpkg_file() {
+    cp -r "$srcdir"/target/qnx/"$_qarch"/"$1" "$pkgdir"/usr/bin
+    if [[ -f "$srcdir"/target/qnx/"$_qarch"/"$1".sym ]]; then
+        cp -r "$srcdir"/target/qnx/"$_qarch"/"$1".sym "$pkgdir"/usr/bin
+    fi
+}
+
+source=""
+_utils_base_version=0.0.1.00135T202311191043L
+_utils_hw_version=0.2.0.00014T202411230051L
+_utils_qnx_version=0.0.1.00282T202404151301L
+_add_qpkg_file com.qnx.qnx800.target.utils.system os-utils 0.0.2.02005T202411230033L
+_add_qpkg_file com.qnx.qnx800.target.utils.base.m utils_base_m $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.u utils_base_u $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.s utils_base_s $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.d utils_base_d $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.k utils_base_k $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.t utils_base_t $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.base.shutdown shutdown $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.hw utils_hw $_utils_hw_version
+_add_qpkg_file com.qnx.qnx800.target.utils.qnx utils_qnx $_utils_qnx_version
+
+source="$source
+        getent.c
+        rev.c"
+
+_move_os_utils() {
+    for bin in coreinfo getconf setconf use; do
+        _move_qpkg_file usr/bin/$bin
+    done
+
+    for bin in ability confstr getfacl on pidin setfacl slay waitfor; do
+        _move_qpkg_file bin/$bin
+    done
+}
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+build() {
+    gcc $CFLAGS "$srcdir"/getent.c -Wl,-lsocket -o getent
+    gcc $CFLAGS "$srcdir"/rev.c -o rev
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"/usr/bin
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    echo "Moving System utils arch-specific ($_qarch) binaraies"
+    _move_os_utils
+
+    echo "Moving arch-specfic ($_qarch) 'mount'"
+    _move_qpkg_file bin/mount
+
+    echo "Moving arch-specfic ($_qarch) 'unmount'"
+    _move_qpkg_file bin/umount
+
+    echo "Moving arch-specfic ($_qarch) 'rtc'"
+    _move_qpkg_file sbin/rtc
+
+    echo "Moving arch-specfic ($_qarch) 'sync'"
+    _move_qpkg_file bin/sync
+
+    echo "Moving arch-specfic ($_qarch) 'ldd'"
+    _move_qpkg_file usr/bin/ldd
+
+    echo "Moving arch-specfic ($_qarch) 'df'"
+    _move_qpkg_file bin/df
+
+    echo "Moving arch-specfic ($_qarch) 'shutdown'"
+    _move_qpkg_file sbin/shutdown
+
+    echo "Moving arch-specfic ($_qarch) 'kill'"
+    _move_qpkg_file bin/kill
+
+    echo "Moving arch-specfic ($_qarch) 'top'"
+    _move_qpkg_file usr/bin/top
+
+    echo "Moving getent"
+    cp -r "$srcdir"/getent "$pkgdir"/usr/bin
+    echo "Moving rev"
+    cp -r "$srcdir"/rev "$pkgdir"/usr/bin
+}
+
+dbg() {
+    amove usr/bin/*.sym
+}
+
+sha512sums="
+580207f1f60ac6b01e6649afb62212922df4e085e3fa25fadd1270f752a1188712f02c1cdf39778cbfcf74499f96ae79004ab0146da74ebbea920e42b6ac3353  os-utils_0.0.2.02005T202411230033L.qpkg
+0c2db609b0295805b9d8c228dd3b70f7407759230f1ebac636ffaba76f7c9c195908b7c43b8fb4e6a5b95de8070d1958291ac8bc0b8b03bbc87ad46a30e9b593  utils_base_m_0.0.1.00135T202311191043L.qpkg
+92a7778c5ee1c8f07f14fe69a6f77001d9c281c8825e3f62a6d1e36767e4d7c78cfcf3a56803df6dc5029dd29b951314f31d83ac3c0cf2e5a249d76d6cbf68b2  utils_base_u_0.0.1.00135T202311191043L.qpkg
+ce7a6aada28568dc30ec8250780a90ab560120ab73e6685f5e707c4add49802b609c5ac55fd3d37750bc20f4585d5637f80f44a439b60fe8d3d93660394c6ebd  utils_base_s_0.0.1.00135T202311191043L.qpkg
+3cd6e948f6791d2b61de379bfe2342a429678198577004544e6aa95a97b9a1365d3afe55774af02e5364f5450b42295c58594d6cf0f93f5dbebc67be891fe110  utils_base_d_0.0.1.00135T202311191043L.qpkg
+2f3de687ed21bc5f83c2c5883f5941750f83acae836f6b3fe455aa58a60ea45f4a8cbbd60c74149953f7b272e6cad19d10b0c6050cee15b2dd646edf9d1c72eb  utils_base_k_0.0.1.00135T202311191043L.qpkg
+9a07c6f568575939ff45c12e2e54ba3b1d8dd80ca73bd5f316854812588b35a5ca403f40581b39caaff0e7134265bda34fb40e3f69861b52954aaef676cb8388  utils_base_t_0.0.1.00135T202311191043L.qpkg
+89a326102b528db53929287922120742d37c7598e60134c5a0a7c956c579b1ba89f1ad65d438f13206046c8e6e027897aa6f20e25401952d91c995b7e14d5ba1  shutdown_0.0.1.00135T202311191043L.qpkg
+e069cfc06a0bd9ebf84cf0c79dc8f69140f283e63800e701a0cb093a4113aa697d3bcef1c53eb2154e58da3cbb3f9c336c97a4e3bb839bfcece5f143a9388ef8  utils_hw_0.2.0.00014T202411230051L.qpkg
+701968088bd40ec38f38f75e9b79110fe5c6e221944278fac539e682820ed467718e5ce1ea7a20992ad72ffc0a4b4817ec30164d32e29abf6ef2da1666fd91ef  utils_qnx_0.0.1.00282T202404151301L.qpkg
+6882746a94a557f0a444da3eabd1848123e6c57db579b88b2d3f082d3f4a97876e9be35a293a42f3d5c85ffed0de0320eae895588559a9f44bfce831ed7a7d3f  getent.c
+7226bdf792d606345001be1840a48dc5880e3edba0751a3792204c37e51eb4e6cb26baf32c0d4abc44563bf48003543827f9c79285f60e620364d72220ddf962  rev.c
+"

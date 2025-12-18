@@ -1,0 +1,51 @@
+pkgname="qnx-pci-hw-x86"
+pkgver=8.0.3
+_pci_hw_x86_version="3.1.0.02005T202411230033L"
+pkgrel=2
+pkgdesc="QNX PCI hardware module for x86"
+url="https://qnx.com"
+arch="x86_64"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !check !tracedeps"
+depends="qnx-pci-hw-intel qnx-pci-hw-amd"
+subpackages="$pkgname-dbg qnx-pci-hw-intel qnx-pci-hw-amd"
+source="pci_hw_x86_$_pci_hw_x86_version.qpkg::$QSC_URL/com.qnx.qnx800.target.pci.hw.x86/$_pci_hw_x86_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+
+    mkdir -p "$pkgdir"/usr/lib/dll
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/"$_qarch"/lib/dll/pci/* "$pkgdir"/usr/lib/dll
+    rm "$srcdir"/target/qnx/"$_qarch"/lib/dll/pci/pci_hw-Intel_x86-hdc.*
+}
+
+dbg() {
+    amove usr/lib/dll/*.sym
+}
+
+intel() {
+    amove usr/lib/dll/pci_hw-Intel_x86.*
+}
+
+amd() {
+    amove usr/lib/dll/pci_hw-AMD_x86.*
+}
+
+sha512sums="
+96ff2a493a97fbba374c2735c6501630447cdebf72b88440666b8de50c7c9cc75d59220e436a1c076194dfbd3bd6a0921edba5d6a79decbcc98c936f1ba28f10  pci_hw_x86_3.1.0.02005T202411230033L.qpkg
+"

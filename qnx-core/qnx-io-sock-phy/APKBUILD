@@ -1,0 +1,59 @@
+# Maintainer: Aaron Bassett <abaseett@qnx.com>
+pkgname="qnx-io-sock-phy"
+pkgver=8.0.3
+_qpkg_name="com.qnx.qnx800.target.net.modsphy"
+_qpkg_ver="0.3.0.00600T202507302003L"
+pkgrel=0
+pkgdesc="io-sock driver for various PHY devices"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg $pkgname-diag"
+source="
+    $_qpkg_name-$_qpkg_ver.qpkg::$QSC_URL/$_qpkg_name/$_qpkg_ver/download
+"
+
+if [[ $CARCH == "aarch64" ]]; then
+    subpackages+=" $pkgname-fdt"
+fi
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+    echo "Relocating bin and lib for a merged /usr"
+    mkdir -p "$pkgdir"/usr/lib
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rm -r "$pkgdir"/lib
+}
+
+fdt() {
+    amove usr/lib/dll/*_fdt.so
+}
+
+diag () {
+    amove usr/lib/dll/*-diag.so
+}
+
+dbg() {
+    amove usr/lib/dll/*.sym
+}
+
+
+sha512sums="
+147b5a9de3cbfa4cec7e2216a316eca7eec941f7bc7e65d954c3998c4f60c388bc5bbd9743d37e30c5d02556b4557c1064942e16f88ef0776a0fa2860848a55c  com.qnx.qnx800.target.net.modsphy-0.3.0.00600T202507302003L.qpkg
+"

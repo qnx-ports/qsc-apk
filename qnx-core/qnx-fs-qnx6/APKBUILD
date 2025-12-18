@@ -1,0 +1,47 @@
+pkgname="qnx-fs-qnx6"
+pkgver=8.0.3
+_fs_qnx6_version=0.0.3.00600T202507302003L
+pkgrel=0
+pkgdesc="QNX6 filesystem libraries"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev"
+source="fs_qnx6_$_fs_qnx6_version.qpkg::$QSC_URL/com.qnx.qnx800.target.fs.qnx6fs/$_fs_qnx6_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr/
+    
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+        _qarch=x86_64
+    fi
+
+    mkdir -p "$pkgdir"/usr/{bin,lib}
+    cp -r target/qnx/$_qarch/usr/* "$pkgdir"/usr
+    cp -r target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+    cp -r target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/*.sym
+    amove usr/lib/dll/*.sym
+}
+
+
+sha512sums="
+73da3e7b1e9b01349175a9c355cc2e52bb93d1ca12fed11428bef455096dc566787e04e38ace9ad82056a346256d522d8f4d55fb6577e513d4d97844092820f1  fs_qnx6_0.0.3.00600T202507302003L.qpkg
+"

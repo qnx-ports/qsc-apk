@@ -1,0 +1,101 @@
+# qnx-crypto
+com.qnx.qnx800.target.security.crypto.qcrypto.core/0.0.2.02005T202411230033L
+com.qnx.qnx800.target.security.crypto.cryptodev/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.security.crypto.qcrypto.openssl3/0.0.2.02029T202501171702L
+# qnx-devb-virtio
+com.qnx.qnx800.target.driver.virtio.devb/0.1.0.00011T202411230104L
+# qnx-devc-virtio
+com.qnx.qnx800.target.driver.virtio.devc/0.1.1.00011T202411230100L
+# qnx-devc
+com.qnx.qnx800.target.connectivity.devc/0.2.0.00011T202411230100L
+# qnx-fs-cam
+com.qnx.qnx800.target.fs.cam/0.0.1.00443T202311201012L
+# qnx-fs-core
+com.qnx.qnx800.target.fs.base/0.0.2.02005T202411230033L
+# qnx-fs-gpt
+com.qnx.qnx800.target.fs.gpt/0.0.2.02005T202411230033L
+# qnx-fs-notify
+com.qnx.qnx800.target.fs.notify/0.0.2.02005T202411230033L
+# qnx-fs-qnx6
+com.qnx.qnx800.target.fs.qnx6fs/0.0.3.00600T202507302003L
+# qnx-fs-utils
+com.qnx.qnx800.target.fs.utils/0.0.2.02005T202411230033L
+# qnx-gcc
+com.qnx.qnx800.host.linux.x86_64.gcc/12.2.0.00301T202506091801L
+com.qnx.qnx800.target.base.cpp/18.0.0.01302T202507301719L
+com.qnx.qnx800.target.tools.cpp/12.2.0.00301T202506091801L
+# qnx-icu-libs
+com.qnx.qnx800.target.text.charconv/0.0.1.00135T202311191043L
+# qnx-io-sock
+com.qnx.qnx800.target.net.iosock/0.3.0.00600T202507302003L
+com.qnx.qnx800.target.net.devsddk/0.3.0.00600T202507302003L
+# qnx-io-sock-cgem
+com.qnx.qnx800.target.net.devs.cgem/0.3.0.00600T202507302003L
+# qnx-io-sock-fdt
+com.qnx.qnx800.target.net.devsfdt/0.3.0.00600T202507302003L
+# qnx-io-sock-pci
+com.qnx.qnx800.target.net.devspci/0.3.0.00600T202507302003L
+#qnx-io-sock-phy
+com.qnx.qnx800.target.net.modsphy/0.3.0.00600T202507302003L
+# qnx-io-sock-virtio
+com.qnx.qnx800.target.net.devsvirtio/0.0.3.02005T202411230033L
+# qnx-libexpat
+# qnx-libfdt
+com.qnx.qnx800.target.drivers.libfdt/0.1.0.00392T202406181101L
+# qnx-libpci
+com.qnx.qnx800.target.pci.lib/3.0.3.02005T202411230033L
+# qnx-libqh
+com.qnx.qnx800.target.os_services.libqh/0.0.1.00135T202311191043L
+# qnx-libslog2
+com.qnx.qnx800.target.microkernel.libslog2/0.2.2.00600T202507302003L
+#qnx-microkernel
+com.qnx.qnx800.target.microkernel.core/2.2.0.00600T202507302003L
+com.qnx.qnx800.target.base.libm/0.0.2.02005T202411230033L
+com.qnx.qnx800.target.base.libelf/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.base.libregex/1.0.0.00600T202507302003L
+com.qnx.qnx800.target.base.libcatalog/1.0.0.00600T202507302003L
+com.qnx.qnx800.target.base.libforksafe_mutex/2.2.0.00600T202507302003L
+com.qnx.qnx800.target.base/0.0.1.00135T202311191043L
+# qnx-netutils
+com.qnx.qnx800.target.net.utils/0.3.0.00600T202507302003L
+com.qnx.qnx800.target.net.devutils/0.3.0.00600T202507302003L
+# qnx-os-services
+com.qnx.qnx800.target.os_services.base/0.0.2.02005T202411230033L
+# qnx-packaging
+# qnx-pci-capabilities
+com.qnx.qnx800.target.pci.capabilities/3.0.1.02005T202411230033L
+# qnx-pci-compat
+com.qnx.qnx800.target.pci.compat/3.0.0.02005T202411230033L
+# qnx-pci-debug
+com.qnx.qnx800.target.pci.debug/3.0.0.02005T202411230033L
+# qnx-pci-hw-x86
+com.qnx.qnx800.target.pci.hw.x86/3.1.0.02005T202411230033L
+# qnx-pci-server
+com.qnx.qnx800.target.pci.server/3.1.1.02005T202411230033L
+# qnx-pci-strings
+com.qnx.qnx800.target.pci.uisupport/3.0.0.02005T202411230033L
+# qnx-random
+com.qnx.qnx800.target.security.random/0.0.1.00135T202311191043L
+# qnx-secpol
+com.qnx.qnx800.target.security.secpol/0.3.0.00600T202507302003L
+# qnx-security
+com.qnx.qnx800.target.security.pam/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.security.authentication/0.0.1.00135T202311191043L
+# qnx-slogger2
+com.qnx.qnx800.target.microkernel.slogger2/0.2.1.00600T202507302003L
+# qnx-tools
+com.qnx.qnx800.target.microkernel.tools/0.0.3.00600T202507302003L
+# qnx-utils
+com.qnx.qnx800.target.utils.system/0.0.2.02005T202411230033L
+com.qnx.qnx800.target.utils.base.m/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.u/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.s/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.d/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.k/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.t/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.base.shutdown/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.hw/0.2.0.00014T202411230051L
+com.qnx.qnx800.target.utils.qnx/0.0.1.00282T202404151301L
+# qnx-zlib
+com.qnx.qnx800.target.base.compression/0.3.0.00600T202507302003L
+

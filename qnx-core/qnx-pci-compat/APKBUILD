@@ -1,0 +1,44 @@
+pkgname="qnx-pci-compat"
+pkgver=8.0.3
+_pci_compat_version="3.0.0.02005T202411230033L"
+pkgrel=2
+pkgdesc="QNX PCI Compat module"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !check !tracedeps"
+depends="qnx-libpci"
+subpackages="$pkgname-dev"
+source="pci_compat_$_pci_compat_version.qpkg::$QSC_URL/com.qnx.qnx800.target.pci.compat/$_pci_compat_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+
+    mkdir -p "$pkgdir"/usr/lib/dll
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/dll/pci/* "$pkgdir"/usr/lib/dll
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/dll/*.sym
+}
+
+sha512sums="
+2ee153575cc367e65b7dc608c79c965de10537bc53906d5dc41a2bce5e4143b4f810dbf2c97552f1e636dff1d2c711c248a53291441d531fc2c8000875439ec6  pci_compat_3.0.0.02005T202411230033L.qpkg
+"

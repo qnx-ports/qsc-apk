@@ -1,0 +1,67 @@
+pkgname="qnx-crypto"
+pkgver=8.0.3
+_qcrypto_core_ver=0.0.2.02005T202411230033L
+_cryptodev_ver=0.0.1.00135T202311191043L
+_qcrypto_openssl_ver=0.0.2.02029T202501171702L
+pkgrel=2
+pkgdesc="QNX crypto library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev $pkgname-openssl3"
+source="qcrypto_core_$_qcrypto_core_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.security.crypto.qcrypto.core/$_qcrypto_core_ver/download
+    cryptodev_$_cryptodev_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.security.crypto.cryptodev/$_cryptodev_ver/download
+    qcrypto_openssl_$_qcrypto_openssl_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.security.crypto.qcrypto.openssl3/$_qcrypto_openssl_ver/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+         tar xf $qpkg
+    done
+}
+
+package() {
+    depends="qnx-crypto-plugin"
+
+    mkdir -p "$pkgdir"
+    echo "Moving universal headers"
+    cp -r "$srcdir"/target/qnx/usr "$pkgdir"/
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+    echo "Relocating /bin and /lib"
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rmdir "$pkgdir"/lib
+
+}
+
+dev() {
+    default_dev
+    #amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+openssl3() {
+	pkgdesc="qcrypto provider - OpenSSL 3"
+    pkgver="8.0.3"
+    depends="libcrypto3"
+    provides="qnx-crypto-plugin"
+
+	amove usr/lib/dll/*
+    rm "$subpkgdir"/usr/lib/dll/*.sym
+	mkdir "$subpkgdir"/etc
+    echo "openssl-3 tags=*" > "$subpkgdir"/etc/qcrypto.conf
+}
+
+sha512sums="
+ab97297bb0946dcd7a5a9f577234b9a0065e5e2fba0d1706ceaec1b5619ae92a6b8d3a32dfba78e0c1b125ef752b4c7619a0698371d8ef49c1e7fdf68d2c9596  qcrypto_core_0.0.2.02005T202411230033L.qpkg
+3a9a09cabf7524448cf974b074cf8283bff15cc56971cc5445b7768f9bb81175ad1a6ee2a4121fd1758ba8b4911a50ad48144661c44d24c79ef61b68f6168acd  cryptodev_0.0.1.00135T202311191043L.qpkg
+0d20adb7f101e8afce7241ab91f701b7b98dcde1eb3dc15fbef86875b93f3c260db1b7342681d41d16e82f1a2882ee99d40fbcf1bb8717809518822970ef97f5  qcrypto_openssl_0.0.2.02029T202501171702L.qpkg
+"

@@ -1,0 +1,47 @@
+pkgname="qnx-slogger2"
+pkgver=8.0.3
+_slogger2_version=0.2.1.00600T202507302003L
+pkgrel=3
+pkgdesc="QNX System Logger 2"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-gcc-libs qnx-secpol qnx-libslog2"
+subpackages="$pkgname-dev"
+source="slogger2_$_slogger2_version.qpkg::$QSC_URL/com.qnx.qnx800.target.microkernel.slogger2/$_slogger2_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/{bin,lib}
+    echo "Moving arch-specfic ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/bin/* "$pkgdir"/usr/bin/
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+6d330f2ca5637cc47be3457b9fb6cd03f48e35a4710d3416a72d7b4650cabfba18756ee29717b6d1f61de514ad9f2abf358bc308d985968906aa048400d035e7  slogger2_0.2.1.00600T202507302003L.qpkg
+"

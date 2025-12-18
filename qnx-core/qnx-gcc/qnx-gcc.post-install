@@ -1,0 +1,11 @@
+#!/bin/sh
+
+arch=$(cat /etc/apk/arch)
+
+if [[ $arch == "aarch64" ]]; then
+    arch="aarch64le"
+fi
+
+if  [[ ! -L "/$arch" ]]; then
+    ln -s / "/$arch"
+fi

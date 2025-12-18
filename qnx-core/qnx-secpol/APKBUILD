@@ -1,0 +1,45 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-secpol"
+pkgver=8.0.3
+_secpol_version=0.3.0.00600T202507302003L
+pkgrel=2
+pkgdesc="QNX Securitly Policy Libraries"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="secpol_$_secpol_version.qpkg::$QSC_URL/com.qnx.qnx800.target.security.secpol/$_secpol_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p $pkgdir/usr/{bin,lib}
+    echo "Moving arch-specific ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/bin/* "$pkgdir"/usr/bin
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+308f0c562ebaf199ce750dea9f02781f36d279d84c196407b299faaf727e0c4370106b84919b46ef5349cdd611c3380ac7089555e0b7e64f21565b6c272eb331  secpol_0.3.0.00600T202507302003L.qpkg
+"

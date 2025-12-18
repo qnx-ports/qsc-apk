@@ -1,0 +1,48 @@
+# Maintainer: Leo Shen <yishen@qnx.com>
+pkgname="qnx-io-sock-virtio"
+pkgver=8.0.3
+_qpkg_name="com.qnx.qnx800.target.net.devsvirtio"
+_qpkg_ver="0.0.3.02005T202411230033L"
+pkgrel=4
+pkgdesc="io-sock driver for various virtio NICs"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev"
+source="
+    $_qpkg_name-$_qpkg_ver.qpkg::$QSC_URL/$_qpkg_name/$_qpkg_ver/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+    echo "Relocating bin and lib for a merged /usr"
+    mkdir -p "$pkgdir"/usr/lib
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rm -r "$pkgdir"/lib
+}
+
+dev() {
+    default_dev
+    amove usr/lib/dll/*.sym
+}
+
+
+sha512sums="
+3366e0e1f9e1ffe825cc4e8e2a6a13a3c56af8d0b15bbddd1c5afe26d1037040be75710f1bcb6079e4152f823bde625c54d74e3c3521bd9696e4a0b1b090f5c4  com.qnx.qnx800.target.net.devsvirtio-0.0.3.02005T202411230033L.qpkg
+"

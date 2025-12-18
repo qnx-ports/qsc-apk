@@ -1,0 +1,100 @@
+pkgname="qnx-fs-cam"
+pkgver=8.0.3
+_fs_cam_version=0.0.1.00443T202311201012L
+pkgrel=2
+pkgdesc="QNX800 filesystem cam libraries"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-secpol qnx-libslog2"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dev qnx-devb-ram qnx-devb-nvme qnx-devb-ahci qnx-devb-loopback"
+source="fs_cam_$_fs_cam_version.qpkg::$QSC_URL/com.qnx.qnx800.target.fs.cam/$_fs_cam_version/download"
+
+if [[ $CARCH == "x86_64" ]]; then
+  subpackages="$subpackages qnx-devb-eide"
+fi
+
+_common_deps="$pkgname=$pkgver-r$pkgrel qnx-secpol qnx-libslog2"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr/
+    _qarch=$CARCH 
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+
+    mkdir -p "$pkgdir"/usr/{bin,lib}
+
+    echo "Moving arch-specfic ($_qarch) binaries"
+    cp -r target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+
+    echo "Moving arch-specfic ($_qarch) libraries"
+    cp -r target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib
+
+}
+
+dev() {
+    default_dev
+
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+    amove usr/lib/dll/*.sym
+}
+
+
+ram(){
+    pkgdesc="QNX Block Driver (ram)"
+    depends="$_common_deps"
+
+    amove /usr/bin/devb-ram
+}
+
+nvme(){
+    pkgdesc="QNX Block Driver (nvme)"
+    depends="$_common_deps qnx-libpci"
+
+    amove /usr/bin/devb-nvme
+}
+
+ahci(){
+    pkgdesc="QNX Block Driver (ahci)"
+    depends="$_common_deps qnx-libpci"
+    amove /usr/bin/devb-ahci
+}
+#TODO: USB drivers
+#umass(){
+#    pkgdesc="QNX Block Driver (umass)"
+#    depends=""
+#    amove /usr/bin/devb-umass
+#}
+
+#ustor(){
+#    pkgdesc="QNX Block Driver (ustor)"
+#    depends=""
+#    amove /usr/bin/devb-ustor
+#}
+
+loopback(){
+    pkgdesc="QNX Block Driver (loopback)"
+    depends="$_common_deps"
+    amove /usr/bin/devb-loopback
+}
+
+eide(){
+    pkgdesc="QNX Block Driver (eide)"
+    depends="$_common_deps"
+    amove /usr/bin/devb-eide
+}
+
+sha512sums="
+ab624d8278d1a79a78e9130bd3e3c51e0210773a57fe91a1e11969d5413730761f693d796c2744e6beb9dd03f924e4d431dff77ff9e64fd0b2e2b19212dad6f4  fs_cam_0.0.1.00443T202311201012L.qpkg
+"

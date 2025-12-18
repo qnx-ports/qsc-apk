@@ -1,0 +1,73 @@
+pkgname="qnx-microkernel"
+pkgver=8.0.3
+_core_version=2.2.0.00600T202507302003L
+_libm_version=0.0.2.02005T202411230033L
+_libelf_version=0.0.1.00135T202311191043L
+_os_base_version=0.0.1.00135T202311191043L
+_core_libraries_version=1.0.0.00600T202507302003L
+pkgrel=6
+pkgdesc="QNX Microkernel and core libraries"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-gcc-libs"
+subpackages="$pkgname-dev"
+_os_base_filename="os_core_$_os_base_version"
+source="microkernel_core_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.microkernel.core/$_core_version/download
+    libm_$_libm_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libm/$_libm_version/download
+    libelf_$_libelf_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libelf/$_libelf_version/download
+    libregex_$_core_libraries_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libregex/$_core_libraries_version/download
+    libcatalog_$_core_libraries_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libcatalog/$_core_libraries_version/download
+    libforksafe_mutex_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libforksafe_mutex/$_core_version/download
+    $_os_base_filename.qpkg::$QSC_URL/com.qnx.qnx800.target.base/$_os_base_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+	msg $qpkg
+	if [[ $qpkg == "$_os_base_filename.qpkg"  ]]; then
+	    mkdir $_os_base_filename
+            tar xf $qpkg -C $_os_base_filename
+        else
+            tar xf $qpkg
+        fi
+   done
+
+   mv $_os_base_filename/target/qnx/usr/include/sys/queue.h ./target/qnx/usr/include/sys/queue.h
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    echo "Moving Das Kernel ($_qarch)"
+    mv "$srcdir"/target/qnx/$_qarch/boot "$pkgdir"
+    echo "Moving arch-specific ($_qarch) /usr"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/* "$pkgdir"/usr/
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+dev() {
+    default_dev
+    echo "Removing termcap.h (conflict with ncurses-dev)"
+    rm "$subpkgdir"/usr/include/termcap.h
+}
+
+sha512sums="
+e5cbcea4bf9421729dbcaa2299151e2a3c2a690b67c68f76ad49c819accf39bffcd0c37bca5dd17deff4cd7a3365b5ea3286a577c50130a5dcf4e5d990440630  microkernel_core_2.2.0.00600T202507302003L.qpkg
+2b60c46e8264e151a784c59c03b2cbe00a7b93ed3f7fbc10c2299162258f9215574c002f418a052b38378f012333e196043a7453714c340a0f97162ab983dfed  libm_0.0.2.02005T202411230033L.qpkg
+b9aa5aa9c5857558105556f27e6a9fa918fdd0f13015175dc8eb820953ba203ab565319cd883417499e92199858a076af92a1a087c1757a19a205c7f0d9c47cd  libelf_0.0.1.00135T202311191043L.qpkg
+73f2d4d524b7bc5c18aba65145c590b9d68d605bb816a5adc335f7221885b1a37b73b2b823b145d209fbac0e22a001fce15cc492104849f83626a3620fd3396d  libregex_1.0.0.00600T202507302003L.qpkg
+3fa05a9b66c2b4805e4f551b38005c05e407f310bba8871ad0b1c614b840a0d35471c411623fcc1f6c3d5f371813353794ba3feee71edfa0640d194c52ab9a7f  libcatalog_1.0.0.00600T202507302003L.qpkg
+24c306aa9e71a40734bec330592470fdab668b562286cdd475d7f507fe088dbb0ad6a0df3425b3951b030c7c56e62021c60fbf1bb0eb32f7bb8037a36b5caafc  libforksafe_mutex_2.2.0.00600T202507302003L.qpkg
+975b393237c8973da2ecd2fa9247028a5795ed61dd50f2afe30ed509f03fb855ae0c5019ad0efa1afb781b2562d3bb01ebfcea8791271a07ac007e87b38f14ca  os_core_0.0.1.00135T202311191043L.qpkg
+"

@@ -1,0 +1,49 @@
+pkgname="qnx-pci-server"
+pkgver=8.0.3
+_pci_version="3.1.1.02005T202411230033L"
+pkgrel=3
+pkgdesc="QNX PCI Server"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-pci-capabilities qnx-libpci qnx-secpol"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dev $pkgname-doc"
+source="pci_sever_$_pci_version.qpkg::$QSC_URL/com.qnx.qnx800.target.pci.server/$_pci_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"/usr/bin
+    mkdir -p "$pkgdir"/usr/lib/dll
+    mkdir -p "$pkgdir"/usr/share/doc/pci-server
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    echo "Moving arch-specific ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/dll/pci/* "$pkgdir"/usr/lib/dll
+    echo "Moving PCI templates"
+    cp -r "$srcdir"/target/qnx/etc/system/config/* "$pkgdir"/usr/share/doc/pci-server
+}
+
+dev() {
+    default_dev
+
+    amove usr/bin/*.sym
+    amove usr/lib/dll/*.sym
+}
+
+sha512sums="
+88c0dbd06d2941b9e01512ed92d0beb2b1b5f4f13193b90703b83ffde9f2e56ef4c5c34c5ccb11dad5de26023d53b44af5472a01e94aa37b647c299dc6584b9e  pci_sever_3.1.1.02005T202411230033L.qpkg
+"

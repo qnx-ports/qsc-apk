@@ -1,0 +1,53 @@
+pkgname="qnx-security"
+pkgver=8.0.3
+_pam_version=0.0.1.00135T202311191043L
+_auth_version=$_pam_version
+pkgrel=3
+pkgdesc="QNX's PAM and friends"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-secpol"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="
+    pam_$_pam_version.qpkg::$QSC_URL/com.qnx.qnx800.target.security.pam/$_pam_version/download
+    authentication_$_auth_version.qpkg::$QSC_URL/com.qnx.qnx800.target.security.authentication/$_auth_version/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+         tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving universal headers"
+    cp -r "$srcdir"/target/qnx/usr "$pkgdir"/
+    echo "Moving pam configs"
+    cp -r "$srcdir"/target/qnx/etc "$pkgdir"/
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+    # Relocate to /usr/bin
+    mv "$pkgdir"/bin/* "$pkgdir"/usr/bin/
+    rmdir "$pkgdir"/bin
+}
+
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+
+sha512sums="
+d590d40cf0498894ad1682374f9bee7d92ca2457fa3f8724789a3a5ca8cf9f6262c2dc5aea5b7b0ebfb97e8d960cfc522167c0d532bc1f04f22a0912716a88f6  pam_0.0.1.00135T202311191043L.qpkg
+b8b66960f0d93b381bdafa41270135f979367e312c700131062bae41d6491a0357818a84511a41793a7072aaff853b1b638ac3cc436014677424ef07405062fd  authentication_0.0.1.00135T202311191043L.qpkg
+"

@@ -1,0 +1,21 @@
+export TERM=xterm-256color
+export TERMINFO=/usr/share/terminfo
+export PATH=/usr/local/bin:/usr/bin
+export LD_LIBRARY_PATH=/usr/local/lib:/usr/lib:/usr/lib/dll
+export MAGIC=/etc/magic
+
+# Load profiles from /etc/profile.d
+if test -d /etc/profile.d/; then
+	for profile in /etc/profile.d/*.sh; do
+		test -r "$profile" && . "$profile"
+	done
+	unset profile
+fi
+
+# Source global bash config, when interactive but not posix or sh mode
+if test "$BASH" && test "$PS1" && test -z "$POSIXLY_CORRECT" && test -r /etc/bash.bashrc
+then
+	. /etc/bash.bashrc
+fi
+# local/snippets/profile.custom
+# Contents are included at the end of /etc/profile

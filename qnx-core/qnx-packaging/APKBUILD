@@ -1,0 +1,16 @@
+# Alpine-Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname=qnx-packaging
+pkgver=0.1
+pkgrel=0
+url="https://oss.qnx.com"
+pkgdesc="QNX Meta Package for Package Development"
+depends="abuild build-base git"
+arch="noarch"
+license="GPL-2.0-only"
+options="!check"
+
+package() {
+	mkdir -p "$pkgdir"
+}
+

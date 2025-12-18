@@ -1,0 +1,29 @@
+pkgname="qnx-base"
+pkgver=8.0.3
+pkgrel=0
+pkgdesc="QNX build support files for various build systems"
+url="https://qnx.com"
+arch="all"
+license="Proprietary"
+options="!strip"
+depends="qnx-microkernel qnx-gcc-libs apk-tools nproc busybox busybox-utils"
+source="profile"
+
+package() {
+    install -Dm644 "$srcdir"/profile "$pkgdir"/etc/profile
+}
+
+#dev() {
+#    depends="qnx-gcc qnx-microkernel-dev abuild make tar git bzip2 zstd xz zlib-ng pkgconf sed nproc"
+#    # meson cross compile files. aarch64 for qnx8 for now
+#    mkdir -p "$subpkgdir/usr/share/qnx"
+#    cp meson.cross.in "$subpkgdir/usr/share/qnx"
+#    mkdir -p "$subpkgdir/usr/bin/"
+#    cp gen-meson-cross "$subpkgdir/usr/bin/"
+#    # Cmake cross compile toolhcian file. aarch64 for qnx8 for now
+#    cp qnx_toolchain.cmake "$subpkgdir/usr/share/qnx"
+#}
+
+sha512sums="
+52f2c7b18758b00efd1ae6dbfec6195c4d96fe95f640d98e0c579d2eb6c8097a57cad23a8d835c04cc4fda3b97922a713c290a8f213fb36581645b6b178e3475  profile
+"

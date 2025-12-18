@@ -1,0 +1,44 @@
+pkgname="qnx-libqh"
+pkgver=8.0.3
+_libqh_version=0.0.1.00135T202311191043L
+pkgrel=1
+pkgdesc="QNX Operating System Services libqh helper library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-libslog2"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="os-services-libqh_$_libqh_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.libqh/$_libqh_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+dbg() {
+    amove usr/lib/*.sym
+}
+
+
+sha512sums="
+17c87d74f2bc2eeae1f809e41738336260029813a0257a38d058b324ff73965d65107920b3877ec716c073b1df7810b42e1eb3657bbd96e31eab1dda2e667423  os-services-libqh_0.0.1.00135T202311191043L.qpkg
+"

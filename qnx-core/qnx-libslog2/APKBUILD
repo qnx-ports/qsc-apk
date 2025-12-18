@@ -1,0 +1,42 @@
+pkgname="qnx-libslog2"
+pkgver=8.0.3
+_libslog2_version=0.2.2.00600T202507302003L
+pkgrel=2
+pkgdesc="QNX System Logger 2 Library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="libslog2_$_libslog2_version.qpkg::$QSC_URL/com.qnx.qnx800.target.microkernel.libslog2/$_libslog2_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+dbg() {
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+783a26c2b9eee1e5898e8e425a9d39308d6a4605029e47ec6d7ecb0f99870a43da4781e9b013e2b35018965c7ab5c1030c69516c06380be6d22f4b5fdfabf9d4  libslog2_0.2.2.00600T202507302003L.qpkg
+"

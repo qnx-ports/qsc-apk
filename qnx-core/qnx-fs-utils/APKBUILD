@@ -1,0 +1,39 @@
+pkgname="qnx-fs-utils"
+pkgver=8.0.3
+_fs_utils_version=0.0.2.02005T202411230033L
+pkgrel=0
+pkgdesc="QNX800 filesystem core libraries"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-ncurses qnx-fs-core"
+source="fs_utils_$_fs_utils_version.qpkg::$QSC_URL/com.qnx.qnx800.target.fs.utils/$_fs_utils_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    install -m 0755 -d -p "$pkgdir"/usr/bin
+    
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+        _qarch=x86_64
+    fi
+
+    cp -r target/qnx/$_qarch/usr/bin/* "$pkgdir"/usr/bin
+    cp -r target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+
+    rm "$pkgdir"/usr/bin/*.sym
+}
+
+
+sha512sums="
+bab840a1c449e1942568a182bfd4efa1619566f4f04aed4d1d36b2ed5457cff5b5f9d23e15fb79f9d78cfe56187e82fead56097aa0176a4026850eefe9a1fb0c  fs_utils_0.0.2.02005T202411230033L.qpkg
+"

@@ -1,0 +1,45 @@
+pkgname="qnx-fs-core"
+pkgver=3
+_fs_base_version=0.0.2.02005T202411230033L
+pkgrel=0
+pkgdesc="QNX800 filesystem core libraries"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends_dev="qnx-fs-gpt-dev"
+subpackages="$pkgname-dev"
+source="fs_base_$_fs_base_version.qpkg::$QSC_URL/com.qnx.qnx800.target.fs.base/$_fs_base_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr/
+    
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+        _qarch=x86_64
+    fi
+
+    cp -r target/qnx/$_qarch/lib "$pkgdir"/usr/
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/*.sym
+    amove usr/lib/dll/*.sym
+}
+
+
+sha512sums="
+4477ac8984642f7a599ab816e348d2e68afa2c767f61f99754b7820818637e6c89d0324dd723270b584fe0398b49978679ece2dea01b3397bbab79cb2e2a9c19  fs_base_0.0.2.02005T202411230033L.qpkg
+"

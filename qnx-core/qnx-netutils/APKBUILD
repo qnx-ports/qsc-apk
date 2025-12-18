@@ -1,0 +1,58 @@
+# Maintainer: Leo Shen <yishen@qnx.com>
+pkgname="qnx-netutils"
+pkgver=8.0.3
+_net_utils_ver=0.3.0.00600T202507302003L
+_net_devutils_ver=0.3.0.00600T202507302003L
+pkgrel=1
+pkgdesc="QNX Networking - Utilities"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-libexpat"
+subpackages="$pkgname-dev"
+source="
+    net-utils_$_net_utils_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.net.utils/$_net_utils_ver/download
+    net-devutils_$_net_devutils_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.net.devutils/$_net_devutils_ver/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+
+    echo "Relocating bin and lib for a merged /usr"
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rmdir "$pkgdir"/lib
+
+    mv "$pkgdir"/sbin/* "$pkgdir"/usr/bin/
+    rmdir "$pkgdir"/sbin
+
+    mv "$pkgdir"/usr/sbin/* "$pkgdir"/usr/bin/
+    rmdir "$pkgdir"/usr/sbin
+}
+
+dev() {
+    default_dev
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+
+sha512sums="
+8520caca848886d254f04b00d22304a4bfb358066c7ff88bd45b7fdc4c23688878933940cff298ee13a3e762e382b27a74c3a3d723bec73ca11a9549e6d9652b  net-utils_0.3.0.00600T202507302003L.qpkg
+af3479104c80054878cf3e4f94f99b4fb7ced3745cc8aea42ea04c1840ad2b7dcdb11c1deea5d166eba504fbd9348b4c2ea8a6e3de91befa691ece580429b0fe  net-devutils_0.3.0.00600T202507302003L.qpkg
+"

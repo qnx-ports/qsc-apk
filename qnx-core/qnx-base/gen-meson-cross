@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if [ -z "$CARCH" ]; then
+    echo "CARCH undefined: set it as target architecture!"
+    exit 1;
+elif [ -z "$CHOST" ]; then
+    echo "CHOST undefined: set it as target architecture+os combo!"
+    exit 1;
+elif [ -z "$QNX_HOST" ]; then
+    echo "Source SDP env (QNX_HOST)!"
+    exit 1
+elif [ -z "$BUILD_ROOT" ]; then
+    echo "BUILD_ROOT undefined!"
+    exit 1
+fi
+
+TEMPLATE="${BUILD_ROOT}/system/share/qnx/meson.cross.in"
+
+if ! [ -r "$TEMPLATE" ]; then
+    echo "meson cross template not found: $TEMPLATE"
+    exit 1
+fi
+
+cp "$TEMPLATE" meson.cross
+# TODO: use a proper template engine
+sed -i -e "s:%TARGET_ARCH%:${CARCH}:g" meson.cross
+sed -i -e "s:%TARGET%:${CHOST}:g" meson.cross
+sed -i -e "s:%QNX_HOST%:${QNX_HOST}:g" meson.cross
+sed -i -e "s:%QNX_TARGET%:${BUILD_ROOT}:g" meson.cross

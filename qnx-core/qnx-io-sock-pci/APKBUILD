@@ -1,0 +1,48 @@
+# Maintainer: Leo Shen <yishen@qnx.com>
+pkgname="qnx-io-sock-pci"
+pkgver=8.0.3
+_iosock_pci_ver="0.3.0.00600T202507302003L"
+pkgrel=2
+pkgdesc="io-sock driver for various PCI based NICs"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev"
+source="
+    iosock-pci_$_iosock_pci_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.net.devspci/$_iosock_pci_ver/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+
+    echo "Relocating bin and lib for a merged /usr"
+    mkdir -p "$pkgdir"/usr/lib
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rmdir "$pkgdir"/lib
+}
+
+dev() {
+    default_dev
+    amove usr/lib/dll/*.sym
+}
+
+
+sha512sums="
+84b399cf544d711d83e02ea91d1b9d2902580fa1911c358b32a49f6b022d33f97dc419440fd0593d1898cac1a86e0993668844d7b50ccbc74588aa4c95905d02  iosock-pci_0.3.0.00600T202507302003L.qpkg
+"

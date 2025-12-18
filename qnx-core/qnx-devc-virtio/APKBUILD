@@ -1,0 +1,40 @@
+pkgname="qnx-devc-virtio"
+pkgver=8.0.3
+_devc_virtio_version="0.1.1.00011T202411230100L"
+pkgrel=1
+pkgdesc="Qnx Virtio Character Driver"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-secpol qnx-libpci"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev"
+source="devc_virtio_$_devc_virtio_version.qpkg::$QSC_URL/com.qnx.qnx800.target.driver.virtio.devc/$_devc_virtio_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"/usr/bin
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    echo "Moving arch-specific ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+}
+
+dev() {
+    default_dev
+    amove usr/bin/*.sym
+}
+
+sha512sums="
+30fd6d14c17d3a102f81ca32fdee01fb3b36e6b378dfe6ea99e72b8c3951abade2ebb0701d54096a5a552c543818622fbc42c1b399b1ee4890203f5407dcb0fd  devc_virtio_0.1.1.00011T202411230100L.qpkg
+"

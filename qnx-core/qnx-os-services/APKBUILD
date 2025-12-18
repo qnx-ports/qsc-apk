@@ -1,0 +1,62 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-os-services"
+pkgver=8.0.3
+_os_service_version=0.0.2.02005T202411230033L
+pkgrel=2
+pkgdesc="QNX Meta Package for Operating System Services Base"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip noarch !tracedeps"
+depends="$pkgname-pipe=$pkgver-r$pkgrel $pkgname-mqueue=$pkgver-r$pkgrel"
+depends_dev="$pkgname-pipe-dev $pkgname-mqueue-dev"
+subpackages="$pkgname-dev $pkgname-pipe:pipe $pkgname-pipe-dbg:pipe-dbg $pkgname-mqueue:mqueue $pkgname-mqueue-dbg:mqueue-dbg"
+source="os-services-base_$_os_service_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.base/$_os_service_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"/usr/bin
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p $pkgdir/usr/{bin,lib}
+    echo "Moving arch-specific ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/sbin/{pipe*,mqueue*} "$pkgdir"/usr/bin
+}
+
+dev() {
+    mkdir "$subpkgdir"
+}
+
+pipe() {
+    depends="qnx-secpol"
+    amove usr/bin/pipe 
+}
+
+pipe-dbg() {
+    depends="$pkgname-pipe=$pkgver-r$pkgrel"
+    amove usr/bin/pipe.sym
+}
+
+mqueue() {
+    depends="qnx-secpol"
+    amove usr/bin/mqueue
+}
+
+mqueue-dbg() {
+     depends="$pkgname-pipe=$pkgver-r$pkgrel"
+     amove usr/bin/mqueue.sym
+}
+
+sha512sums="
+b17a6ab36b55cf7a604d2391ca6a8eb1948595c7ad07606e7dda7a8cfe9558a1fc2bdeb3866b7d4f27e8dfac47290b8bd8c5cabf7aaf110447c334583cbaad4e  os-services-base_0.0.2.02005T202411230033L.qpkg
+"

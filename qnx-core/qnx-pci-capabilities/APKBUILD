@@ -1,0 +1,46 @@
+pkgname="qnx-pci-capabilities"
+pkgver=8.0.3
+_pci_capabilities_version="3.0.1.02005T202411230033L"
+pkgrel=2
+pkgdesc="QNX PCI Capabilities"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dev"
+source="pci_capabilities_$_pci_capabilites_version.qpkg::$QSC_URL/com.qnx.qnx800.target.pci.capabilities/$_pci_capabilities_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+
+    mkdir -p "$pkgdir"/usr/lib/dll
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/dll/pci/* "$pkgdir"/usr/lib/dll
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/dll/*.sym
+}
+
+sha512sums="
+707a99e816fc1d8440be436d79c195b5bc9e747106756e47fce5d44d17ac42c4b6812611ae692b8e38b4a223131377aeede69df09e573f37af3c5a97a9951544  pci_capabilities_.qpkg
+"

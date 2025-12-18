@@ -1,0 +1,44 @@
+pkgname="qnx-libfdt"
+pkgver=8.0.3
+_libfdt_version=0.1.0.00392T202406181101L
+pkgrel=0
+pkgdesc="QNX FDT Library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-static $pkgname-dev"
+source="libfdt_$_libfdt_version.qpkg::$QSC_URL/com.qnx.qnx800.target.drivers.libfdt/$_libfdt_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/* "$pkgdir"/usr/lib/
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+99009fac2927c20d1b38be6cc8b3af54da19234eab77ee25f65b01adc02cbecdc3238fdda95e7186d6d89877703737eff05277188bce5d82c786203b6e12aa38  libfdt_0.1.0.00392T202406181101L.qpkg
+"

@@ -1,0 +1,35 @@
+[constants]
+# Fill in the following
+target_arch = '%TARGET_ARCH%'
+target = '%TARGET%'
+qnx_host_path = '%QNX_HOST%'
+qnx_target_path = '%QNX_TARGET%'
+
+[host_machine]
+system = 'qnx'
+cpu_family = target_arch
+cpu = target_arch
+endian = 'little'
+
+[built-in options]
+c_args = ['--sysroot=' + qnx_target_path + '/system', '-D_QNX_SOURCE']
+cpp_args = c_args
+c_link_args = ['--sysroot=' + qnx_target_path + '/system', '-lm', '-lsocket', '-lgcc_s', '-lregex']
+cpp_link_args = c_link_args
+
+[properties]
+growing_stack = false
+# pkg-config settings
+sys_root = qnx_target_path
+pkg_config_libdir = qnx_target_path + '/system/lib/pkgconfig'
+
+[binaries]
+c = [qnx_host_path + '/usr/bin/' + target + '-gcc']
+cpp = [qnx_host_path + '/usr/bin/' + target + '-g++']
+ar = qnx_host_path + '/usr/bin/' + target + '-ar'
+ld = qnx_host_path + '/usr/bin/' + target + '-ld'
+strip = qnx_host_path + '/usr/bin/' + target + '-strip'
+objcopy = qnx_host_path + '/usr/bin/' + target + '-objcopy'
+# Using the host pkg-config
+pkg-config = 'pkg-config'
+#windres = ''

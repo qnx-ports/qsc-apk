@@ -1,0 +1,17 @@
+pkgname="qnx-libexpat"
+pkgver=8.0.3
+pkgrel=1
+pkgdesc="QNX libexpat compatability"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="libexpat"
+options="!strip"
+
+package() {
+    mkdir -p "$pkgdir"/usr/lib
+    cd "$pkgdir"/usr/lib
+
+    ln -s libexpat.so.1 libexpat.so.2
+}
+

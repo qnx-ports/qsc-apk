@@ -1,0 +1,86 @@
+pkgname="qnx-devc"
+pkgver=8.0.3
+_devc_version=0.2.0.00011T202411230100L
+pkgrel=0
+pkgdesc="QNX Connectivity Serial"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-secpol qnx-libslog2"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dbg $pkgname-dev qnx-devc-pty qnx-devc-ser8250 qnx-devc-serpci"
+source="devc_$_devc_version.qpkg::$QSC_URL/com.qnx.qnx800.target.connectivity.devc/$_devc_version/download"
+
+if [[$CARCH == "x86_64" ]]; then
+  subpackages="$subpackages qnx-devc-con qnx-devc-con-hid"
+fi
+
+_common_deps="$pkgname=$pkgver-r$pkgrel qnx-secpol"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"	
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr/
+    _qarch=$CARCH 
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+
+    #TODO USB
+    rm target/qnx/$_qarch/sbin/*usb*
+
+    mkdir -p "$pkgdir"/usr/bin "$pkgdir"/etc
+
+    echo "Moving arch-specfic ($_qarch) binaries"
+    cp -r target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+
+    echo "Moving etc"
+    cp -r target/qnx/etc/* "$pkgdir"/etc
+
+}
+
+dbg(){
+  amove usr/bin/*.sym
+}
+
+con(){
+    pkgdesc="QNX Connectivity (con)"
+    depends="$_common_deps"
+
+    amove /usr/bin/devc-con
+}
+
+hid(){
+    pkgdesc="QNX Connectivity (con-hid)"
+    depends="$_common_deps"
+
+    amove /usr/bin/devc-con-hid
+}
+
+pty(){
+    pkgdesc="QNX Connectivity (pty)"
+    depends="$_common_deps"
+    amove /usr/bin/devc-pty
+}
+
+serpci(){
+    pkgdesc="QNX Connectivity (serpci)"
+    depends="$_common_deps qnx-libpci"
+    amove /usr/bin/devc-serpci
+}
+
+ser8250() {
+    pkgdesc="QNX Connectivity (ser8250)"
+    depends="$_common_deps"
+    amove /usr/bin/devc-ser8250
+}
+
+sha512sums="
+06cd7882c397d42a2423273a2725715e7cfb32759518886a461a54a2be24d71137b2b87a05139f96e571b7607e586b4b827339f25ed4ccadd7a568ba0ddff735  devc_0.2.0.00011T202411230100L.qpkg
+"

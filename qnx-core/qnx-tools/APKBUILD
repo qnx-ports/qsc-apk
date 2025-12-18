@@ -1,0 +1,48 @@
+pkgname="qnx-tools"
+pkgver=8.0.3
+_tools_version=0.0.3.00600T202507302003L
+pkgrel=1
+pkgdesc="QNX System Tools"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-gcc-libs qnx-secpol qnx-libslog2 qnx-zlib"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="tools_$_tools_version.qpkg::$QSC_URL/com.qnx.qnx800.target.microkernel.tools/$_tools_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/{bin,lib}
+    echo "Moving arch-specfic ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/sbin/* "$pkgdir"/usr/bin/
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/bin/* "$pkgdir"/usr/bin/
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/* "$pkgdir"/usr/lib/
+}
+
+dbg() {
+    amove usr/lib/*.sym
+    amove usr/bin/*.sym
+}
+
+sha512sums="
+b5ae7f4c3ab81fd4cdc4324d36b6a6d3ffe17baad314bae463b1c906f2674a1abce78c87aa50f99ca086d83e222051ba1e9b19b037a56bdc72fb3c584932251d  tools_0.0.3.00600T202507302003L.qpkg
+"

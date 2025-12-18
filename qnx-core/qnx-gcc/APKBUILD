@@ -1,0 +1,119 @@
+pkgname="qnx-gcc"
+pkgver=8.0.3
+_gcc_version=12.2.0.00301T202506091801L
+_cpp_base_version=18.0.0.01302T202507301719L
+_cpp_tools_version=12.2.0.00301T202506091801L
+pkgrel=21
+pkgdesc="Self-hosted QNX toolchain"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+#install="$pkgname.post-install $pkgname.post-upgrade"
+depends="qnx-icu-libs binutils"
+subpackages="qnx-gcc-libs qnx-libc++-dev:_libcxx_dev"
+source=" 
+    gcc_linux_$_gcc_version.qpkg::$QSC_URL/com.qnx.qnx800.host.linux.x86_64.gcc/$_gcc_version/download
+    cpp_base_$_cpp_base_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.cpp/$_cpp_base_version/download
+    cpp_tools_$_cpp_tools_version.qpkg::$QSC_URL/com.qnx.qnx800.target.tools.cpp/$_cpp_tools_version/download
+"
+
+prepare() {
+   mkdir ./gcc_linux
+   tar xf gcc_linux_$_gcc_version.qpkg -C ./gcc_linux
+   rm -rf gcc_linux_$_gcc_version.qpkg
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+
+    echo "Moving arch-specific ($_qarch) headers"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/* "$pkgdir"/usr/
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+
+
+    echo "Trim unneeded (non $_qarch) binaries"
+    #rm -v "$pkgdir"/usr/bin/!($CARCH*)-nto-qnx*-*
+    #rm -v "$pkgdir"/usr/bin/nto!($CARCH*)-*
+    #rm -vr "$pkgdir"/usr/lib/gcc/!($CARCH*)-nto-qnx*
+
+    if [[ $CARCH == "x86_64" ]]; then
+        _tripple_prefix="x86_64-pc"
+    elif [[ $CARCH == "aarch64" ]]; then
+        _tripple_prefix="aarch64-unknown"
+
+	for gcc_bin in cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-dump gocv-tool; do
+		ln -s "$_tripple_prefix-nto-qnx8.0.0-$gcc_bin" "$pkgdir"/usr/bin/$gcc_bin
+	done
+    fi
+
+    echo "Moving arch-specific ($_qarch) gcc files"
+    install -m 755 -d "$pkgdir/usr/lib/gcc/$_tripple_prefix-nto-qnx8.0.0/12.2.0"
+
+    #ln -s gcc "$pkgdir"/usr/bin/cc
+    #ln -s g++ "$pkgdir"/usr/bin/c++
+    
+    # link libraries for LLVM
+    for lib in libgcc.a libgcc_eh.a crtbegin.o crtend.o; do
+	cp "$srcdir/gcc_linux/host/linux/x86_64/usr/lib/gcc/$_tripple_prefix-nto-qnx8.0.0/12.2.0/$lib" "$pkgdir/usr/lib/gcc/$_tripple_prefix-nto-qnx8.0.0/12.2.0"
+        ln -s "./gcc/$_tripple_prefix-nto-qnx8.0.0/12.2.0/$lib" "$pkgdir"/usr/lib/$lib
+    done
+    
+    for lib in libatomic.a; do
+        ln -s "./gcc/12.2.0/$lib" "$pkgdir"/usr/lib/$lib
+    done
+
+    # libgomp is missing spec file and thus doesnt work have to use llvm libgomp or openmp
+    rm "$pkgdir"/usr/lib/libgomp.so.1
+
+    # link libraries for most build systems
+    for postfix in a so; do
+        for lib in libpthread.$postfix librt.$postfix libdl.$postfix; do
+            ln -s "/usr/lib/libc.$postfix" "$pkgdir/usr/lib/$lib"
+        done
+    done
+}
+
+qnx-gcc-libs() {
+    for lib in libatomic \
+               libgfortran \
+               libgo \
+               libgomp \
+               libitm \
+               libquadmath \
+               libsanitizer/{a,l,ub}san \
+               libstdc++-v3/src \
+               libvtv; do
+        if [[ -f "$pkgdir"/usr/lib/"$lib".so.* ]]; then
+            amove usr/lib/$lib.so*
+        fi
+    done 
+}
+
+_libcxx_dev() {
+    depends="!libc++-dev"
+
+    amove usr/include/c++
+    amove usr/lib/libc++.a
+    amove usr/lib/libc++.so
+    amove usr/lib/libc++experimental.a
+    amove usr/lib/gcc/12.2.0/libsupc++.a
+}
+
+sha512sums="
+9e1512aea2b342c8d6f49ddf44c458cbb9b81c6902500490301cd353847b7babafd711b2f4c70b5bec751e658152b512bf869e1f05b6e5711a115965d3e735bc  gcc_linux_12.2.0.00301T202506091801L.qpkg
+a2d48bc5240ea57fdf38f5aea4f845bcc3825837cc1ad79f276bb43e164e53df551f5188df3a71c9265d6e55c92d7bc5048325302c01d5e56e2ba2f958da2cd6  cpp_base_18.0.0.01302T202507301719L.qpkg
+06f3c3ce758508e6af072dafa527e9c6060f89e00354134f81b082e78b39c2d4e67ceb1e115bb68ddc40922b1d456023954e07e3a022e048d8c07a2a8779c112  cpp_tools_12.2.0.00301T202506091801L.qpkg
+"

@@ -1,0 +1,40 @@
+# Maintainer: Leo Shen <yishen@qnx.com>
+pkgname=qnx-zlib
+pkgver=8.0.3
+pkgrel=3
+_qnx_compression_ver=0.3.0.00600T202507302003L
+pkgdesc="QNX's own zlib port, DO NOT USE FOR PORTING"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg"
+source="qnx-compression-$_qnx_compression_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.base.compression/$_qnx_compression_ver/download"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+        _qarch=x86_64
+    fi
+
+    mkdir -p "$pkgdir"/usr/lib
+    cp -r target/qnx/$_qarch/usr/lib/libz.so.* "$pkgdir"/usr/lib
+}
+
+dbg() {
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+7f82c83e7248d48416a40b067f666cb489ee96782501a481f5cfe8d9973db88e20e54eec858ba5b314b28c93e42906691da22b51a48bf6e727857c59c0eea6b7  qnx-compression-0.3.0.00600T202507302003L.qpkg
+"

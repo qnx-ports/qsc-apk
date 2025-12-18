@@ -1,0 +1,46 @@
+pkgname="qnx-pci-strings"
+pkgver=8.0.3
+_pci_strings_version="3.0.0.02005T202411230033L"
+pkgrel=2
+pkgdesc="QNX PCI Strings module"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dev"
+source="pci_strings_$_pci_strings_version.qpkg::$QSC_URL/com.qnx.qnx800.target.pci.uisupport/$_pci_strings_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+
+    mkdir -p "$pkgdir"/usr/lib/dll
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/dll/pci/* "$pkgdir"/usr/lib/dll
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/dll/*.sym
+}
+
+sha512sums="
+448d8d0864b5b64880f337e0dcfa6c7a949bc41818a3fe30e861e6320e469979f3f2b52b478d1691b57f201c575723efe1df25465d785535b69f8de0c7e3764d  pci_strings_3.0.0.02005T202411230033L.qpkg
+"

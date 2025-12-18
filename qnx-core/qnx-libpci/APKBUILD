@@ -1,0 +1,44 @@
+pkgname="qnx-libpci"
+pkgver=8.0.3
+_libpci_version=3.0.3.02005T202411230033L
+pkgrel=3
+pkgdesc="QNX PCI Library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dev"
+source="libpci_$_libpci_version.qpkg::$QSC_URL/com.qnx.qnx800.target.pci.lib/$_libpci_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+dev() {
+    default_dev
+
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+a427343a16bcdb08017ea5af9415014b34c4f94f6c776c791dd31c2b6693f90bac67dcb3551e5d1c68258d833e257ce6119a04910f94ff152880879c0f94efd6  libpci_3.0.3.02005T202411230033L.qpkg
+"

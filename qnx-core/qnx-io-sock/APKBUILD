@@ -1,0 +1,54 @@
+pkgname="qnx-io-sock"
+pkgver=8.0.3
+_iosocket_version=0.3.0.00600T202507302003L
+_devsddk_version=$_iosocket_version
+pkgrel=3
+pkgdesc="QNX high performance socket stack baed on FreeBSD"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-secpol qnx-libslog2 qnx-zlib"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="
+    iosock_$_iosocket_version.qpkg::$QSC_URL/com.qnx.qnx800.target.net.iosock/$_iosocket_version/download
+    devsddk_$_devsddk_version.qpkg::$QSC_URL/com.qnx.qnx800.target.net.devsddk/$_devsddk_version/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+         tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving universal headers"
+    cp -r "$srcdir"/target/qnx/usr "$pkgdir"/
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+    echo "Relocating bin and lib for a merged /usr"
+    mkdir -p "$pkgdir"/usr/{bin,lib}
+    mv "$pkgdir"/sbin/* "$pkgdir"/usr/bin/
+    rmdir "$pkgdir"/sbin
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rmdir "$pkgdir"/lib
+}
+
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+
+sha512sums="
+9daa980a4e0c20ae5c1e76216c97c9291a136815f167d98d73732ccc94aec589654b795df3c6595362fe6a6e90273247ae14bb6c3b392de18fba777bf9bf8e69  iosock_0.3.0.00600T202507302003L.qpkg
+5db7a8a5e986f4ea3473b870b4bf29270bc1f6643700fa6260d72c3bf2534918eaf95707daedeb26cc617903e11f4b23ae8941d694bd73523dc8c41a538c1393  devsddk_0.3.0.00600T202507302003L.qpkg
+"

@@ -1,0 +1,44 @@
+pkgname="qnx-fs-gpt"
+pkgver=8.0.3
+_fs_gpt_version=0.0.2.02005T202411230033L
+pkgrel=0
+pkgdesc="QNX800 filesystem gpt libraries"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dev"
+source="fs_gpt_$_fs_gpt_version.qpkg::$QSC_URL/com.qnx.qnx800.target.fs.gpt/$_fs_gpt_version/download"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/usr/include "$pkgdir"/usr/
+    
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    elif [[ $CARCH == "x86_64" ]]; then
+        _qarch=x86_64
+    fi
+
+    cp -r target/qnx/$_qarch/usr/* "$pkgdir"/usr
+}
+
+
+dev() {
+    default_dev
+
+    amove usr/lib/*.sym
+}
+
+
+
+sha512sums="
+748682282ede4b559db2225c8df4a4256672caad7663ffb2c95f8c289493d75afa64dcfcba79a24ad6307aae7cc46a7760bf47cdd626ed467a83cbb43ed131d9  fs_gpt_0.0.2.02005T202411230033L.qpkg
+"

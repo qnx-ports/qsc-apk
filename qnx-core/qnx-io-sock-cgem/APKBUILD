@@ -1,0 +1,51 @@
+# Maintainer: Aaron Bassett <abaseett@qnx.com>
+pkgname="qnx-io-sock-cgem"
+pkgver=8.0.3
+_qpkg_name="com.qnx.qnx800.target.net.devs.cgem"
+_qpkg_ver="0.3.0.00600T202507302003L"
+pkgrel=0
+pkgdesc="io-sock driver for various cgem interfaces"
+url="https://qnx.com"
+arch="aarch64"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg $pkgname-diag"
+source="
+    $_qpkg_name-$_qpkg_ver.qpkg::$QSC_URL/$_qpkg_name/$_qpkg_ver/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+    echo "Relocating bin and lib for a merged /usr"
+    mkdir -p "$pkgdir"/usr/lib
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rm -r "$pkgdir"/lib
+}
+
+diag () {
+    amove usr/lib/dll/*-diag.so
+}
+
+dbg() {
+    amove usr/lib/dll/*.sym
+}
+
+
+sha512sums="
+1547cffe6af448dc19e6ea9c9ccbe30c1ba32fdb889000939b249b1dd41db47fe82cd9806b52da6b80d9d3f45db004ea40e2e97190c1d17166926c8152749afd  com.qnx.qnx800.target.net.devs.cgem-0.3.0.00600T202507302003L.qpkg
+"

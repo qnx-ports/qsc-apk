@@ -1,0 +1,66 @@
+pkgname="qnx-random"
+pkgver=8.0.3
+_random_version=0.0.1.00135T202311191043L
+pkgrel=3
+pkgdesc="QNX Random Service"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-crypto qnx-secpol qnx-libqh qnx-libslog2"
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-virtio:virtio $pkgname-virtio-dbg:virtio-dbg $pkgname-file:file $pkgname-file-dbg:file-dbg"
+source="random_$_random_version.qpkg::$QSC_URL/com.qnx.qnx800.target.security.random/$_random_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/{bin,lib}
+    echo "Moving arch-specific ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/sbin/* "$pkgdir"/usr/bin
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+dbg() {
+    amove usr/bin/random.sym
+}
+
+file() {
+    depends="qnx-random=$pkgver-r$pkgrel"
+    amove usr/lib/dll/devr-file.so
+}
+
+file-dbg() {
+    depends="qnx-random-file=$pkgver-r$pkgrel"
+    amove usr/lib/dll/devr-file.so.sym
+}
+
+virtio() {
+    depends="qnx-random=$pkgver-r$pkgrel qnx-libpci qnx-pci-capabilities qnx-pci-compat qnx-pci-strings"
+    amove usr/lib/dll/devr-virtio.so
+}
+
+virtio-dbg() {
+    depends="qnx-random-virtio=$pkgver-r$pkgrel"
+    amove usr/lib/dll/devr-virtio.so.sym
+}
+
+
+sha512sums="
+10ade72530929f6200b5e47c2dd09c72084d3ea3a24c4902d8b29a211f4b6ff2a731a32187464c6046ba400d80e8185739bccac777950ea709d0070d7141c2c8  random_0.0.1.00135T202311191043L.qpkg
+"
