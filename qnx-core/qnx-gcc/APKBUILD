@@ -53,18 +53,11 @@ package() {
         _tripple_prefix="x86_64-pc"
     elif [[ $CARCH == "aarch64" ]]; then
         _tripple_prefix="aarch64-unknown"
-
-	for gcc_bin in cpp g++ gcc gcc-ar gcc-nm gcc-ranlib gcov gcov-dump gocv-tool; do
-		ln -s "$_tripple_prefix-nto-qnx8.0.0-$gcc_bin" "$pkgdir"/usr/bin/$gcc_bin
-	done
     fi
 
     echo "Moving arch-specific ($_qarch) gcc files"
     install -m 755 -d "$pkgdir/usr/lib/gcc/$_tripple_prefix-nto-qnx8.0.0/12.2.0"
 
-    #ln -s gcc "$pkgdir"/usr/bin/cc
-    #ln -s g++ "$pkgdir"/usr/bin/c++
-    
     # link libraries for LLVM
     for lib in libgcc.a libgcc_eh.a crtbegin.o crtend.o; do
 	cp "$srcdir/gcc_linux/host/linux/x86_64/usr/lib/gcc/$_tripple_prefix-nto-qnx8.0.0/12.2.0/$lib" "$pkgdir/usr/lib/gcc/$_tripple_prefix-nto-qnx8.0.0/12.2.0"
