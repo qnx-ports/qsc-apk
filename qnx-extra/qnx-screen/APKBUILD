@@ -2,7 +2,7 @@ pkgname="qnx-screen"
 _gfx_pkgname="qnx"
 pkgver=8.0.3
 _screen_base_version=4.0.2.00431T202511200808L
-pkgrel=12
+pkgrel=13
 _pkgdesc="QNX800 Screen Board Support"
 _dbg_pkgdesc="$pkgdesc debug symbols and binaries"
 pkgdesc=$_pkgdesc
@@ -75,9 +75,9 @@ screen_dev() {
     # move libWFD.so back
     mkdir -p "$pkgdir"/usr/lib/pkgconfig
     mv "$subpkgdir"/usr/lib/libWFD.so "$pkgdir"/usr/lib
-    mv "$srcdir"/egl.pc "$pkgdir"/usr/lib/pkgconfig
-    mv "$srcdir"/glesv2.pc "$pkgdir"/usr/lib/pkgconfig
-    mv "$srcdir"/vulkan.pc "$pkgdir"/usr/lib/pkgconfig
+    cp -L "$srcdir"/egl.pc "$pkgdir"/usr/lib/pkgconfig
+    cp -L "$srcdir"/glesv2.pc "$pkgdir"/usr/lib/pkgconfig
+    cp -L "$srcdir"/vulkan.pc "$pkgdir"/usr/lib/pkgconfig
 }
 
 _khr_dev() {
