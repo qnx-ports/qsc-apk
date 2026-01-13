@@ -1,0 +1,57 @@
+pkgname="qnx-screen-rpi"
+_screen_rpi5_version="1.0.0.00135T202511211618L"
+_screen_rpi5_mesa_version="25.1.1.00046T202510100921L"
+_screen_rpi5_drm_server_version="1.0.0.00083T202511201325L"
+pkgver=8.0.3
+pkgrel=0
+pkgdesc="QNX screen rpi 4 & 5 board support"
+url="https://qnx.com"
+arch="aarch64"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-egl qnx-gles qnx-libdrm qnx-libgbm"
+subpackages="$pkgname-dbg"
+options="!strip !check !tracedeps"
+source="screen_rpi5_$_screen_rpi5_version.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.board.rpi/$_screen_rpi5_version/download
+screen_rip5_mesa_$_screen_rpi5_mesa_version.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.board.rpi.mesa/$_screen_rpi5_mesa_version/download
+screen_rip5_drm_server_$_screen_rpi5_drm_server_version=.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.board.rpi.server/$_screen_rpi5_drm_server_version/download
+"
+provides="qnx-screen-backend"
+_qarch=$CARCH
+if [[ $CARCH == "aarch64" ]]; then
+    export _qarch=aarch64le
+fi
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    depends="qnx-screen $depends"
+    mkdir -p "$pkgdir"/usr/bin
+    mkdir -p "$pkgdir"/usr/lib
+    mkdir -p "$pkgdir"/usr/share/screen
+    echo $CARCH
+
+    echo "Moving arch-specific ($_qarch) /usr"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/graphics/drm-rpi5/* "$pkgdir"/usr/lib
+    mv "$pkgdir"/usr/lib/*.conf "$pkgdir"/usr/share/screen
+    rm -rf "$srcdir"/target/qnx/"$_qarch"/usr/lib/graphics
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/* "$pkgdir"/usr
+    echo "Moving arch-specific ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
+}
+
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+317e846e2e823f14697fb27f6bef19549b6b56666cc2eb92f8ef6c8fdcc45a244e2e40a613803cc051c01adcdfdd2d1f2a00de4267a9f47ef7a45171489fe8d3  screen_rpi5_1.0.0.00135T202511211618L.qpkg
+c87089bd508ed01f8f3531b85365ee3bdb8a1b37b2b6ba00a4500a99c9a756bf28325a251f90bb026e298f74c73dfdd7a64943fa7d0e92f7a003d6436f823aad  screen_rip5_mesa_25.1.1.00046T202510100921L.qpkg
+8f4dad10a6e5d05af2921559330ff42002ca781381f7c93602d2cc6b2e654208d9aab4c189e12c84efc78ccbb2132b6f210907235c5afea97d8dbddaa146853c  screen_rip5_drm_server_1.0.0.00083T202511201325L=.qpkg
+"

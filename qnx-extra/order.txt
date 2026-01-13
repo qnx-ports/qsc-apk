@@ -6,4 +6,5 @@ qnx-keyboard
 qnx-libgbm
 qnx-memstream
 qnx-screen
+qnx-screen-rpi
 qnx-ncurses
