@@ -2,7 +2,7 @@ pkgname="qnx-utils"
 pkgver=8.0.3
 _utils_version=0.0.2.02572T202508191702L
 _utils_base_d_version=0.0.1.00135T202311191043L
-pkgrel=9
+pkgrel=10
 pkgdesc="QNX System Utilities"
 url="https://qnx.com"
 arch="all"
@@ -31,6 +31,7 @@ _utils_hw_version=0.2.0.00014T202411230051L
 _utils_qnx_version=0.0.1.00282T202404151301L
 _add_qpkg_file com.qnx.qnx800.target.utils.system os-utils 0.0.2.02005T202411230033L
 _add_qpkg_file com.qnx.qnx800.target.utils.base.m utils_base_m $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.n utils_base_n $_utils_base_version
 _add_qpkg_file com.qnx.qnx800.target.utils.base.u utils_base_u $_utils_base_version
 _add_qpkg_file com.qnx.qnx800.target.utils.base.s utils_base_s $_utils_base_version
 _add_qpkg_file com.qnx.qnx800.target.utils.base.d utils_base_d $_utils_base_version
@@ -81,6 +82,12 @@ package() {
 
     echo "Moving arch-specfic ($_qarch) 'unmount'"
     _move_qpkg_file bin/umount
+
+    echo "Moving arch-specfic ($_qarch) 'nice'"
+    _move_qpkg_file bin/nice
+
+    echo "Moving arch-specfic ($_qarch) 'nice'"
+    _move_qpkg_file bin/newgrp
 
     echo "Moving arch-specfic ($_qarch) 'rtc'"
     _move_qpkg_file sbin/rtc
