@@ -8,6 +8,7 @@ arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps"
 subpackages="$pkgname-dev $pkgname-dbg"
+depends="qnx-libslog2 qnx-zlib"
 source="sensor_$_sensor_version.qpkg::$QSC_URL/com.qnx.qnx800.target.sf.sensor/$_sensor_version/download
 "
 
