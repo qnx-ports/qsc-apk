@@ -8,3 +8,4 @@ qnx-memstream
 qnx-screen
 qnx-screen-rpi
 qnx-ncurses
+qnx-sensor-framework
