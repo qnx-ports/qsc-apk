@@ -1,15 +1,19 @@
 pkgname="qnx-sensor-framework"
 pkgver=8.0.3
 _sensor_version=0.3.0.00207T202507171524L
+_sensor_util_version=0.2.0.00128T202503270827L
 pkgrel=0
 pkgdesc="QNX Sensor Framework"
 url="https://qnx.com"
 arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps"
-subpackages="$pkgname-dev $pkgname-dbg"
+# make sure that util is run before dev
+subpackages="$pkgname-util $pkgname-dev $pkgname-dbg"
 depends="qnx-libslog2 qnx-zlib"
-source="sensor_$_sensor_version.qpkg::$QSC_URL/com.qnx.qnx800.target.sf.sensor/$_sensor_version/download
+source="
+sensor_$_sensor_version.qpkg::$QSC_URL/com.qnx.qnx800.target.sf.sensor/$_sensor_version/download
+sensor_util_$_sensor_util_version.qpkg::$QSC_URL/com.qnx.qnx800.target.sf.base/$_sensor_util_version/download
 "
 
 prepare() {
@@ -42,6 +46,12 @@ dbg() {
     amove "usr/lib/*.sym"
 }
 
+util() {
+    pkgdesc="Utility headers for QNX Sensor framework"
+    amove "usr/include/sensor_utils"
+}
+
 sha512sums="
 80c01a6198fa9d46dd582cd77c7bbc71c71aafe952224c43827fa326d492fa04d20d02cb89f2c51f001ab662178d4bad22997dcef2bd889a5401fe356f7d6b4d  sensor_0.3.0.00207T202507171524L.qpkg
+c0569e2a3c256583dbef284258bff93da722fc90a426b5a102ffcb0ccde818fc7ae4a2a94c841063333cc1e2e3a1cd9fa1c15947e7337e04892881ec2a079b4d  sensor_util_0.2.0.00128T202503270827L.qpkg
 "
