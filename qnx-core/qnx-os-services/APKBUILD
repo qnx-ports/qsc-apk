@@ -3,6 +3,7 @@ pkgname="qnx-os-services"
 pkgver=8.0.4
 _os_service_version=1.0.0.03063T202511271306L
 _os_service_mqueue_version=1.1.0.00111T202602271127L
+_os_service_libjson_version=0.4.0.03063T202511271306L
 pkgrel=0
 pkgdesc="QNX Meta Package for Operating System Services Base"
 url="https://qnx.com"
@@ -11,9 +12,14 @@ license="LicenseRef-QDL-Non-Commercial"
 options="!strip noarch !tracedeps"
 depends="$pkgname-pipe=$pkgver-r$pkgrel $pkgname-mqueue=$pkgver-r$pkgrel"
 depends_dev="$pkgname-pipe-dev $pkgname-mqueue-dev"
-subpackages="$pkgname-dev $pkgname-pipe:pipe $pkgname-pipe-dbg:pipe-dbg $pkgname-mqueue:mqueue $pkgname-mqueue-dbg:mqueue-dbg"
+subpackages="$pkgname-dev 
+    $pkgname-pipe:pipe $pkgname-pipe-dbg:pipe-dbg
+    $pkgname-mqueue:mqueue $pkgname-mqueue-dbg:mqueue-dbg
+    qnx-libjson:libjson qnx-libjson-dev:libjson-dev qnx-libjson-dbg:libjson-dbg
+"
 source="os-services-base_$_os_service_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.base/$_os_service_version/download
 os-services-mqueue_$_os_service_mqueue_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.mqueue/$_os_service_mqueue_version/download
+os-services-libjson_$_os_service_libjson_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.libjson/$_os_service_libjson_version/download
 "
 
 prepare() {
@@ -31,8 +37,12 @@ package() {
         export _qarch=aarch64le
     fi
     mkdir -p $pkgdir/usr/{bin,lib}
+    echo "Moving libjson headers"
+    cp -r "$srcdir"/target/qnx/usr/include "$pkgdir"/usr/
+    echo "Moving arch-specific ($_qarch) libjson libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
     echo "Moving arch-specific ($_qarch) binaries"
-    cp -r "$srcdir"/target/qnx/$_qarch/sbin/{pipe*,mqueue*} "$pkgdir"/usr/bin
+    cp -r "$srcdir"/target/qnx/$_qarch/sbin/{pipe*,mqueue*} "$pkgdir"/usr/bin/
 }
 
 dev() {
@@ -59,7 +69,21 @@ mqueue-dbg() {
      amove usr/bin/mqueue.sym
 }
 
+libjson() {
+    amove usr/lib/libjson.so.1
+}
+
+libjson-dev() {
+    amove usr/include
+    amove usr/lib/libjson.so
+}
+
+libjson-dbg() {
+    amove usr/lib/libjson.so.1.sym
+}
+
 sha512sums="
 b49859c183f4f3a9c1e17901ab12ec5497c4e497cc7e57426ed81c79c7974d18b0b428f5c3f0870ee57d543f021656baead5c1117bbf89d1c3af605054d59fe5 os-services-base_1.0.0.03063T202511271306L.qpkg
 1b16ea80e86599f1e93261f4cf0468f8403daaf23076476ea46fddce0046fbd7bff0b8fd4d7e6272d777a5b8872f2d906c35974742edbfe28f61351249b83c56 os-services-mqueue_1.1.0.00111T202602271127L.qpkg
+6e0dc5877c5759818bed353bd79aafeaf1cc7f76502f22166a047343e67a843ca60de140294d9146f016331d0af0179f29db0f6e8b11849766284d4cd99c5a51 os-services-libjson_0.4.0.03063T202511271306L.qpkg
 "
