@@ -1,8 +1,8 @@
 # Maintainer: Aaron Bassett <abaseett@qnx.com>
 pkgname="qnx-io-sock-cgem"
-pkgver=8.0.3
+pkgver=8.0.4
 _qpkg_name="com.qnx.qnx800.target.net.devs.cgem"
-_qpkg_ver="0.3.0.00600T202507302003L"
+_qpkg_ver="0.3.1.03049T202511071258L"
 pkgrel=0
 pkgdesc="io-sock driver for various cgem interfaces"
 url="https://qnx.com"
