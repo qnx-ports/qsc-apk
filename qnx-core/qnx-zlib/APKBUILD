@@ -1,7 +1,7 @@
 # Maintainer: Leo Shen <yishen@qnx.com>
 pkgname=qnx-zlib
-pkgver=8.0.3
-pkgrel=3
+pkgver=8.0.4
+pkgrel=0
 _qnx_compression_ver=0.3.0.00600T202507302003L
 pkgdesc="QNX's own zlib port, DO NOT USE FOR PORTING"
 url="https://qnx.com"

@@ -1,7 +1,7 @@
 pkgname="qnx-pci-capabilities"
-pkgver=8.0.3
+pkgver=8.0.4
 _pci_capabilities_version="3.0.1.02005T202411230033L"
-pkgrel=2
+pkgrel=0
 pkgdesc="QNX PCI Capabilities"
 url="https://qnx.com"
 arch="all"

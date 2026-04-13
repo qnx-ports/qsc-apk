@@ -1,8 +1,8 @@
 pkgname="qnx-io-sock"
-pkgver=8.0.3
+pkgver=8.0.4
 _iosocket_version=0.3.0.00600T202507302003L
 _devsddk_version=$_iosocket_version
-pkgrel=3
+pkgrel=0
 pkgdesc="QNX high performance socket stack baed on FreeBSD"
 url="https://qnx.com"
 arch="all"

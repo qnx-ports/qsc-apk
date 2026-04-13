@@ -30,7 +30,7 @@ com.qnx.qnx800.target.text.charconv/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.net.iosock/0.3.0.00600T202507302003L
 com.qnx.qnx800.target.net.devsddk/0.3.0.00600T202507302003L
 # qnx-io-sock-cgem
-com.qnx.qnx800.target.net.devs.cgem/0.3.0.00600T202507302003L
+com.qnx.qnx800.target.net.devs.cgem/0.3.1.03049T202511071258L
 # qnx-io-sock-fdt
 com.qnx.qnx800.target.net.devsfdt/0.3.0.00600T202507302003L
 # qnx-io-sock-pci
@@ -49,18 +49,19 @@ com.qnx.qnx800.target.os_services.libqh/0.0.1.00135T202311191043L
 # qnx-libslog2
 com.qnx.qnx800.target.microkernel.libslog2/0.2.2.00600T202507302003L
 #qnx-microkernel
-com.qnx.qnx800.target.microkernel.core/2.2.0.00600T202507302003L
+com.qnx.qnx800.target.microkernel.core/2.4.0.00111T202602271127L
 com.qnx.qnx800.target.base.libm/0.0.2.02005T202411230033L
 com.qnx.qnx800.target.base.libelf/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.base.libregex/1.0.0.00600T202507302003L
 com.qnx.qnx800.target.base.libcatalog/1.0.0.00600T202507302003L
-com.qnx.qnx800.target.base.libforksafe_mutex/2.2.0.00600T202507302003L
-com.qnx.qnx800.target.base/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.base.libforksafe_mutex/2.4.0.00111T202602271127L
+com.qnx.qnx800.target.base/0.0.1.02566T202508030714L
 # qnx-netutils
 com.qnx.qnx800.target.net.utils/0.3.0.00600T202507302003L
 com.qnx.qnx800.target.net.devutils/0.3.0.00600T202507302003L
 # qnx-os-services
-com.qnx.qnx800.target.os_services.base/0.0.2.02005T202411230033L
+com.qnx.qnx800.target.os_services.base/1.0.0.03063T202511271306L
+com.qnx.qnx800.target.os_services.mqueue/1.1.0.00111T202602271127L
 # qnx-packaging
 # qnx-pci-capabilities
 com.qnx.qnx800.target.pci.capabilities/3.0.1.02005T202411230033L
@@ -98,4 +99,3 @@ com.qnx.qnx800.target.utils.hw/0.2.0.00014T202411230051L
 com.qnx.qnx800.target.utils.qnx/0.0.1.00282T202404151301L
 # qnx-zlib
 com.qnx.qnx800.target.base.compression/0.3.0.00600T202507302003L
-

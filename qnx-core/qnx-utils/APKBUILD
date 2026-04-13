@@ -1,8 +1,8 @@
 pkgname="qnx-utils"
-pkgver=8.0.3
+pkgver=8.0.4
 _utils_version=0.0.2.02572T202508191702L
 _utils_base_d_version=0.0.1.00135T202311191043L
-pkgrel=9
+pkgrel=0
 pkgdesc="QNX System Utilities"
 url="https://qnx.com"
 arch="all"

@@ -1,7 +1,7 @@
 pkgname="qnx-alsa"
-pkgver=8.0.3
+pkgver=8.0.4
 _version=1.0.0.00247T202506201141L
-pkgrel=5
+pkgrel=0
 pkgdesc="QNX implementation of the Small Advanced Linux Sound Architecture (SALSA) application library."
 url="https://qnx.com"
 arch="all"

@@ -1,5 +1,5 @@
 pkgname="qnx-devc"
-pkgver=8.0.3
+pkgver=8.0.4
 _devc_version=0.2.0.00011T202411230100L
 pkgrel=0
 pkgdesc="QNX Connectivity Serial"

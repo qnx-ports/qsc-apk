@@ -1,8 +1,8 @@
 pkgname="qnx-security"
-pkgver=8.0.3
+pkgver=8.0.4
 _pam_version=0.0.1.00135T202311191043L
 _auth_version=$_pam_version
-pkgrel=3
+pkgrel=0
 pkgdesc="QNX's PAM and friends"
 url="https://qnx.com"
 arch="all"

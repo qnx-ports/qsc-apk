@@ -1,7 +1,7 @@
 pkgname="qnx-libpci"
-pkgver=8.0.3
+pkgver=8.0.4
 _libpci_version=3.0.3.02005T202411230033L
-pkgrel=3
+pkgrel=0
 pkgdesc="QNX PCI Library"
 url="https://qnx.com"
 arch="all"

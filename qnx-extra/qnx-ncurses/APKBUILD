@@ -1,5 +1,5 @@
 pkgname="qnx-ncurses"
-pkgver=8.0.3
+pkgver=8.0.4
 pkgrel=0
 pkgdesc="QNX ncurses compatability"
 url="https://qnx.com"

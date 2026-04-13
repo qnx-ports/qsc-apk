@@ -1,7 +1,7 @@
 pkgname="qnx-hid"
-pkgver=8.0.3
+pkgver=8.0.4
 _hid_version=0.1.0.00008T202412121448L
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX io Hid"
 url="https://qnx.com"
 arch="all"

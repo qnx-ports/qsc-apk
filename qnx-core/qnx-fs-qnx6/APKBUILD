@@ -1,5 +1,5 @@
 pkgname="qnx-fs-qnx6"
-pkgver=8.0.3
+pkgver=8.0.4
 _fs_qnx6_version=0.0.3.00600T202507302003L
 pkgrel=0
 pkgdesc="QNX6 filesystem libraries"

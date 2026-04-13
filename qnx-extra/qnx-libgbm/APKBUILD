@@ -1,7 +1,7 @@
 pkgname="qnx-libgbm"
 # This needs to be keeped in sync with the qnx-screen-{backend}
 _screen_common_mesa_version="25.1.1.00046T202510100921L"
-pkgver=8.0.3
+pkgver=8.0.4
 pkgrel=0
 pkgdesc="QNX screen libdrm"
 url="https://qnx.com"

@@ -1,5 +1,5 @@
 pkgname="qnx-base"
-pkgver=8.0.3
+pkgver=8.0.4
 pkgrel=0
 pkgdesc="QNX build support files for various build systems"
 url="https://qnx.com"

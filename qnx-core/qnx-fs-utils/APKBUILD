@@ -1,5 +1,5 @@
 pkgname="qnx-fs-utils"
-pkgver=8.0.3
+pkgver=8.0.4
 _fs_utils_version=0.0.2.02005T202411230033L
 pkgrel=0
 pkgdesc="QNX800 filesystem core libraries"

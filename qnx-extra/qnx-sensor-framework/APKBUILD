@@ -1,5 +1,5 @@
 pkgname="qnx-sensor-framework"
-pkgver=8.0.3
+pkgver=8.0.4
 _sensor_version=0.3.0.00207T202507171524L
 pkgrel=0
 pkgdesc="QNX Sensor Framework"

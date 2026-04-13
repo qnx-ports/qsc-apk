@@ -1,7 +1,7 @@
 pkgname="qnx-libqh"
-pkgver=8.0.3
+pkgver=8.0.4
 _libqh_version=0.0.1.00135T202311191043L
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX Operating System Services libqh helper library"
 url="https://qnx.com"
 arch="all"

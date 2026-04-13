@@ -1,5 +1,5 @@
 pkgname="qnx-fs-gpt"
-pkgver=8.0.3
+pkgver=8.0.4
 _fs_gpt_version=0.0.2.02005T202411230033L
 pkgrel=0
 pkgdesc="QNX800 filesystem gpt libraries"

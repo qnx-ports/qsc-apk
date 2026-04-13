@@ -1,7 +1,7 @@
 pkgname="qnx-pci-compat"
-pkgver=8.0.3
+pkgver=8.0.4
 _pci_compat_version="3.0.0.02005T202411230033L"
-pkgrel=2
+pkgrel=0
 pkgdesc="QNX PCI Compat module"
 url="https://qnx.com"
 arch="all"

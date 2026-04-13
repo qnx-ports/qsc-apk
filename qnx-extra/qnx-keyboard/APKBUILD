@@ -1,7 +1,7 @@
 pkgname="qnx-keyboard"
-pkgver=8.0.3
+pkgver=8.0.4
 _keyboard_version=0.1.0.00007T202411230047L
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX Keyboard Layout Files"
 url="https://qnx.com"
 arch="all"

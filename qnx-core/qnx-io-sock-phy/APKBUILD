@@ -1,6 +1,6 @@
 # Maintainer: Aaron Bassett <abaseett@qnx.com>
 pkgname="qnx-io-sock-phy"
-pkgver=8.0.3
+pkgver=8.0.4
 _qpkg_name="com.qnx.qnx800.target.net.modsphy"
 _qpkg_ver="0.3.0.00600T202507302003L"
 pkgrel=0

@@ -1,9 +1,9 @@
 # Maintainer: Leo Shen <yishen@qnx.com>
 pkgname="qnx-netutils"
-pkgver=8.0.3
+pkgver=8.0.4
 _net_utils_ver=0.3.0.00600T202507302003L
 _net_devutils_ver=0.3.0.00600T202507302003L
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX Networking - Utilities"
 url="https://qnx.com"
 arch="all"

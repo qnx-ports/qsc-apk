@@ -1,7 +1,7 @@
 pkgname="qnx-fs-notify"
-pkgver=8.0.3
+pkgver=8.0.4
 _fs_notify_version=0.0.2.02005T202411230033L
-pkgrel=2
+pkgrel=0
 pkgdesc="QNX File System (inotify) Support"
 url="https://qnx.com"
 arch="all"

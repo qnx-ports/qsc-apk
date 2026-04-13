@@ -1,6 +1,6 @@
 pkgname="qnx-devh"
-pkgver=8.0.3
-pkgrel=1
+pkgver=8.0.4
+pkgrel=0
 pkgdesc="QNX800 Device Input - HID Drivers"
 url="https://qnx.com"
 arch="all"

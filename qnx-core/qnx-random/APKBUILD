@@ -1,7 +1,7 @@
 pkgname="qnx-random"
-pkgver=8.0.3
+pkgver=8.0.4
 _random_version=0.0.1.00135T202311191043L
-pkgrel=3
+pkgrel=0
 pkgdesc="QNX Random Service"
 url="https://qnx.com"
 arch="all"

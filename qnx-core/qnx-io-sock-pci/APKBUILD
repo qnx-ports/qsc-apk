@@ -1,8 +1,8 @@
 # Maintainer: Leo Shen <yishen@qnx.com>
 pkgname="qnx-io-sock-pci"
-pkgver=8.0.3
+pkgver=8.0.4
 _iosock_pci_ver="0.3.0.00600T202507302003L"
-pkgrel=2
+pkgrel=0
 pkgdesc="io-sock driver for various PCI based NICs"
 url="https://qnx.com"
 arch="all"

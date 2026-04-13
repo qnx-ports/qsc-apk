@@ -1,8 +1,8 @@
 pkgname="qnx-screen"
 _gfx_pkgname="qnx"
-pkgver=8.0.3
+pkgver=8.0.4
 _screen_base_version=4.0.2.00431T202511200808L
-pkgrel=13
+pkgrel=0
 _pkgdesc="QNX800 Screen Board Support"
 _dbg_pkgdesc="$pkgdesc debug symbols and binaries"
 pkgdesc=$_pkgdesc

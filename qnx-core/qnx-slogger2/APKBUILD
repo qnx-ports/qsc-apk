@@ -1,7 +1,7 @@
 pkgname="qnx-slogger2"
-pkgver=8.0.3
+pkgver=8.0.4
 _slogger2_version=0.2.1.00600T202507302003L
-pkgrel=3
+pkgrel=0
 pkgdesc="QNX System Logger 2"
 url="https://qnx.com"
 arch="all"

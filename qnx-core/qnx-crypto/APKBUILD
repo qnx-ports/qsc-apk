@@ -1,9 +1,9 @@
 pkgname="qnx-crypto"
-pkgver=8.0.3
+pkgver=8.0.4
 _qcrypto_core_ver=0.0.2.02005T202411230033L
 _cryptodev_ver=0.0.1.00135T202311191043L
 _qcrypto_openssl_ver=0.0.2.02029T202501171702L
-pkgrel=2
+pkgrel=0
 pkgdesc="QNX crypto library"
 url="https://qnx.com"
 arch="all"

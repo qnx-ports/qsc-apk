@@ -1,7 +1,7 @@
 pkgname="qnx-pci-hw-x86"
-pkgver=8.0.3
+pkgver=8.0.4
 _pci_hw_x86_version="3.1.0.02005T202411230033L"
-pkgrel=2
+pkgrel=0
 pkgdesc="QNX PCI hardware module for x86"
 url="https://qnx.com"
 arch="x86_64"

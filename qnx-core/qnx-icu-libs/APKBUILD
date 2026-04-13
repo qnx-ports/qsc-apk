@@ -1,6 +1,6 @@
 pkgname="qnx-icu-libs"
 _charconv_version="0.0.1.00135T202311191043L"
-pkgver=8.0.3
+pkgver=8.0.4
 pkgrel=0
 pkgdesc="QNX libiconv"
 url="https://qnx.com"

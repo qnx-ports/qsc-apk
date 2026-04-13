@@ -1,9 +1,9 @@
 pkgname="qnx-gcc"
-pkgver=8.0.3
+pkgver=8.0.4
 _gcc_version=12.2.0.00301T202506091801L
 _cpp_base_version=18.0.0.01302T202507301719L
 _cpp_tools_version=12.2.0.00301T202506091801L
-pkgrel=21
+pkgrel=0
 pkgdesc="Self-hosted QNX toolchain"
 url="https://qnx.com"
 arch="all"

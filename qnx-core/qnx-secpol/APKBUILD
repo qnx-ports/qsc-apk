@@ -1,8 +1,8 @@
 # Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-secpol"
-pkgver=8.0.3
+pkgver=8.0.4
 _secpol_version=0.3.0.00600T202507302003L
-pkgrel=2
+pkgrel=0
 pkgdesc="QNX Securitly Policy Libraries"
 url="https://qnx.com"
 arch="all"

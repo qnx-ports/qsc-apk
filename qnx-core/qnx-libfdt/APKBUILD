@@ -1,5 +1,5 @@
 pkgname="qnx-libfdt"
-pkgver=8.0.3
+pkgver=8.0.4
 _libfdt_version=0.1.0.00392T202406181101L
 pkgrel=0
 pkgdesc="QNX FDT Library"
