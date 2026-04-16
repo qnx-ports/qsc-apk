@@ -103,6 +103,9 @@ package() {
     echo "Moving arch-specfic ($_qarch) 'top'"
     _move_qpkg_file usr/bin/top
 
+    echo "Moving arch-specific ($_qarch) 'stty'"
+    _move_qpkg_file bin/stty
+
     echo "Moving getent"
     cp -r "$srcdir"/getent "$pkgdir"/usr/bin
     echo "Moving rev"
