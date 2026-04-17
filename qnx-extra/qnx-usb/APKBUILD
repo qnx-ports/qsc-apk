@@ -1,0 +1,99 @@
+pkgname="qnx-usb"
+_usb_base_version="0.0.1.00443T202311201012L"
+pkgver=8.0.4
+pkgrel=0
+pkgdesc="QNX usb support"
+url="https://qnx.com"
+arch="all"
+depends="qnx-libpci"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-secpol"
+subpackages="
+    $pkgname-dbg
+    $pkgname-static
+    $pkgname-dev
+    qnx-io-usb-otg:io-usb-otg
+    qnx-devu-hcd-echi:devu-ehci
+    qnx-devu-hcd-ohci:devu-ohci
+    qnx-devu-hcd-uhci:devu-uhci
+    qnx-devu-hcd-xhci:devu-xhci
+    $pkgname-utils
+            "
+
+source="qnx-usb_$_usb_base_version.qpkg::$QSC_URL/com.qnx.qnx800.target.usb.base/$_usb_base_version/download
+"
+
+if [[ $CARCH == "aarch64" ]]; then
+    _arch_name=aarch64le
+elif [[ $CARCH == "x86_64" ]]; then
+    _arch_name=x86_64
+fi
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+
+}
+
+package() {
+    cd $srcdir
+
+    mkdir -p "$pkgdir"/usr/bin
+    mkdir -p "$pkgdir"/usr/lib
+    mkdir -p "$pkgdir"/usr/include
+
+    cp -r target/qnx/usr/include/* "$pkgdir"/usr/include
+    cp -r target/qnx/$_arch_name/sbin/* "$pkgdir"/usr/bin
+    cp -r target/qnx/$_arch_name/lib/* "$pkgdir"/usr/lib
+
+    #TODO: usb client support
+    rm "$pkgdir"/usr/bin/devu-umass_client-block*
+}
+
+dbg() {
+    pkgdesc="$pkgdesc (debug symbols)"
+
+    mkdir -p "$subpkgdir"/usr/bin
+    mkdir -p "$subpkgdir"/usr/lib/dll
+
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+    amove usr/lib/dll/*.sym
+}
+
+utils() {
+    depends="$pkgname=$pkgver-r$pkgrel"
+    amove usr/bin
+}
+
+io-usb-otg() {
+    depends="qnx-libpci qnx-secpol"
+    amove usr/bin/io-usb-otg
+}
+
+devu-ehci() {
+   amove usr/lib/dll/devu-hcd-ehci.so
+}
+
+devu-ohci() {
+   amove usr/lib/dll/devu-hcd-ohci.so
+}
+
+devu-uhci() {
+   amove usr/lib/dll/devu-hcd-uhci.so
+}
+
+devu-xhci() {
+   amove usr/lib/dll/devu-hcd-xhci.so
+}
+
+#devu-umass-client() {
+#   amove usr/bin/devu-umass_client-block
+#}
+
+sha512sums="
+49fe1d9045c10a5afa24d203ee4f901017b67db8b80d52c02e708d640bad8d72a7e267af53aa27767380c1dce79f5b6c0ccf4e98683efeb2126ccb54ae167593  qnx-usb_0.0.1.00443T202311201012L.qpkg
+"
+

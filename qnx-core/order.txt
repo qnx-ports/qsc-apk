@@ -16,6 +16,7 @@ qnx-io-sock-cgem
 qnx-io-sock-pci
 qnx-io-sock-phy
 qnx-io-sock-virtio
+qnx-io-sock-fdt
 qnx-libexpat
 qnx-libfdt
 qnx-libpci
@@ -27,6 +28,7 @@ qnx-packaging
 qnx-pci-capabilities
 qnx-pci-compat
 qnx-pci-debug
+qnx-pci-hw-rpi5
 qnx-pci-hw-x86
 qnx-pci-server
 qnx-pci-strings
@@ -38,3 +40,4 @@ qnx-tools
 qnx-zlib
 qnx-utils
 qnx-base
+qnx-bsp-rpi5

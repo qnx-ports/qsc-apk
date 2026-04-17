@@ -21,3 +21,11 @@ com.qnx.qnx800.target.screen.board.rpi.mesa/25.1.1.00046T202510100921L
 com.qnx.qnx800.target.screen.board.rpi.server/1.0.0.00083T202511201325L
 # qnx-sensor-framework
 com.qnx.qnx800.target.sf.sensor/0.3.0.00207T202507171524L
+<<<<<<< HEAD
+=======
+com.qnx.qnx800.target.sf.base/0.2.0.00128T202503270827L
+# qnx-devu-hcd-dwc3
+com.qnx.qnx800.target.usb.hcd.xhci.dwc3/0.1.0.00058T202603271639L
+# qnx-usb
+com.qnx.qnx800.target.usb.base/0.0.1.00443T202311201012L
+>>>>>>> b8db2e6 (rpi bsp packages)
