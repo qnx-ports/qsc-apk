@@ -8,3 +8,4 @@ qnx-memstream
 qnx-screen-rpi
 qnx-ncurses
 qnx-sensor-framework
+qnx-devu-hcd-dwc3

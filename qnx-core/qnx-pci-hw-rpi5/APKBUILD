@@ -1,0 +1,43 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-pci-hw-rpi5"
+pkgver=8.0.3
+_pci_hw_rpi5_version="3.0.0.03044T202509231229L"
+pkgrel=0
+pkgdesc="QNX PCI Strings module"
+url="https://qnx.com"
+arch="aarch64"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dbg"
+source="pci_hw_rip5_$_pci_hw_rip5_version.qpkg::$QSC_URL/com.qnx.qnx800.target.pci.hw.bcm2712/$_pci_hw_rpi5_version/download
+"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+
+    mkdir -p "$pkgdir"/usr/lib/dll
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/dll/pci/* "$pkgdir"/usr/lib/dll
+}
+
+dbg() {
+    amove usr/lib/dll/*.sym
+}
+
+
+sha512sums="
+04bf0d0cec59df44bdc131e533929f2964dc6cc80227c0943e7e8e5774fc38e49e4c9b306d01e449ad1893e39651f988b3059100a7739eb07c545cb6580973f3  pci_hw_rip5_.qpkg
+"

@@ -6,7 +6,7 @@ url="https://qnx.com"
 arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 depends="ncurses"
-options="!strip"
+options="!strip !tracedeps"
 
 package() {
     mkdir -p "$pkgdir"/usr/lib

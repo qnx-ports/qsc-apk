@@ -1,0 +1,50 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-io-sock-fdt"
+pkgver=8.0.3
+_iosock_fdt_ver="0.3.0.00600T202507302003L"
+pkgrel=0
+pkgdesc="io-sock driver for various FDT based NICs"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-libfdt"
+subpackages="$pkgname-dev"
+source="
+    iosock-fdt_$_iosock_pci_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.net.devsfdt/$_iosock_fdt_ver/download
+"
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+
+    echo "Relocating bin and lib for a merged /usr"
+    mkdir -p "$pkgdir"/usr/lib
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rmdir "$pkgdir"/lib
+}
+
+dev() {
+    default_dev
+    amove usr/lib/dll/*.sym
+}
+
+
+
+sha512sums="
+6bc45add8524fc4fe829b122fc6aa3f0ebc966a36a89f9e1956a9b40dc3f56e0a9cb23f7f17261602590331962e4ea3cffe6a661c955b042a1da2edb4e20c99d  iosock-fdt_.qpkg
+"

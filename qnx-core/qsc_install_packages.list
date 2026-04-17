@@ -39,6 +39,8 @@ com.qnx.qnx800.target.net.devspci/0.3.0.00600T202507302003L
 com.qnx.qnx800.target.net.modsphy/0.3.0.00600T202507302003L
 # qnx-io-sock-virtio
 com.qnx.qnx800.target.net.devsvirtio/0.0.3.02005T202411230033L
+#qnx-io-sock-fdt
+com.qnx.qnx800.target.net.devsfdt/0.3.0.00600T202507302003L
 # qnx-libexpat
 # qnx-libfdt
 com.qnx.qnx800.target.drivers.libfdt/0.1.0.00392T202406181101L
@@ -70,6 +72,8 @@ com.qnx.qnx800.target.pci.compat/3.0.0.02005T202411230033L
 com.qnx.qnx800.target.pci.debug/3.0.0.02005T202411230033L
 # qnx-pci-hw-x86
 com.qnx.qnx800.target.pci.hw.x86/3.1.0.02005T202411230033L
+# qnx-pci-hw-rpi5
+com.qnx.qnx800.target.pci.hw.bcm2712/3.0.0.03044T202509231229L
 # qnx-pci-server
 com.qnx.qnx800.target.pci.server/3.1.1.02005T202411230033L
 # qnx-pci-strings
@@ -98,4 +102,5 @@ com.qnx.qnx800.target.utils.hw/0.2.0.00014T202411230051L
 com.qnx.qnx800.target.utils.qnx/0.0.1.00282T202404151301L
 # qnx-zlib
 com.qnx.qnx800.target.base.compression/0.3.0.00600T202507302003L
-
+#qnx-bsp-rpi5
+com.qnx.qnx800.bsp.hw.raspberrypi_bcm2712_rpi5/0.3.0.00381T202512101351L

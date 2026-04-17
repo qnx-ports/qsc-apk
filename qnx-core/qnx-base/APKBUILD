@@ -5,7 +5,7 @@ pkgdesc="QNX build support files for various build systems"
 url="https://qnx.com"
 arch="all"
 license="Proprietary"
-options="!strip"
+options="!strip !tracedeps"
 depends="qnx-microkernel qnx-gcc-libs apk-tools nproc busybox busybox-utils"
 source="profile"
 
