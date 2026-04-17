@@ -11,7 +11,7 @@ options="!strip !tracedeps"
 source="charvonc_$_charconv_version=.qpkg::$QSC_URL/com.qnx.qnx800.target.text.charconv/$_charconv_version/download
 "
 _qarch=$CARCH
-if [[ $CARCH == "aarch64" ]]; then
+if [ $CARCH == "aarch64" ]; then
     export _qarch=aarch64le
 fi
 
@@ -22,7 +22,7 @@ prepare() {
 }
 
 # extglob for trimming out other arch's toolchain
-shopt -s extglob
+
 package() {
     mkdir -p "$pkgdir"/usr/lib
     echo "Moving arch-specific ($_qarch) /usr/lib/libiconv.so.1"
@@ -30,5 +30,5 @@ package() {
 }
 
 sha512sums="
-e431adc4c400ee69d059594f3ae7b53796bd847dc3ec9bf4494f8b7e11d0ba22317919c9f60da70ccdd87575ddf95181e359ced265c2ddb7f7c32b9f87bdcfef  charvonc_0.0.1.00135T202311191043L=.qpkg
+e431adc4c400ee69d059594f3ae7b53796bd847dc3ec9bf4494f8b7e11d0ba22317919c9f60da70ccdd87575ddf95181e359ced265c2ddb7f7c32b9f87bdcfef  charconv_0.0.1.00135T202311191043L=.qpkg
 "
