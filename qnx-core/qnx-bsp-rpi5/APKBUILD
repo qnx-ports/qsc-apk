@@ -1,0 +1,67 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-bsp-rpi5"
+pkgver=8.0.4
+_bsp_rpi5_version=0.3.0.00381T202512101351L
+_raspberrypi_firmware_release="1.20250915" 
+pkgrel=0
+pkgdesc="QNX Board Support Package For Raspberry pi"
+url="https://qnx.com"
+arch="aarch64"
+license="LicenseRef-QDL-Non-Commercial AND GPL-2.0-only"
+depends="qnx-libpci qnx-fs-cam qnx-libfdt qnx-libslog2 qnx-secpol"
+makedepends="qnx-libpci-dev qnx-pci-capabilities-dev"
+options="!strip !tracedeps"
+source="bsp_rpi5_$_bsp_rpi5_version.qpkg::$QSC_URL/com.qnx.qnx800.bsp.hw.raspberrypi_bcm2712_rpi5/$_bsp_rpi5_version/download
+https://github.com/raspberrypi/firmware/archive/refs/tags/$_raspberrypi_firmware_release.zip
+msix-rp1-rework.patch
+"
+_qarch="aarch64le"
+
+_firmware_dir="$srcdir/firmware-$_raspberrypi_firmware_release/boot"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+
+   unzip -d bsp bsp/BSP_raspberrypi-bcm2712-rpi5_be-800_SVN1024006_JBN381.zip
+   patch -p1 -d "$srcdir"/bsp < "$srcdir"/msix-rp1-rework.patch
+}
+
+package() {
+    cd "$srcdir"
+    mkdir -p "$pkgdir"/usr/bin
+    mkdir -p "$pkgdir"/boot/sys
+    
+    echo "Copying startup"
+    cp -r bsp/prebuilt/"$_qarch"/boot/sys/* "$pkgdir"/boot/sys
+
+    echo "Copying binaries"
+    cp -r bsp/prebuilt/"$_qarch"/sbin/* "$pkgdir"/usr/bin
+    cp -r bsp/prebuilt/"$_qarch"/bin/* "$pkgdir"/usr/bin
+
+
+    # We can remove this when the bsp takes in the patch
+    echo "Building Patched msix-rp1"
+    rm "$pkgdir"/usr/bin/msix-rp1
+    pushd bsp/src/hardware/support/bcm2712/msix-rp1
+    gcc $CFLAGS main.c -o msix-rp1 -lpci -fPIC
+    cp msix-rp1 "$pkgdir"/usr/bin
+    popd
+
+    echo "Copying Raspberry pi dtb"
+
+    _dtbs="bcm2712d0-rpi-5-b.dtb bcm2712-d-rpi-5-b.dtb bcm2712-rpi-500.dtb bcm2712-rpi-5-b.dtb bcm2712-rpi-cm5-cm4io.dtb bcm2712-rpi-cm5-cm5io.dtb bcm2712-rpi-cm5l-cm4io.dtb bcm2712-rpi-cm5l-cm5io.dtb"
+
+    for dtb in $_dtbs; do 
+        cp -r "$_firmware_dir/$dtb" "$pkgdir"/boot/sys
+    done
+    cp -r "$_firmware_dir"/overlays "$pkgdir"/boot/sys
+}
+
+
+sha512sums="
+6e98a4eced10b4d51333c568a8237b3828d4f21d3303d669ab6fac32cf06e9060489970755fce87eb698719bbbb5ade6e9744f62b3f8446fca0ec8cb2ad51700  bsp_rpi5_0.3.0.00381T202512101351L.qpkg
+ba943f7106ba7fb639eff0258e63993071bdea3865f33d9e06b8af2c578d3bb972cfd11162b5207eba0e67f463913ad294064fadee04dd8151ed2e478898bbaa  1.20250915.zip
+af817212ded63d8f3fc081fd5049fd148f358324c2c05c322d639bb997ec3d3d23dd401e83e0630420be7b1a5db157090ce63b061f07438a602a26b2b0b7a534  msix-rp1-rework.patch
+"

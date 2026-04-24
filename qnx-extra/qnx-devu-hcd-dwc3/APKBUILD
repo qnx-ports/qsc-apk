@@ -1,0 +1,26 @@
+pkgname="qnx-devu-hcd-dwc3"
+pkgver=8.0.4
+_devu_hcd_dwc3_version=0.1.0.00058T202603271639L
+pkgrel=1
+pkgdesc="QNX USB - XHCI DWC3"
+url="https://qnx.com"
+arch="aarch64"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+depends="qnx-secpol"
+source="devu_hcd_dwc3_$_devu_hcd_dwc3_version.qpkg::$QSC_URL/com.qnx.qnx800.target.usb.hcd.xhci.dwc3/$_devu_hcd_dwc3_version/download"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    mkdir -p "$pkgdir"/usr/lib
+    cp -r "$srcdir"/target/qnx/aarch64le/lib/* "$pkgdir"/usr/lib
+}
+
+sha512sums="
+e3659c3003053803f8c9362859add7cf30eaa90ae48c7e379d680aa29b7bdefd05e9e9d9af1f7ea7388c9235ff4d057499b7ccb5da6d69106b4a75e77880ebb2  devu_hcd_dwc3_0.1.0.00058T202603271639L.qpkg
+"
