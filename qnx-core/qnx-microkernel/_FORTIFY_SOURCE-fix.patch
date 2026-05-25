@@ -1,0 +1,393 @@
+diff --color -U 6 -r before/qnx/usr/include/stdio_chk.h after/qnx/usr/include/stdio_chk.h
+--- before/qnx/usr/include/stdio_chk.h	2026-03-24 20:16:13.456236466 -0400
++++ after/qnx/usr/include/stdio_chk.h	2026-03-25 10:06:13.386003016 -0400
+@@ -33,44 +33,44 @@
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_fgets,
+         __fortify_fail_overflow_dst,
+         "argument 2 of 'fgets' is greater than the size of the object referenced by argument 1");
+ extern char *__fgets_alias(char *__s, int __n, FILE *__fp) __ALIASATTR("fgets");
+ 
+-#ifdef __bvap
++#if defined(__bvap) || !defined(__cplusplus)
+ extern int __fprintf_chk(FILE * const __fp, int __flag, const char * const __format, ...)
+         __attribute__((__format__(__printf__, 3, 4)));
+-#endif /* #ifdef __bvap */
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_fread,
+         __fortify_fail_overflow_dst,
+         "the product of arguments 2 and 3 of 'fread' is greater than the size of the object referenced by argument 1");
+ extern size_t __fread_alias(void *__ptr, size_t __size, size_t __n, FILE *__fp) __ALIASATTR("fread");
+ 
+-#ifdef __bvap
++#if defined(__bvap) || !defined(__cplusplus)
+ extern int __printf_chk(int __flag, const char * const __format, ...) __attribute__((__format__(__printf__, 2, 3)));
+-#endif /* #ifdef __bvap */
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_snprintf,
+         __fortify_fail_overflow_dst,
+         "argument 2 of 'snprintf' is greater than the size of the object referenced by argument 1");
+ extern int __snprintf_chk(char *__s, size_t __size, int __flag, size_t __osize, const char *__format, ...)
+         __attribute__((__format__(__printf__, 5, 6)));
+ 
+ extern int __sprintf_chk(char *__s, int __flag, size_t __osize, const char *__format, ...)
+         __attribute__((__format__(__printf__, 4, 5)));
+ 
+-#ifdef __bvap
++#if defined(__bvap) || !defined(__cplusplus)
+ extern int __vfprintf_chk(FILE * const __fp, int __flag, const char * const __format, __NTO_va_list __arg)
+         __attribute__((__format__(__printf__, 3, 0)));
+ 
+ extern int __vprintf_chk(int __flag, const char * const __format, __NTO_va_list __arg)
+         __attribute__((__format__(__printf__, 2, 0)));
+-#endif /* #ifdef __bvap */
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_vsnprintf,
+         __fortify_fail_overflow_dst,
+         "argument 2 of 'vsnprintf' is greater than the size of the object referenced by argument 1");
+ extern int __vsnprintf_chk(char *__s, size_t __size, int __flag, size_t __osize, const char *__format, __NTO_va_list  __arg)
+@@ -82,31 +82,31 @@
+ #if !defined(__EXT_ANSIC_201112) && ( __cplusplus - 0 <= 201103L )
+ extern char *__gets_chk(char *__s, size_t __osize);
+ extern char *__gets_alias(char *__s) __ALIASATTR("gets");
+ #endif /* #if !defined(__EXT_ANSIC_201112) && ( __cplusplus - 0 <= 201103L ) */
+ 
+ #if defined(__EXT_QNX)
+-#ifdef __bvap
++#if defined(__bvap) || !defined(__cplusplus)
+ extern int __asprintf_chk(char **__strp, int __flag, const char *__fmt, ...) __attribute__((__format__(__printf__, 3, 4)));
+ extern int __asprintf_alias(char **__strp, const char *__fmt, ...) __ALIASATTR("asprintf")
+         __attribute__((__format__(__printf__, 2, 3)));
+-#endif /* #ifdef __bvap */
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ extern int __vasprintf_chk(char **__strp, int __flag, const char *__fmt, __NTO_va_list __arg)
+         __attribute__((__format__(__printf__, 3, 0)));
+ extern int __vasprintf_alias(char **__strp, const char *__fmt, __NTO_va_list __arg) __ALIASATTR("vasprintf")
+         __attribute__((__format__(__printf__, 2, 0)));
+ #endif /* #if defined(__EXT_QNX) */
+ 
+ #if defined(__EXT_POSIX1_200809)
+-#ifdef __bvap
++#if defined(__bvap) || !defined(__cplusplus)
+ extern int __dprintf_chk(int __fildes, int __flag, const char * _Restrict __format, ...)
+         __attribute__((__format__(__printf__, 3, 4)));
+ extern int __dprintf_alias(int __fildes, const char * _Restrict __format, ...) __ALIASATTR("dprintf")
+         __attribute__((__format__(__printf__, 2, 3)));
+-#endif /* #ifdef __bvap */
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_getdelim,
+         __fortify_fail_overflow_dst,
+         "argument 2 of 'getdelim' references a value greater than the size of the object indirectly referenced by argument 1");
+ extern ssize_t __getdelim_alias(char **__lineptr, size_t *__lenptr, int __delimiter, FILE *__stream) __ALIASATTR("getdelim");
+@@ -145,12 +145,14 @@
+      * __format argument isn't a trivially simple format string. Otherwise, it resolves to a call to the regular (unfortified)
+      * fprintf function or a compatible but more performant alternative. __fprintf_chk causes __fortify_fail_fmt_n to be invoked if
+      * the second argument (__flag) is nonzero and the __format argument contains the n conversion specifier (e.g. "%n"). */
+     return __builtin___fprintf_chk(__fp, __NTO_FORTIFY_LEVEL - 1, __format, __bvap);
+ #pragma GCC diagnostic pop
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define fprintf(stream, ...) __builtin___fprintf_chk(stream, __NTO_FORTIFY_LEVEL - 1, __VA_ARGS__)
+ #endif /* #ifdef __bvap */
+ 
+ extern __FORTIFY_FUNCTION size_t fread(void * const __ptr, const size_t __size, const size_t __n, FILE * const __fp)
+ {
+     /* Fail if the maximum number of bytes read (__size * __n) is greater than the size of the destination object (__ptr)
+      * determined at compile time. Also emit an error/warning if both the __size and __n arguments are known to be constant at
+@@ -239,12 +241,16 @@
+      * __format argument contains the n conversion specifier (e.g. "%n"), or calls __fortify_fail_overflow_dst if the length of the
+      * formatted string including the terminating NUL character is greater than the size of the destination object (__s) determined
+      * at compile time. */
+     return __builtin___sprintf_chk(__s, __NTO_FORTIFY_LEVEL - 1, __bos_default(__s), __format, __bvap);
+ #pragma GCC diagnostic pop
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define printf(...) __builtin___printf_chk(__NTO_FORTIFY_LEVEL - 1, __VA_ARGS__)
++#define snprintf(dest, size, ...) __builtin___snprintf_chk(dest, size, __NTO_FORTIFY_LEVEL - 1, __bos_default(dest), __VA_ARGS__)
++#define sprintf(dest, ...) __builtin___sprintf_chk(dest, __NTO_FORTIFY_LEVEL - 1, __bos_default(dest), __VA_ARGS__)
+ #endif /* #ifdef __bvap */
+ 
+ extern __FORTIFY_FUNCTION int vfprintf(FILE * const __fp, const char * const __format, __NTO_va_list __arg)
+ {
+     /* Leverage the compiler's built-in __vfprintf_chk function which resolves to a call to the __vfprintf_chk function when the
+      * second argument is a nonzero value (i.e. the _FORTIFY_SOURCE feature test macro has been defined with a value greater than 1)
+@@ -332,12 +338,16 @@
+         return __asprintf_chk(__strp, __NTO_FORTIFY_LEVEL - 1, __fmt, __bvap);
+     } else {
+         return __asprintf_alias(__strp, __fmt, __bvap);
+     }
+ #pragma GCC diagnostic pop
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define asprintf(dest, ...) ( __NTO_FORTIFY_LEVEL > 1 ) ? \
++            __asprintf_chk(dest, __NTO_FORTIFY_LEVEL - 1, __VA_ARGS__) : \
++            __asprintf_alias(dest, __VA_ARGS__)
+ #endif /* #ifdef __bvap */
+ 
+ extern __FORTIFY_FUNCTION int vasprintf(char ** const __strp, const char * const __fmt, __NTO_va_list __arg)
+ {
+     /* If __NTO_FORTIFY_LEVEL is greater than 1, call __vasprintf_chk instead of the regular (unfortified) vasprintf function.
+      * __vasprintf_chk causes __fortify_fail_fmt_n to be invoked if the second argument (__flag) is nonzero and the __fmt argument
+@@ -366,12 +376,16 @@
+         return __dprintf_chk(__fildes, __NTO_FORTIFY_LEVEL - 1, __format, __bvap);
+     } else {
+         return __dprintf_alias(__fildes, __format, __bvap);
+     }
+ #pragma GCC diagnostic pop
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define dprintf(fildes, ...) ( __NTO_FORTIFY_LEVEL > 1 ) ? \
++            __dprintf_chk(fildes, __NTO_FORTIFY_LEVEL - 1, __VA_ARGS__) : \
++            __dprintf_alias(fildes, __VA_ARGS__)
+ #endif /* #ifdef __bvap */
+ 
+ extern __FORTIFY_FUNCTION ssize_t getdelim(
+         char      ** const __lineptr,
+         size_t     * const __lenptr,
+         const int          __delimiter,
+diff --color -U 6 -r before/qnx/usr/include/sys/neutrino_chk.h after/qnx/usr/include/sys/neutrino_chk.h
+--- before/qnx/usr/include/sys/neutrino_chk.h	2026-03-24 20:16:13.460236479 -0400
++++ after/qnx/usr/include/sys/neutrino_chk.h	2026-03-25 11:10:34.063072956 -0400
+@@ -283,21 +283,23 @@
+         __ALIASATTR("__ThreadCtlExt_r_chk")
+         __FORTIFY_FAIL_DIAG_ATTRIBUTE(
+                 "argument 2 of 'ThreadCtlExt_r' references an object smaller than expected for the command specified as "
+                         "argument 1");
+ extern int __ThreadCtlExt_r_alias(pid_t __pid, int __tid, int __cmd, void *__data) __ALIASATTR("ThreadCtlExt_r");
+ 
++#ifdef __bvap
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_extra_arg_diag_TraceEvent,
+         __fortify_fail_extra_arg,
+         "more than 5 arguments specified to 'TraceEvent'");
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_missing_arg_diag_TraceEvent,
+         __fortify_fail_missing_arg,
+         "insufficient arguments specified to 'TraceEvent' for the command specified as argument 1");
+ extern int __TraceEvent_alias(int __code, ...) __ALIASATTR("TraceEvent");
++#endif /* #ifdef __bvap */
+ 
+ 
+ /**
+  * Validates whether or not a combination of cmd and data arguments specified to a SyncCtl/SyncCtl_r call might result in anomalous
+  * program behaviour.
+  *
+@@ -1008,12 +1010,13 @@
+         }
+     } else {
+         return __ThreadCtlExt_r_alias(__pid, __tid, __cmd, __data);
+     }
+ }
+ 
++#ifdef __bvap
+ extern __FORTIFY_FUNCTION int TraceEvent(const int __code, ...)
+ {
+     /* Fail and emit an error/warning if the caller specified more arguments than the maximum number expected for any of the
+      * supported commands */
+     if ( __bvap_len > 4 ) {
+         __fortify_fail_extra_arg_diag_TraceEvent();
+@@ -1025,12 +1028,13 @@
+                  ((unsigned int)__code >> 28) > (unsigned int)(__bvap_len + 1),
+                 __fortify_fail_missing_arg_diag_TraceEvent,
+                 __fortify_fail_missing_arg);
+     }
+     return __TraceEvent_alias(__code, __bvap);
+ }
++#endif /* #ifdef __bvap */
+ 
+ #endif /* #if __NTO_FORTIFY_LEVEL > 0 */
+ 
+ __END_DECLS
+ 
+ #endif /* #ifndef __NEUTRINO_CHK_H_INCLUDED */
+diff --color -U 6 -r before/qnx/usr/include/syslog_chk.h after/qnx/usr/include/syslog_chk.h
+--- before/qnx/usr/include/syslog_chk.h	2026-03-24 20:16:13.460236479 -0400
++++ after/qnx/usr/include/syslog_chk.h	2026-03-25 10:07:48.158779407 -0400
+@@ -16,19 +16,19 @@
+ #define _SYSLOG_CHK_H_INCLUDED
+ 
+ #include <fortify.h>
+ 
+ __BEGIN_DECLS
+ 
+-#ifdef __bvap
++#if defined(__bvap) || !defined(__cplusplus)
+ extern void __syslog_chk(int __pri, int __flag, char const *__fmt, ...)
+         __attribute__((__format__(__printf__, 3, 4)));
+ 
+ extern void __syslog_alias(int __pri, char const *__fmt, ...)
+         __ALIASATTR("syslog") __attribute__((__format__(__printf__, 2, 3)));
+-#endif /* #ifdef __bvap */
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ extern void __vsyslog_chk(
+         int __pri, int __flag, char const *__fmt, __NTO_va_list __ap)
+         __attribute__((__format__(__printf__, 3, 0)));
+ 
+ extern void __vsyslog_alias(
+@@ -59,12 +59,16 @@
+         __syslog_chk(__pri, __NTO_FORTIFY_LEVEL - 1, __fmt, __bvap);
+     } else {
+         __syslog_alias(__pri, __fmt, __bvap);
+     }
+ #pragma GCC diagnostic pop
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define syslog(priority, ...) ( __NTO_FORTIFY_LEVEL > 1 ) ? \
++        __syslog_chk(priority, __NTO_FORTIFY_LEVEL - 1, __VA_ARGS__) : \
++        __syslog_alias(priority, __VA_ARGS__)
+ #endif /* #ifdef __bvap */
+ 
+ extern __FORTIFY_FUNCTION void vsyslog(
+         int const             __pri,
+         char const    * const __fmt,
+         __NTO_va_list         __ap)
+diff --color -U 6 -r before/qnx/usr/include/wchar_chk.h after/qnx/usr/include/wchar_chk.h
+--- before/qnx/usr/include/wchar_chk.h	2026-03-24 20:16:13.460236479 -0400
++++ after/qnx/usr/include/wchar_chk.h	2026-03-25 11:10:03.734815380 -0400
+@@ -29,28 +29,32 @@
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_fgetws,
+         __fortify_fail_overflow_dst,
+         "argument 2 of 'fgetws' is greater than the number of 'wchar_t' elements in the object referenced by argument 1");
+ extern wchar_t *__fgetws_alias(wchar_t * _Restrict __ws, int __n, FILE * _Restrict __stream) __ALIASATTR("fgetws");
+ 
++#if defined(__bvap) || !defined(__cplusplus)
+ extern int __fwprintf_chk(FILE * _Restrict __stream, int __flag, const wchar_t * _Restrict __format, ...);
+ extern int __fwprintf_alias(FILE * _Restrict __stream, const wchar_t * _Restrict __format, ...) __ALIASATTR("fwprintf");
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_mbsrtowcs,
+         __fortify_fail_overflow_dst,
+         "argument 3 of 'mbsrtowcs' is greater than the number of 'wchar_t' elements in the object referenced by argument 1");
+ extern size_t __mbsrtowcs_alias(wchar_t * _Restrict __dst, const char ** _Restrict __src, size_t __len, mbstate_t * _Restrict __ps)
+         __ALIASATTR("mbsrtowcs");
+ 
++#if defined(__bvap) || !defined(__cplusplus)
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_swprintf,
+         __fortify_fail_overflow_dst,
+         "argument 2 of 'swprintf' is greater than the number of 'wchar_t' elements in the object referenced by argument 1");
+ extern int __swprintf_chk(wchar_t * _Restrict __ws, size_t __n, int flag, size_t __osize, const wchar_t * _Restrict __format, ...);
+ extern int __swprintf_alias(wchar_t * _Restrict __ws, size_t __n, const wchar_t * _Restrict __format, ...) __ALIASATTR("swprintf");
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ extern int __vfwprintf_chk(FILE * _Restrict __stream, int __flag, const wchar_t * _Restrict __format, __NTO_va_list __arg);
+ extern int __vfwprintf_alias(FILE * _Restrict __stream, const wchar_t * _Restrict __format, __NTO_va_list __arg)
+         __ALIASATTR("vfwprintf");
+ 
+ __FORTIFY_FAIL_ALIAS_DECL(
+@@ -136,46 +140,55 @@
+ __FORTIFY_FAIL_ALIAS_DECL(
+         __fortify_fail_overflow_dst_diag_wmemset,
+         __fortify_fail_overflow_dst,
+         "argument 3 of 'wmemset' is greater than the number of 'wchar_t' elements in the object referenced by argument 1");
+ extern wchar_t *__wmemset_alias(wchar_t * __s, wchar_t __wc, size_t __n) __ALIASATTR("wmemset");
+ 
++#if defined(__bvap) || !defined(__cplusplus)
+ extern int __wprintf_chk(int __flag, const wchar_t * _Restrict __format, ...);
+ extern int __wprintf_alias(const wchar_t * _Restrict __format, ...) __ALIASATTR("wprintf");
++#endif /* #if defined(__bvap) || !defined(__cplusplus) */
+ 
+ 
+ #if __NTO_FORTIFY_LEVEL > 0
+ 
+ extern __FORTIFY_FUNCTION wchar_t *fgetws(wchar_t * const _Restrict __ws, const int __n, FILE * const _Restrict __stream)
+ {
+     __FORTIFY_CHK_OVERFLOW_DST(__BOS_TYPE_DEFAULT, __ws, (unsigned int)__n, __n > 0, __fortify_fail_overflow_dst_diag_fgetws);
+     return __fgetws_alias(__ws, __n, __stream);
+ }
+ 
++#ifdef __bvap
+ extern __FORTIFY_FUNCTION int fwprintf(FILE * const _Restrict __stream, const wchar_t * const _Restrict __format, ...)
+ {
+     /* If __NTO_FORTIFY_LEVEL is greater than 1, call __fwprintf_chk instead of the regular (unfortified) fwprintf function.
+      * __fwprintf_chk causes __fortify_fail_fmt_n to be invoked if the second argument (__flag) is nonzero and the
+      * __format argument is a format string containing the n conversion specifier (e.g. "%n"). */
+     if ( __NTO_FORTIFY_LEVEL > 1 ) {
+         return __fwprintf_chk(__stream, __NTO_FORTIFY_LEVEL - 1, __format, __bvap);
+     } else {
+         return __fwprintf_alias(__stream, __format, __bvap);
+     }
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define fwprintf(stream, ...) ( __NTO_FORTIFY_LEVEL > 1 ) ? \
++    __fwprintf_chk(stream, __NTO_FORTIFY_LEVEL - 1, __VA_ARGS__) : \
++    __fwprintf_alias(stream, __VA_ARGS__)
++#endif /* #ifdef __bvap */
+ 
+ extern __FORTIFY_FUNCTION size_t mbsrtowcs(
+         wchar_t       * const _Restrict __dst,
+         const char   ** const _Restrict __src,
+         const size_t                    __len,
+         mbstate_t     * const _Restrict __ps)
+ {
+     __FORTIFY_CHK_OVERFLOW_DST(__BOS_TYPE_DEFAULT, __dst, __len, 1, __fortify_fail_overflow_dst_diag_mbsrtowcs);
+     return __mbsrtowcs_alias(__dst, __src, __len, __ps);
+ }
+ 
++#ifdef __bvap
+ extern __FORTIFY_FUNCTION int swprintf(
+         wchar_t       * const _Restrict __ws,
+         const size_t                    __n,
+         const wchar_t * const _Restrict __format,
+         ...)
+ {
+@@ -194,12 +207,17 @@
+     } else if ( __NTO_FORTIFY_LEVEL > 1 ) {
+         return __swprintf_chk(__ws, __n, __NTO_FORTIFY_LEVEL - 1, __BOS_UNKNOWN, __format, __bvap);
+     } else {
+         return __swprintf_alias(__ws, __n, __format, __bvap);
+     }
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define swprintf(dest, size, ...) ( ( __bos_default(dest) != __BOS_UNKNOWN ) || ( __NTO_FORTIFY_LEVEL > 1 ) ) ? \
++    __swprintf_chk(dest, size, __NTO_FORTIFY_LEVEL - 1, ( __bos_default(dest) != __BOS_UNKNOWN ) ? (__bos_default(dest) / sizeof(dest[0])) : __BOS_UNKNOWN, __VA_ARGS__) : \
++    __swprintf_alias(dest, size, __VA_ARGS__)
++#endif /* #ifdef __bvap */
+ 
+ extern __FORTIFY_FUNCTION int vfwprintf(
+         FILE          * const _Restrict __stream,
+         const wchar_t * const _Restrict __format,
+         __NTO_va_list                   __arg)
+ {
+@@ -369,23 +387,29 @@
+ extern __FORTIFY_FUNCTION wchar_t *wmemset(wchar_t * const __ws, const wchar_t __wc, const size_t __n)
+ {
+     __FORTIFY_CHK_OVERFLOW_DST(__BOS_TYPE_OUTER, __ws, __n, 1, __fortify_fail_overflow_dst_diag_wmemset);
+     return __wmemset_alias(__ws, __wc, __n);
+ }
+ 
++#ifdef __bvap
+ extern __FORTIFY_FUNCTION int wprintf(const wchar_t * const _Restrict __format, ...)
+ {
+     /* If __NTO_FORTIFY_LEVEL is greater than 1, call __wprintf_chk instead of the regular (unfortified) wprintf function.
+      * __wprintf_chk causes __fortify_fail_fmt_n to be invoked if the first argument (__flag) is nonzero and the __format argument
+      * is a format string containing the n conversion specifier (e.g. "%n"). */
+     if ( __NTO_FORTIFY_LEVEL > 1 ) {
+         return __wprintf_chk(__NTO_FORTIFY_LEVEL - 1, __format, __bvap);
+     } else {
+         return __wprintf_alias(__format, __bvap);
+     }
+ }
++#elif !defined(__cplusplus) /* #ifdef __bvap */
++#define wprintf(...) ( __NTO_FORTIFY_LEVEL > 1 ) ? \
++    __wprintf_chk(__NTO_FORTIFY_LEVEL - 1, __VA_ARGS__) : \
++    __wprintf_alias(__VA_ARGS__)
++#endif /* #ifdef __bvap */
+ 
+ #endif /* __NTO_FORTIFY_LEVEL > 0 */
+ 
+ __END_DECLS
+ 
+ #endif /* #ifndef _WCHAR_CHK_H_INCLUDED */

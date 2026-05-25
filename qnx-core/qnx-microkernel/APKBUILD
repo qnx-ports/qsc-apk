@@ -5,7 +5,7 @@ _libm_version=0.0.2.02005T202411230033L
 _libelf_version=0.0.1.00135T202311191043L
 _os_base_version=0.0.1.00135T202311191043L
 _core_libraries_version=1.0.0.00600T202507302003L
-pkgrel=6
+pkgrel=7
 pkgdesc="QNX Microkernel and core libraries"
 url="https://qnx.com"
 arch="all"
@@ -21,9 +21,12 @@ source="microkernel_core_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.mic
     libcatalog_$_core_libraries_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libcatalog/$_core_libraries_version/download
     libforksafe_mutex_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libforksafe_mutex/$_core_version/download
     $_os_base_filename.qpkg::$QSC_URL/com.qnx.qnx800.target.base/$_os_base_version/download
+    _FORTIFY_SOURCE-fix.patch
 "
+builddir="$srcdir/target"
 
-prepare() {
+unpack() {
+   cd $srcdir
    for qpkg in *.qpkg; do
 	msg $qpkg
 	if [[ $qpkg == "$_os_base_filename.qpkg"  ]]; then
@@ -70,4 +73,5 @@ b9aa5aa9c5857558105556f27e6a9fa918fdd0f13015175dc8eb820953ba203ab565319cd8834174
 3fa05a9b66c2b4805e4f551b38005c05e407f310bba8871ad0b1c614b840a0d35471c411623fcc1f6c3d5f371813353794ba3feee71edfa0640d194c52ab9a7f  libcatalog_1.0.0.00600T202507302003L.qpkg
 24c306aa9e71a40734bec330592470fdab668b562286cdd475d7f507fe088dbb0ad6a0df3425b3951b030c7c56e62021c60fbf1bb0eb32f7bb8037a36b5caafc  libforksafe_mutex_2.2.0.00600T202507302003L.qpkg
 975b393237c8973da2ecd2fa9247028a5795ed61dd50f2afe30ed509f03fb855ae0c5019ad0efa1afb781b2562d3bb01ebfcea8791271a07ac007e87b38f14ca  os_core_0.0.1.00135T202311191043L.qpkg
+bc9573d1fad22c579c02d2de556429e12742b6c1e0d8768641db14745bac3487879b54cd07e3eaa2a1ef44818c869a4548545d9c9be7718b1d13567180fa9990  _FORTIFY_SOURCE-fix.patch
 "
