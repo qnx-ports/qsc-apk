@@ -2,7 +2,7 @@ pkgname="qnx-utils"
 pkgver=8.0.5
 _utils_version=0.0.2.02572T202508191702L
 _utils_base_d_version=0.0.1.00135T202311191043L
-pkgrel=0
+pkgrel=1
 pkgdesc="QNX System Utilities"
 url="https://qnx.com"
 arch="all"
@@ -104,6 +104,9 @@ package() {
 
     echo "Moving arch-specfic ($_qarch) 'top'"
     _move_qpkg_file usr/bin/top
+
+    echo "Moving arch-specific ($_qarch) 'stty'"
+    _move_qpkg_file bin/stty
 
     echo "Moving getent"
     cp -r "$srcdir"/getent "$pkgdir"/usr/bin
