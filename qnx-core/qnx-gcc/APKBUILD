@@ -88,9 +88,7 @@ libs() {
                libsanitizer/{a,l,ub}san \
                libstdc++-v3/src \
                libvtv; do
-        if [[ -f "$pkgdir"/usr/lib/"$lib".so* ]]; then
-            amove usr/lib/$lib.so*
-        fi
+        amove usr/lib/$lib.so* || true
     done 
 }
 
