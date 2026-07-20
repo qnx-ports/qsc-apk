@@ -78,20 +78,6 @@ package() {
     done
 }
 
-libs() {
-    for lib in libatomic \
-               libgfortran \
-               libgo \
-               libgomp \
-               libitm \
-               libquadmath \
-               libsanitizer/{a,l,ub}san \
-               libstdc++-v3/src \
-               libvtv; do
-        amove usr/lib/$lib.so* || true
-    done 
-}
-
 _libcxx_dev() {
     depends="!libc++-dev"
 
