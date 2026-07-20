@@ -10,7 +10,7 @@ arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps"
 #install="$pkgname.post-install $pkgname.post-upgrade"
-subpackages="qnx-gcc-libs qnx-libc++-dev:_libcxx_dev"
+subpackages="$pkgname-libs qnx-libc++-dev:_libcxx_dev"
 source=" 
     gcc_linux_$_gcc_version.qpkg::$QSC_URL/com.qnx.qnx800.host.linux.x86_64.gcc/$_gcc_version/download
     cpp_base_$_cpp_base_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.cpp/$_cpp_base_version/download
@@ -78,7 +78,7 @@ package() {
     done
 }
 
-qnx-gcc-libs() {
+libs() {
     for lib in libatomic \
                libgfortran \
                libgo \
@@ -88,7 +88,7 @@ qnx-gcc-libs() {
                libsanitizer/{a,l,ub}san \
                libstdc++-v3/src \
                libvtv; do
-        if [[ -f "$pkgdir"/usr/lib/"$lib".so.* ]]; then
+        if [[ -f "$pkgdir"/usr/lib/"$lib".so* ]]; then
             amove usr/lib/$lib.so*
         fi
     done 
