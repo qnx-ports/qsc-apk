@@ -9,4 +9,5 @@ qnx-screen
 #qnx-screen-rpi
 #qnx-ncurses
 #qnx-sensor-framework
+qnx-usb
 qnx-devu-hcd-dwc3-xhci

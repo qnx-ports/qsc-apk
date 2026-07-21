@@ -14,5 +14,7 @@ com.qnx.qnx800.target.memstream/1.0.0.00103T202510151739L
 com.qnx.qnx800.target.screen.base/4.3.0.00572T202605261514L
 com.qnx.qnx800.target.screen.demos/4.2.0.00070T202606011110L
 com.qnx.qnx800.target.screen.vulkan.sdk/4.2.0.00007T202602120948L
+#qnx-usb
+com.qnx.qnx800.target.usb.base/0.1.0.00060T202605201516L
 #qnx-devu-hcd-dwc3-xhci
 com.qnx.qnx800.target.usb.hcd.xhci.dwc3/0.1.0.00060T202605201516L
