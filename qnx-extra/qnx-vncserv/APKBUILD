@@ -1,0 +1,41 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-vncserv"
+_vncserv_version="4.2.0.00070T202606011110L"
+pkgver=8.0.5
+pkgrel=0
+pkgdesc="QNX screen libdrm"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-screen qnx-zlib libpng qnx-io-sock"
+options="!strip !check !tracedeps"
+subpackages="$pkgname-dbg"
+source="qnx-vncserv_$_vncserv_version.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.vncserv/$_vncserv_version/download
+"
+builddir="$srcdir"
+_qarch=$CARCH
+if [[ $CARCH == "aarch64" ]]; then
+    export _qarch=aarch64le
+fi
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    mkdir -p "$pkgdir"/usr/bin
+    echo "Moving arch-specific ($_qarch) /bin"
+    cp -r "$srcdir"/target/qnx/$_qarch/bin/* "$pkgdir"/usr/bin
+}
+
+
+dbg(){
+    amove usr/bin/*.sym
+}
+
+
+sha512sums="
+3b3cee9109f43914d05c601c7eb967378635314bb180413826fa182539c983be78b408a0b9aeeea44ec98ee49add6e6ea8bc4d0697fe23b3abe4aab9721df9bf  qnx-vncserv_4.2.0.00070T202606011110L.qpkg
+"
