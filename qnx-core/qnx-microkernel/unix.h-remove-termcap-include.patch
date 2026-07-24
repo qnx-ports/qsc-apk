@@ -1,0 +1,12 @@
+termcap.h was removed in 8.0.5 but the include from unix.h was not
+this is a none breaking change and termcap should only be from ncurses
+--- target/qnx/usr/include/unix.h.orig	2026-07-24 13:56:46.000000000 +0000
++++ target/qnx/usr/include/unix.h	2026-07-24 13:56:54.000000000 +0000
+@@ -33,7 +33,6 @@
+ #include <stdio.h>
+ #include <unistd.h>
+ #include <time.h>
+-#include <termcap.h>
+ #include <strings.h>
+ #include <stdlib.h>
+ #include <signal.h>

@@ -6,7 +6,7 @@ _libelf_version=0.0.1.00135T202311191043L
 _target_base_version=0.0.1.00135T202311191043L
 _core_libraries_version=1.1.0.00132T202605281115L
 _libregex_version=1.0.0.00600T202507302003L
-pkgrel=0
+pkgrel=1
 pkgdesc="QNX Microkernel and core libraries"
 url="https://qnx.com"
 arch="all"
@@ -22,6 +22,8 @@ source="microkernel_core_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.mic
     libcatalog_$_core_libraries_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libcatalog/$_core_libraries_version/download
     libforksafe_mutex_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libforksafe_mutex/$_core_version/download
     $_target_base_filename.qpkg::$QSC_URL/com.qnx.qnx800.target.base/$_target_base_version/download
+    unix.h-remove-termcap-include.patch
+
 "
 builddir="$srcdir"
 
@@ -37,6 +39,7 @@ prepare() {
    done
 
    mv $_target_base_filename/target/qnx/usr/include/sys/queue.h ./target/qnx/usr/include/sys/queue.h
+   patch -p0 < unix.h-remove-termcap-include.patch
 }
 
 # extglob for trimming out other arch's toolchain
@@ -72,4 +75,5 @@ b9aa5aa9c5857558105556f27e6a9fa918fdd0f13015175dc8eb820953ba203ab565319cd8834174
 2ccf5415cf3ce95810ba7a3caa409cdaf47b696a26b8d371454fb2cbe49142ee9d78ded320061b78c1a4806d177f2dbfe6d0ccb81be4aa780806fe0392d3746e  libcatalog_1.1.0.00132T202605281115L.qpkg
 ebc0bf8b16d37b51414b5438fdf6201233f1acec0ec01fc765fbcebd7dd10092577fec962d810307a3c9020b6924aee9a4446306f1cacfbcf02887bed5e5b6db  libforksafe_mutex_2.6.0.00145T202606051700L.qpkg
 975b393237c8973da2ecd2fa9247028a5795ed61dd50f2afe30ed509f03fb855ae0c5019ad0efa1afb781b2562d3bb01ebfcea8791271a07ac007e87b38f14ca  target_base_0.0.1.00135T202311191043L.qpkg
+2d87f881418e5586127292148aae1ce9c5d2e18f3d4ec5a03a88c35ee14770848bea48d53e319734c0d9305de2f158755e62a74c26eafc04c65688701ea3385a  unix.h-remove-termcap-include.patch
 "
