@@ -1,12 +1,13 @@
+#Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-base"
 pkgver=8.0.5
-pkgrel=0
+pkgrel=1
 pkgdesc="QNX build support files for various build systems"
 url="https://qnx.com"
 arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps"
-depends="qnx-microkernel qnx-gcc-libs apk-tools nproc busybox busybox-utils"
+depends="qnx-microkernel qnx-gcc-libs apk-tools nproc busybox"
 source="profile"
 builddir="$srcdir"
 
@@ -15,5 +16,5 @@ package() {
 }
 
 sha512sums="
-52f2c7b18758b00efd1ae6dbfec6195c4d96fe95f640d98e0c579d2eb6c8097a57cad23a8d835c04cc4fda3b97922a713c290a8f213fb36581645b6b178e3475  profile
+b6608bd4a7de8d0b3b1d54aaaf25b018b750e0e75eb52f6bbc1ffe2710a234eae73731d098f689a4ffd44a622de8a69a6b58fd99f9846b92e9c411b002c0d865  profile
 "
