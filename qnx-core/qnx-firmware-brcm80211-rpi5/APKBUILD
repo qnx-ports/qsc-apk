@@ -3,7 +3,7 @@ pkgname="qnx-firmware-brcm80211-rpi5"
 pkgver=8.0.5
 _cypress_dhd_sdio_ver="0.0.4.00003T202510060827L"
 _firmware_nonfree_ver="1%2520240709-2_bpo12+1+rpt4"
-pkgrel=0
+pkgrel=1
 pkgdesc="Wifi firmware for RPi 5 brcm80211"
 url="https://qnx.com"
 arch="aarch64"
@@ -26,11 +26,7 @@ prepare() {
 
     # Not sure if i should just take everything from com.qnx.qnx800.target.driver.cypress_dhd_sdio vs RPi-Distro/firmware-nonfree
     # but this configureation matches with the current qsti
-    tar -xf $_firmware_nonfree_ver.tar.gz --strip-components=4 --wildcards \
-      */debian/config/brcm80211/brcm/brcmfmac43455-sdio.raspberrypi,5-model-b.clm_blob \
-      */debian/config/brcm80211/brcm/brcmfmac43455-sdio.raspberrypi,5-model-b.txt
-    # But we must use brcmfmac43455-sdio.raspberrypi,5-model-b.bin from om.qnx.qnx800.target.driver.cypress_dhd_sdio the RPi-Distro/firmware-nonfree does not work for us
-    cp target/qnx/etc/firmware/bcm43455_firmware_pkg/brcmfmac43455-sdio.bin brcm/brcmfmac43455-sdio.raspberrypi,5-model-b.bin
+    tar -xf $_firmware_nonfree_ver.tar.gz --strip-components=4 --wildcards */debian/config/brcm80211/*
 }
 
 package() {
@@ -42,9 +38,13 @@ package() {
     fi
 
     install -m 0755 -d "$pkgdir"/usr/lib/firmware/brcm
-    
+
     echo "Moving firmware files"
-    cp -r "$srcdir"/brcm/* "$pkgdir"/usr/lib/firmware/brcm
+    # We must use brcmfmac43455-sdio.raspberrypi,5-model-b.bin from om.qnx.qnx800.target.driver.cypress_dhd_sdio the RPi-Distro/firmware-nonfree does not work for us
+    cp target/qnx/etc/firmware/bcm43455_firmware_pkg/brcmfmac43455-sdio.bin "$pkgdir"/usr/lib/firmware/brcm/brcmfmac43455-sdio.raspberrypi,5-model-b.bin
+
+    cp -L "$srcdir"/brcm/brcmfmac43455-sdio.raspberrypi,5-model-b.txt "$pkgdir"/usr/lib/firmware/brcm
+    cp -L "$srcdir"/brcm/brcmfmac43455-sdio.raspberrypi,5-model-b.clm_blob "$pkgdir"/usr/lib/firmware/brcm
 }
 
 sha512sums="
