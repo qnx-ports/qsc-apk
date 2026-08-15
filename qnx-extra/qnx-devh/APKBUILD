@@ -1,6 +1,8 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-devh"
 pkgver=8.0.5
-pkgrel=0
+pkgrel=1
+_input_devh_version="0.0.1.00443T202311201012L"
 pkgdesc="QNX800 Device Input - HID Drivers"
 url="https://qnx.com"
 arch="all"
@@ -13,7 +15,7 @@ subpackages="
     $pkgname-usb
 "
 
-source="qnx-devh.qpkg::$QSC_URL/com.qnx.qnx800.target.input.devh/0.1.0.00018T202604301101L/download
+source="input-devh-$_input_devh_version.qpkg::$QSC_URL/com.qnx.qnx800.target.input.devh/$_input_devh_version/download
 "
 builddir="$srcdir"
 
@@ -64,5 +66,5 @@ vmmouse() {
 
 
 sha512sums="
-d9b876ecc95daa8096d4067cdd8f9c791e6dcf9937768162a1c90d98a58b14c87ec2d2baf6869809b4cba2db320a4e9a0d9f77ffe9a5c9ff9605cbd4cc2cadc6  qnx-devh.qpkg
+cc13081dc9c2a0ea40a126c874c04a5209791d97093b1b8471431fb6697a1cb940a6bd3a95beffcb78b5af77b937c183dff67dc86c34319c795b7bff20c2332f  input-devh-0.0.1.00443T202311201012L.qpkg
 "
