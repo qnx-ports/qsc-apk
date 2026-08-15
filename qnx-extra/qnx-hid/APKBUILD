@@ -1,3 +1,4 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-hid"
 pkgver=8.0.5
 _hid_version=0.1.0.00018T202604301101L
@@ -8,8 +9,10 @@ arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps"
 depends="qnx-secpol"
-subpkgs="$pkgname-dbg  $pkgname-openrc"
+subpackages="$pkgname-dbg $pkgname-openrc"
 source="hid_$_hid_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.hid/$_hid_version/download
+	io-hid.initd
+	io-hid.confd
 "
 builddir="$srcdir"
 
@@ -41,4 +44,6 @@ package() {
 
 sha512sums="
 dee8fc73727c5a5dc5b34f2eefff7e01a8b74344c48132e09f15b9c5557ed810a68d134d7fdb2c2d6f053e2de46292f750573db8d75d002faa6aadf2f7965386  hid_0.1.0.00018T202604301101L.qpkg
+1e29ec61d17bd946a95162a37d1015dd0c80f80f1f849be9802689830cfba52e73f5b7c02590788068d53d48159914d745998cc4df295498bfcd0085f6f8c20c  io-hid.initd
+b5c41442ccf45f2ee6def9a09d753a4ff1620bd8e312d324bee4f6f09ea492249717fc47a950f6f4bc84bab0c72471caa47b78ca3cc8744fd763d71e825e3b57  io-hid.confd
 "
