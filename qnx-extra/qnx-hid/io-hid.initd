@@ -1,0 +1,18 @@
+#!/usr/bin/openrc-run
+
+description="QNX io-hid"
+
+command="/usr/bin/io-hid"
+command_args="$command_args"
+command_background="true"
+priority=21
+pidfile="/var/run/io-hid.pid"
+
+depend() {
+	need io-sock
+}
+
+start() {
+	default_start
+	waitfor /dev/io-hid/io-hid
+}

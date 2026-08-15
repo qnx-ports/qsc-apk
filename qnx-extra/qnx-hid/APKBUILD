@@ -1,13 +1,14 @@
 pkgname="qnx-hid"
 pkgver=8.0.5
 _hid_version=0.1.0.00018T202604301101L
-pkgrel=0
+pkgrel=1
 pkgdesc="QNX io Hid"
 url="https://qnx.com"
 arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps"
 depends="qnx-secpol"
+subpkgs="$pkgname-dbg  $pkgname-openrc"
 source="hid_$_hid_version.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.hid/$_hid_version/download
 "
 builddir="$srcdir"
@@ -29,10 +30,13 @@ package() {
         export _qarch=aarch64le
     fi
     mkdir -p "$pkgdir"/usr/{bin,lib}
-    echo "Moving arch-specific ($_qarch) binaraies"
+    echo "Moving arch-specific ($_qarch) binaries"
     cp -r "$srcdir"/target/qnx/$_qarch/sbin/* "$pkgdir"/usr/bin
     echo "Moving arch-specific ($_qarch) libraries"
     cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib
+
+    install -Dm755 "$srcdir"/io-hid.initd "$pkgdir"/etc/init.d/io-hid
+    install -Dm644 "$srcdir"/io-hid.confd "$pkgdir"/etc/conf.d/io-hid
 }
 
 sha512sums="
