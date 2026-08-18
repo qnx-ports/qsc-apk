@@ -42,6 +42,11 @@ package() {
     install -Dm644 "$srcdir"/io-hid.confd "$pkgdir"/etc/conf.d/io-hid
 }
 
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
 sha512sums="
 dee8fc73727c5a5dc5b34f2eefff7e01a8b74344c48132e09f15b9c5557ed810a68d134d7fdb2c2d6f053e2de46292f750573db8d75d002faa6aadf2f7965386  hid_0.1.0.00018T202604301101L.qpkg
 1e29ec61d17bd946a95162a37d1015dd0c80f80f1f849be9802689830cfba52e73f5b7c02590788068d53d48159914d745998cc4df295498bfcd0085f6f8c20c  io-hid.initd
