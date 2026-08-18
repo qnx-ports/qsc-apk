@@ -5,7 +5,7 @@ pkgver=8.0.5
 _screen_base_version=4.3.0.00572T202605261514L
 _screen_demos_version=4.2.0.00070T202606011110L
 _vulkan_sdk_version=4.2.0.00007T202602120948L
-pkgrel=3
+pkgrel=4
 _pkgdesc="QNX800 Screen Board Support"
 _dbg_pkgdesc="$pkgdesc debug symbols and binaries"
 pkgdesc=$_pkgdesc
@@ -28,6 +28,7 @@ subpackages="$pkgname-dev:screen_dev:noarch
              opencl-headers:khr_dev
              $_gfx_pkgname-openvg
              openvg-headers:khr_dev
+	     $pkgname-openrc
              "
 source="screen_base_$_screen_base_version.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.base/$_screen_base_version/download
         screen_demos_$_screen_demos_version.qpkg::$QSC_URL/com.qnx.qnx800.target.screen.demos/$_screen_demos_version/download
@@ -35,6 +36,8 @@ source="screen_base_$_screen_base_version.qpkg::$QSC_URL/com.qnx.qnx800.target.s
         egl.pc
         glesv2.pc
         vulkan.pc
+	screen.initd
+	screen.confd
         "
 builddir="$srcdir"
 
@@ -77,6 +80,9 @@ package() {
     mkdir -p "$pkgdir"/usr/share/vulkan
     cp -r screen_vulkan_sdk/target/qnx/"$_arch_name"/usr/lib/graphics/vulkan/*.json "$pkgdir"/usr/share/vulkan
     cp -r screen_vulkan_sdk/target/qnx/"$_arch_name"/usr/lib/graphics/vulkan "$pkgdir"/usr/lib
+
+    install -Dm755 "$srcdir"/screen.initd "$pkgdir"/etc/init.d/screen
+    install -Dm644 "$srcdir"/screen.confd "$pkgdir"/etc/conf.d/screen
 }
 
 debug() {
@@ -224,4 +230,6 @@ cb982cd4733fd3eef0b133de252ef0fe108494a461e946da6e20df7b89ff4490c1353cc121dfecf7
 b317d8d7caf19a6859c85d9c021cd167d6b31bbc86361805ab1d056ba191324e0b323793d5c4bdf5db56d8c1c4d19e46f742a064494b36ab983230d9fef14222  egl.pc
 040a9ee943f8786de002b07858dc430521c09fa344e7476ef4b2140d506d85abf8ca9af3360c78e8058ef02c73427dca6e7b4334791bb80f581fb15fe1b5d991  glesv2.pc
 9781742375b7d208c9a5030a1dd9043ac9f527929eb3e79737f447012380004f86842d6323b5c04e9221373ac87b9041c4fe5e45e04651748b6124abb670935e  vulkan.pc
+01d1df7cf0f287a990ccd2d7e66eb70af84a5917ec198f09cf57309b3034666b31ffd9ae8180960ac941bde7cdfe189536afb62eaebb7283b59f119aa2fa4645  screen.initd
+cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e  screen.confd
 "

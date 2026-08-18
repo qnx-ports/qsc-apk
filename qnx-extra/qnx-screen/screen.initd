@@ -1,0 +1,40 @@
+#!/usr/bin/openrc-run
+
+description="QNX screen"
+
+: "${cfgfile:=/etc/screen/graphics.conf}"
+: "${drmcmdline:=''}"
+: "${deprivileged_user:=screen}"
+: "${deprivileged_groups:=video}"
+
+command="/usr/bin/screen"
+command_args="-c $cfgfile $command_args"
+command_background="true"
+priority=21
+pidfile="/var/run/screen.pid"
+
+depend() {
+	need io-hid
+}
+
+start_pre() {
+	if [[ -n "$deprivileged_user" ]]; then
+		command_args="$command_args -u $deprivileged_user"
+
+		if [[ -n "$deprivileged_groups" ]]; then
+			for d_group in $deprivileged_groups; do
+				group_id="$(getent group $d_group | cut -d ':' -f 3)"
+				command_args="$command_args,$group_id"
+			done
+		fi
+	fi
+}
+
+start() {
+        export DRM_CMDLINE="$drmcmdline"
+	
+	default_start
+	
+	ewaitfile 5 /dev/screen/command
+	echo "drop_privileges" > /dev/screen/command
+}
