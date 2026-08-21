@@ -5,7 +5,7 @@ pkgver=8.0.5
 _screen_base_version=4.3.0.00572T202605261514L
 _screen_demos_version=4.2.0.00070T202606011110L
 _vulkan_sdk_version=4.2.0.00007T202602120948L
-pkgrel=4
+pkgrel=5
 _pkgdesc="QNX800 Screen Board Support"
 _dbg_pkgdesc="$pkgdesc debug symbols and binaries"
 pkgdesc=$_pkgdesc
@@ -78,8 +78,8 @@ package() {
 
     #sdk
     mkdir -p "$pkgdir"/usr/share/vulkan
-    cp -r screen_vulkan_sdk/target/qnx/"$_arch_name"/usr/lib/graphics/vulkan/*.json "$pkgdir"/usr/share/vulkan
-    cp -r screen_vulkan_sdk/target/qnx/"$_arch_name"/usr/lib/graphics/vulkan "$pkgdir"/usr/lib
+    mv screen_vulkan_sdk/target/qnx/"$_arch_name"/usr/lib/graphics/vulkan/*.json "$pkgdir"/usr/share/vulkan
+    mv screen_vulkan_sdk/target/qnx/"$_arch_name"/usr/lib/graphics/vulkan "$pkgdir"/usr/lib
 
     install -Dm755 "$srcdir"/screen.initd "$pkgdir"/etc/init.d/screen
     install -Dm644 "$srcdir"/screen.confd "$pkgdir"/etc/conf.d/screen
@@ -171,6 +171,7 @@ vulkan() {
     # sdk
     mv "$pkgdir"/usr/share/vulkan "$subpkgdir"/usr/share
     mv "$pkgdir"/usr/lib/vulkan "$subpkgdir"/usr/lib
+    sed -i -e "s:/usr/lib/graphics/vulkan:/usr/lib/vulkan:g" "$subpkgdir"/usr/share/vulkan/*.json
 
     # dev
     local _header_path="$pkgdir/../vulkan-headers/usr/include"
