@@ -1,0 +1,7 @@
+#!/bin/bash
+
+addgroup -S video
+addgroup -S screen
+adduser -S -D -H -h /dev/null -s /bin/nologin -G video -g screen screen
+
+exit 0
