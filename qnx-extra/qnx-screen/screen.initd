@@ -3,7 +3,7 @@
 description="QNX screen"
 
 : "${cfgfile:=/etc/screen/graphics.conf}"
-: "${drmcmdline:=''}"
+: "${drmcmdline:=}"
 : "${deprivileged_user:=screen}"
 : "${deprivileged_groups:=video}"
 
