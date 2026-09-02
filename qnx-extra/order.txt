@@ -11,3 +11,4 @@ qnx-screen
 #qnx-sensor-framework
 qnx-usb
 qnx-devu-hcd-dwc3-xhci
+qnx-vncserv
