@@ -19,12 +19,13 @@ depend() {
 
 start_pre() {
 	if [[ -n "$deprivileged_user" ]]; then
-		command_args="$command_args -u $deprivileged_user"
+        deprivileged_uid=$(id -u $deprivileged_user)
+        command_args="$command_args -u $deprivileged_uid"
 
 		if [[ -n "$deprivileged_groups" ]]; then
 			for d_group in $deprivileged_groups; do
 				group_id="$(getent group $d_group | cut -d ':' -f 3)"
-				command_args="$command_args,$group_id"
+				command_args="$command_args:$group_id"
 			done
 		fi
 	fi
