@@ -12,3 +12,4 @@ qnx-screen
 qnx-usb
 qnx-devu-hcd-dwc3-xhci
 qnx-vncserv
+qnx-debugtools

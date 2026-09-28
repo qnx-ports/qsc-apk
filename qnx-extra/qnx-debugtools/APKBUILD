@@ -1,0 +1,47 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-debugtools"
+pkgver=8.0.5
+pkgrel=0
+_utils_debugtools_version="0.1.0.00132T202605281115L"
+pkgdesc="QNX800 Debug Tools (qconn + pdebug)"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps"
+subpackages="$pkgname-dbg"
+source="utils-debugtools-$_utils_debugtools_version.qpkg::$QSC_URL/com.qnx.qnx800.target.utils.debugtools/$_utils_debugtools_version/download"
+builddir="$srcdir"
+
+if [[ $CARCH == "aarch64" ]]; then
+    _arch_name=aarch64le
+elif [[ $CARCH == "x86_64" ]]; then
+    _arch_name=x86_64
+fi
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+package() {
+    cd $srcdir
+
+    mkdir -p "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/usr/bin "$pkgdir"/usr
+    cp -r target/qnx/$_arch_name/usr/lib "$pkgdir"/usr
+}
+
+dbg() {
+    pkgdesc="$pkgdesc (debug symbols)"
+
+    mkdir -p "$subpkgdir"/usr/bin
+    mkdir -p "$subpkgdir"/usr/lib
+
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+sha512sums="
+3b0739fee9a25162aba42a99ae18ed2812f32229407a2d8da75ec1f0d4d1894e0f49b536deb6fc2f6275b761c0b54a345948322f0d8da0591b12256b80925bc0  utils-debugtools-0.1.0.00132T202605281115L.qpkg
+"

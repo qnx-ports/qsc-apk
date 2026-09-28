@@ -20,3 +20,6 @@ com.qnx.qnx800.target.usb.base/0.1.0.00060T202605201516L
 com.qnx.qnx800.target.usb.hcd.xhci.dwc3/0.1.0.00060T202605201516L
 #qnx-vncserv
 com.qnx.qnx800.target.screen.vncserv/4.2.0.00070T202606011110L
+#qnx-debugtools
+com.qnx.qnx800.target.utils.debugtools/0.1.0.00132T202605281115L
+
