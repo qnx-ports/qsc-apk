@@ -30,11 +30,12 @@ _utils_base_version=0.0.1.00135T202311191043L
 _utils_hw_version=0.2.0.00014T202411230051L
 _utils_qnx_version=0.0.1.00282T202404151301L
 _add_qpkg_file com.qnx.qnx800.target.utils.system os-utils 0.1.0.00132T202605281115L
-_add_qpkg_file com.qnx.qnx800.target.utils.base.m utils_base_m $_utils_base_version
-_add_qpkg_file com.qnx.qnx800.target.utils.base.u utils_base_u $_utils_base_version
-_add_qpkg_file com.qnx.qnx800.target.utils.base.s utils_base_s $_utils_base_version
 _add_qpkg_file com.qnx.qnx800.target.utils.base.d utils_base_d $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.g utils_base_g $_utils_base_version
 _add_qpkg_file com.qnx.qnx800.target.utils.base.k utils_base_k $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.m utils_base_m $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.s utils_base_s $_utils_base_version
+_add_qpkg_file com.qnx.qnx800.target.utils.base.u utils_base_u $_utils_base_version
 _add_qpkg_file com.qnx.qnx800.target.utils.base.t utils_base_t 0.1.0.00132T202605281115L
 _add_qpkg_file com.qnx.qnx800.target.base.shutdown shutdown $_utils_base_version
 _add_qpkg_file com.qnx.qnx800.target.utils.hw utils_hw $_utils_hw_version
@@ -105,6 +106,9 @@ package() {
     echo "Moving arch-specfic ($_qarch) 'top'"
     _move_qpkg_file usr/bin/top
 
+    echo "Moving arch-specfic ($_qarch) 'getty'"
+    _move_qpkg_file sbin/getty
+
     echo "Moving arch-specific ($_qarch) 'stty'"
     _move_qpkg_file bin/stty
 
@@ -120,11 +124,12 @@ dbg() {
 
 sha512sums="
 607a3c06d47280a8baf80335ded6167d48175e06454b52690acda44725cc330bb8a23acbd4973abf21bb3a3ef3ff7a9f93c0c0f18ef5615bc93beefce040c032  os-utils_0.1.0.00132T202605281115L.qpkg
-0c2db609b0295805b9d8c228dd3b70f7407759230f1ebac636ffaba76f7c9c195908b7c43b8fb4e6a5b95de8070d1958291ac8bc0b8b03bbc87ad46a30e9b593  utils_base_m_0.0.1.00135T202311191043L.qpkg
-92a7778c5ee1c8f07f14fe69a6f77001d9c281c8825e3f62a6d1e36767e4d7c78cfcf3a56803df6dc5029dd29b951314f31d83ac3c0cf2e5a249d76d6cbf68b2  utils_base_u_0.0.1.00135T202311191043L.qpkg
-ce7a6aada28568dc30ec8250780a90ab560120ab73e6685f5e707c4add49802b609c5ac55fd3d37750bc20f4585d5637f80f44a439b60fe8d3d93660394c6ebd  utils_base_s_0.0.1.00135T202311191043L.qpkg
 3cd6e948f6791d2b61de379bfe2342a429678198577004544e6aa95a97b9a1365d3afe55774af02e5364f5450b42295c58594d6cf0f93f5dbebc67be891fe110  utils_base_d_0.0.1.00135T202311191043L.qpkg
+e416e35cf8dd56c68e08d9a166cd21d56597c0b558bdde690f028556eff3b7171a9f2b9ad7ff9551bd457afe29235dce9341e3b80bbaf7259d185efad24ad881  utils_base_g_0.0.1.00135T202311191043L.qpkg
 2f3de687ed21bc5f83c2c5883f5941750f83acae836f6b3fe455aa58a60ea45f4a8cbbd60c74149953f7b272e6cad19d10b0c6050cee15b2dd646edf9d1c72eb  utils_base_k_0.0.1.00135T202311191043L.qpkg
+0c2db609b0295805b9d8c228dd3b70f7407759230f1ebac636ffaba76f7c9c195908b7c43b8fb4e6a5b95de8070d1958291ac8bc0b8b03bbc87ad46a30e9b593  utils_base_m_0.0.1.00135T202311191043L.qpkg
+ce7a6aada28568dc30ec8250780a90ab560120ab73e6685f5e707c4add49802b609c5ac55fd3d37750bc20f4585d5637f80f44a439b60fe8d3d93660394c6ebd  utils_base_s_0.0.1.00135T202311191043L.qpkg
+92a7778c5ee1c8f07f14fe69a6f77001d9c281c8825e3f62a6d1e36767e4d7c78cfcf3a56803df6dc5029dd29b951314f31d83ac3c0cf2e5a249d76d6cbf68b2  utils_base_u_0.0.1.00135T202311191043L.qpkg
 df5900e1d7afeb53e10b1f9066796f5b5ae5f343ce6319e466437995c189491af3633c71bf675cff2b60d7071939db94594d927c36a82260d330e515acd78ab7  utils_base_t_0.1.0.00132T202605281115L.qpkg
 89a326102b528db53929287922120742d37c7598e60134c5a0a7c956c579b1ba89f1ad65d438f13206046c8e6e027897aa6f20e25401952d91c995b7e14d5ba1  shutdown_0.0.1.00135T202311191043L.qpkg
 e069cfc06a0bd9ebf84cf0c79dc8f69140f283e63800e701a0cb093a4113aa697d3bcef1c53eb2154e58da3cbb3f9c336c97a4e3bb839bfcece5f143a9388ef8  utils_hw_0.2.0.00014T202411230051L.qpkg
