@@ -8,7 +8,7 @@ url="https://qnx.com"
 arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps !check !useinfo"
-depends=""
+depends="qnx-libslog2 qnx-secpol"
 subpackages="$pkgname-dev $pkgname-dbg $pkgname-static"
 source="
     smmu_api_$_smmu_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.smmu.api/$_smmu_ver/download
