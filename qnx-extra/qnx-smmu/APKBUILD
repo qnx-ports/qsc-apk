@@ -1,0 +1,61 @@
+# Maintainer: jscaffidi <jscaffidi@qnx.com>
+pkgname="qnx-smmu"
+pkgver=8.0.5
+_smmu_ver=0.0.2.02005T202411230033L
+pkgrel=0
+pkgdesc="System Memory Management Unit Manager (SMMUMAN)"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps !check !useinfo"
+depends=""
+subpackages="$pkgname-dev $pkgname-dbg $pkgname-static"
+source="
+    smmu_api_$_smmu_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.smmu.api/$_smmu_ver/download
+    smmu_core_$_smmu_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.os_services.smmu.core/$_smmu_ver/download
+"
+builddir="$srcdir"
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/* "$pkgdir"/
+
+
+    echo "Relocating bin and lib for a merged /usr"
+    mkdir -p "$pkgdir"/usr/lib/
+    mv "$pkgdir"/lib/* "$pkgdir"/usr/lib/
+    rmdir "$pkgdir"/lib
+
+    mkdir -p "$pkgdir"/usr/bin/
+    mv "$pkgdir"/sbin/* "$pkgdir"/usr/bin/
+    rmdir "$pkgdir"/sbin
+
+    cp -r "$srcdir"/target/qnx/usr/include "$pkgdir/usr/include"
+}
+
+dev() {
+    amove usr/include
+}
+
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/dll/*.sym
+}
+
+sha512sums="
+8ef4907e2436ebce253c82af42b59d0ecdb22fcf2d7696ed0810726087a5bf71f19968d03ff48ca76998058ac7fb25bad6bbf153a25ae4427c8f6adfa0f242a6  smmu_api_0.0.2.02005T202411230033L.qpkg
+466d66d718b37b9085c992070f432bea2d844b89b3e47c9ea1792f4c4e9c1430b464fe49b26c59df09aa69ec317ccefa25b96bbb342481cfde7998664a6ddb2f  smmu_core_0.0.2.02005T202411230033L.qpkg
+"
