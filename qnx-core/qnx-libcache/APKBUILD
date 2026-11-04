@@ -9,7 +9,6 @@ arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps !check"
 depends=""
-subpackages="$pkgname-static"
 source="libcache_$_libcache_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libcache/$_libcache_version/download
 "
 builddir="$srcdir"
@@ -33,10 +32,6 @@ package() {
     mkdir -p "$pkgdir"/usr/lib
     echo "Moving arch-specific ($_qarch) libraries"
     cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/* "$pkgdir"/usr/lib/
-}
-
-static() {
-    amove usr/lib/*.a
 }
 
 sha512sums="
