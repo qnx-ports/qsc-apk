@@ -1,0 +1,39 @@
+# Maintainer: jscaffidi <jscaffidi@qnx.com>
+pkgname="qnx-libcache"
+pkgver=8.0.5
+_libcache_version=0.0.1.00135T202311191043L
+pkgrel=0
+pkgdesc="QNX libcache package"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps !check"
+depends=""
+source="libcache_$_libcache_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libcache/$_libcache_version/download
+"
+builddir="$srcdir"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/* "$pkgdir"/usr/lib/
+}
+
+sha512sums="
+394fc91c58adecbdcf2a7a977a00bca4c35ca5b9252a95422a725c441f542bc4c8e2d72fbf31ce42b0a2da496170fc758d9dbf8e0130af5679cb3377e91c5631  libcache_0.0.1.00135T202311191043L.qpkg
+"
