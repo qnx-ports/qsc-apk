@@ -41,4 +41,5 @@ qnx-zlib
 qnx-utils
 qnx-ncurses
 qnx-base
+qnx-libcache
 qnx-bsp-rpi5
