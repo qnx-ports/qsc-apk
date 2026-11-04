@@ -2,12 +2,12 @@ pkgname="qnx-security"
 pkgver=8.0.5
 _pam_version=0.0.1.00135T202311191043L
 _auth_version=$_pam_version
-pkgrel=0
+pkgrel=1
 pkgdesc="QNX's PAM and friends"
 url="https://qnx.com"
 arch="all"
 license="LicenseRef-QDL-Non-Commercial"
-options="!strip !tracedeps"
+options="!strip !tracedeps suid"
 depends="qnx-secpol"
 subpackages="$pkgname-dbg $pkgname-dev"
 source="
@@ -40,6 +40,11 @@ package() {
     # Relocate to /usr/bin
     mv "$pkgdir"/bin/* "$pkgdir"/usr/bin/
     rmdir "$pkgdir"/bin
+
+    # Set suid bit on some utilities
+    chmod u+s "$pkgdir"/usr/bin/login
+    chmod u+s "$pkgdir"/usr/bin/passwd
+    chmod u+s "$pkgdir"/usr/bin/su
 }
 
 dbg() {
