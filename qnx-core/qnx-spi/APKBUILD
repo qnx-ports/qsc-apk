@@ -1,0 +1,38 @@
+# Maintainer: jscaffidi <jscaffidi@qnx.com>
+pkgname="qnx-spi"
+pkgver=8.0.5
+_spi_version="0.1.2.00015T202501271455L"
+pkgrel=0
+pkgdesc="QNX spi library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps !check"
+depends=""
+source="spi_$_spi_version.qpkg::$QSC_URL/com.qnx.qnx800.target.bsp.spi/$_spi_version/download"
+builddir="$srcdir"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+sha512sums="
+b2e1b87a559bb83e8cd84efa01f487510130f50f517e6c44babe590d8cca0738827b26d69d3806590d2f2b84434d3a6bb226b54c9033c4ee6943f6909dab64a0  spi_0.1.2.00015T202501271455L.qpkg
+"

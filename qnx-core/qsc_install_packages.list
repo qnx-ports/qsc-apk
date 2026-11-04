@@ -104,6 +104,8 @@ com.qnx.qnx800.target.utils.hw/0.2.0.00014T202411230051L
 com.qnx.qnx800.target.utils.qnx/0.0.1.00282T202404151301L
 #qnx-ncurses
 #qnx-base
+#qnx-spi
+com.qnx.qnx800.target.bsp.spi/0.1.2.00015T202501271455L
 #qnx-libcache
 com.qnx.qnx800.target.base.libcache/0.0.1.00135T202311191043L
 #qnx-bsp-rpi5
