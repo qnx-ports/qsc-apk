@@ -2,13 +2,13 @@
 pkgname="qnx-spi"
 pkgver=8.0.5
 _spi_version="0.1.2.00015T202501271455L"
-pkgrel=0
+pkgrel=1
 pkgdesc="QNX spi library"
 url="https://qnx.com"
 arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps !check"
-depends=""
+depends="qnx-dma"
 source="spi_$_spi_version.qpkg::$QSC_URL/com.qnx.qnx800.target.bsp.spi/$_spi_version/download"
 builddir="$srcdir"
 
