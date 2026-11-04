@@ -93,12 +93,13 @@ com.qnx.qnx800.target.microkernel.tools/0.1.0.00132T202605281115L
 com.qnx.qnx800.target.base.compression.libz/0.4.0.00132T202605281115L
 #qnx-utils
 com.qnx.qnx800.target.utils.system/0.1.0.00132T202605281115L
-com.qnx.qnx800.target.utils.base.m/0.0.1.00135T202311191043L
-com.qnx.qnx800.target.utils.base.u/0.0.1.00135T202311191043L
-com.qnx.qnx800.target.utils.base.s/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.utils.base.d/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.g/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.utils.base.k/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.m/0.0.1.00135T202311191043L
+com.qnx.qnx800.target.utils.base.s/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.utils.base.t/0.1.0.00132T202605281115L
+com.qnx.qnx800.target.utils.base.u/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.base.shutdown/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.utils.hw/0.2.0.00014T202411230051L
 com.qnx.qnx800.target.utils.qnx/0.0.1.00282T202404151301L
@@ -113,7 +114,7 @@ com.qnx.qnx800.target.bsp.spi/0.1.2.00015T202501271455L
 com.qnx.qnx800.target.drivers.dma/0.0.1.00443T202311201012L
 #qnx-libcache
 com.qnx.qnx800.target.base.libcache/0.0.1.00135T202311191043L
-#qnx-bsp-rpi5
-com.qnx.qnx800.bsp.hw.raspberrypi_bcm2712_rpi5/0.3.0.00381T202512101351L
 #qnx-i2c
 com.qnx.qnx800.target.bsp.i2c/1.0.0.00043T202605220102L
+#qnx-bsp-rpi5
+com.qnx.qnx800.bsp.hw.raspberrypi_bcm2712_rpi5/0.3.0.00381T202512101351L
