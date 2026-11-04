@@ -1,0 +1,44 @@
+# Maintainer: jscaffidi <jscaffidi@qnx.com>
+pkgname="qnx-i2c"
+pkgver=8.0.5
+_i2c_version="1.0.0.00043T202605220102L"
+pkgrel=0
+pkgdesc="QNX i2c library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps !check"
+depends=""
+subpackages="$pkgname-static"
+source="i2c_$_libcache_version.qpkg::$QSC_URL/com.qnx.qnx800.target.bsp.i2c/$_i2c_version/download
+"
+builddir="$srcdir"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/* "$pkgdir"/usr/lib/
+}
+
+static() {
+    amove usr/lib/*.a
+}
+
+sha512sums="
+ffe816b699dd230383d44b39dc311b3a234dad67581a6c9bb7a460f9df22e5797ca3f58700f43eec085ef8ff21f9dfb8d31254981250420ce47ed7f9fc20bc6e  i2c_.qpkg
+"

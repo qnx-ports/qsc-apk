@@ -106,3 +106,5 @@ com.qnx.qnx800.target.utils.qnx/0.0.1.00282T202404151301L
 #qnx-base
 #qnx-bsp-rpi5
 com.qnx.qnx800.bsp.hw.raspberrypi_bcm2712_rpi5/0.3.0.00381T202512101351L
+#qnx-i2c
+com.qnx.qnx800.target.bsp.i2c/1.0.0.00043T202605220102L
