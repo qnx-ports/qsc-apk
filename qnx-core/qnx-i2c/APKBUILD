@@ -10,7 +10,7 @@ license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps !check"
 depends=""
 subpackages="$pkgname-static"
-source="i2c_$_libcache_version.qpkg::$QSC_URL/com.qnx.qnx800.target.bsp.i2c/$_i2c_version/download
+source="i2c_$_i2c_version.qpkg::$QSC_URL/com.qnx.qnx800.target.bsp.i2c/$_i2c_version/download
 "
 builddir="$srcdir"
 
