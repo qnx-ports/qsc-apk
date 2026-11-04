@@ -1,0 +1,39 @@
+# Maintainer: jscaffidi <jscaffidi@qnx.com>
+pkgname="qnx-libdrvr"
+pkgver=8.0.5
+_drvr_version="0.0.1.00443T202311201012L"
+pkgrel=0
+pkgdesc="QNX drvr library"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps !check"
+depends=""
+source="drvr_$_drvr_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libdrvr/$_drvr_version/download
+"
+builddir="$srcdir"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+    mkdir -p "$pkgdir"/usr/lib
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/* "$pkgdir"/usr/lib/
+}
+
+sha512sums="
+f72c820d058e06ac916abd3aee6c7add8ece1414e2144817178c0ba8af31bc41d6db90dbc085b041fbf778d643580f4c0ff6328dad2b65138c5289e3690d8faa  drvr_0.0.1.00443T202311201012L.qpkg
+"

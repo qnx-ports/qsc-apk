@@ -44,6 +44,7 @@ qnx-smmu
 qnx-base
 qnx-libcache
 qnx-spi
+qnx-libdrvr
 qnx-dma
 qnx-bsp-rpi5
 qnx-i2c
