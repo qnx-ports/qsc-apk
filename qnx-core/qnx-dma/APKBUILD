@@ -1,0 +1,31 @@
+# Maintainer: jscaffidi <jscaffidi@qnx.com>
+pkgname="qnx-dma"
+pkgver=8.0.5
+_dma_version="0.0.1.00443T202311201012L"
+pkgrel=0
+pkgdesc="QNX DMA library"
+url="https://qnx.com"
+arch="noarch"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps !check"
+depends=""
+source="dma_$_dma_version.qpkg::$QSC_URL/com.qnx.qnx800.target.drivers.dma/$_dma_version/download"
+builddir="$srcdir"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+}
+
+sha512sums="
+a4469b333ebeb6ff1ee5a793d54d72aa33c06cf571647c71cfe665f211fd499e07d62bc2d59274aa122b7ee31340b7783b6e5145ab7e4c17ba9d070959bc0940  dma_0.0.1.00443T202311201012L.qpkg
+"
