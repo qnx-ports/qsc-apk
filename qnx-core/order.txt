@@ -40,6 +40,7 @@ qnx-tools
 qnx-zlib
 qnx-utils
 qnx-ncurses
+qnx-smmu
 qnx-base
 qnx-libcache
 qnx-bsp-rpi5

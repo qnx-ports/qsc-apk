@@ -1,4 +1,4 @@
-core/*/src
-core/*/pkg
-extra/*/src
-extra/*/pkg
+qnx-core/*/src
+qnx-core/*/pkg
+qnx-extra/*/src
+qnx-extra/*/pkg

@@ -103,6 +103,9 @@ com.qnx.qnx800.target.base.shutdown/0.0.1.00135T202311191043L
 com.qnx.qnx800.target.utils.hw/0.2.0.00014T202411230051L
 com.qnx.qnx800.target.utils.qnx/0.0.1.00282T202404151301L
 #qnx-ncurses
+#qnx-smmu
+com.qnx.qnx800.target.os_services.smmu.api/0.0.2.02005T202411230033L
+com.qnx.qnx800.target.os_services.smmu.core/0.0.2.02005T202411230033L
 #qnx-base
 #qnx-libcache
 com.qnx.qnx800.target.base.libcache/0.0.1.00135T202311191043L
