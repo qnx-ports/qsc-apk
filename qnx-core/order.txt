@@ -43,3 +43,4 @@ qnx-ncurses
 qnx-base
 qnx-libcache
 qnx-bsp-rpi5
+qnx-i2c
