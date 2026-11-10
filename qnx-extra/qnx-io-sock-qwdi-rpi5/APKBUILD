@@ -30,7 +30,7 @@ package() {
     fi
 
     install -m 0755 -d "$pkgdir"/usr/lib/dll
-    install -D -m 0644 "$srcdir"/qwdi_wifi_rpi5.conf "$pkgdir"/etc/qwdi/qwdi_wifi_rpi5.conf
+    install -D -m 0644 "$srcdir"/qwdi_wifi_rpi5.conf "$pkgdir"/etc/qwdi/wifi_rpi5.conf
     
     echo "Moving arch-specific ($_qarch) files"
     cp -r "$srcdir"/target/qnx/$_qarch/lib/dll "$pkgdir"/usr/lib/
