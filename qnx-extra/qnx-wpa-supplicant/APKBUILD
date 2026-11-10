@@ -9,7 +9,7 @@ arch="all"
 license="LicenseRef-QDL-Non-Commercial"
 options="!strip !tracedeps !check"
 depends="qnx-crypto qnx-secpol qnx-libqh qnx-libslog2"
-subpackages="$pkgname-dbg $pkgname-dev"
+subpackages="$pkgname-dbg $pkgname-dev $pkgname-openrc"
 source="wpa_supplicant_2.11.iosock_$_wpa_supplicant_version.qpkg::$QSC_URL/com.qnx.qnx800.target.net.wpa_supplicant_2.11.iosock/$_wpa_supplicant_version/download
     wpa_supplicant.initd
     example.conf
