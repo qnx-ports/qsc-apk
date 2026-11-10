@@ -12,6 +12,8 @@ depends="qnx-crypto qnx-secpol qnx-libqh qnx-libslog2"
 subpackages="$pkgname-dbg $pkgname-dev"
 source="wpa_supplicant_2.11.iosock_$_wpa_supplicant_version.qpkg::$QSC_URL/com.qnx.qnx800.target.net.wpa_supplicant_2.11.iosock/$_wpa_supplicant_version/download
     wpa_supplicant.initd
+    example.conf
+    example.conf.verbose
 "
 builddir="$srcdir"
 
@@ -42,7 +44,8 @@ package() {
     echo "Moving arch-specific ($_qarch) libraries"
     cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/* "$pkgdir"/usr/lib/
 
-    install -d "$pkgdir/etc/wpa_supplicant"
+    install -D -m 0644 "$srcdir/example.conf" "$pkgdir/etc/wpa_supplicant/example.conf"
+    install -D -m 0644 "$srcdir/example.conf.verbose" "$pkgdir/etc/wpa_supplicant/example.conf.verbose"
 }
 
 dbg() {
@@ -55,4 +58,6 @@ dbg() {
 sha512sums="
 85573ff739382e470b7187965482664215bec25860b4ab7e54dc2b5acd78b72d31dd0bbf954443a4b399fc375b4778ab9338784858ccb8d7e0005f5fc1fc60d2  wpa_supplicant_2.11.iosock_0.0.6.00014T202605060705L.qpkg
 894fa9e60c7d96f76d2c2323f18b2bff9def3dae8b980f305ac116815a7ff358112d9360e5bfa5832cfa921a66049fb2f05a2d0e79bb80756fbc8c3a58776865  wpa_supplicant.initd
+8f3de16fe9c66a18648da35e00d9d6b8dcea874c6f7c386acb0f7a7c00f326eba5c5828285f18502e2e12e79e0cb0be04ba57bfa5393bffbced4760c4c340fc0  example.conf
+23d2d61e5730d5dbaeafb0cba0f6e1870e83ac2c47e44ab81253bc084ede9d69821add627a02cbc58c51510f113cc6cb05d4c9879b1d0789584d7c2a70437c6e  example.conf.verbose
 "
