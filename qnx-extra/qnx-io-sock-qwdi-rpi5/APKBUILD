@@ -1,0 +1,52 @@
+# Maintainer: Aaron Bassett <abassett@qnx.com>
+pkgname="qnx-io-sock-qwdi-rpi5"
+pkgver=8.0.5
+_cypress_dhd_sdio_ver="0.3.0.00006T202607281203L"
+pkgrel=0
+pkgdesc="io-sock wireless driver for RPI 5"
+url="https://qnx.com"
+arch="aarch64"
+license="LicenseRef-QDL-Non-Commercial"
+depends="qnx-libfdt qnx-firmware-brcm80211-rpi5"
+options="!strip !tracedeps !check"
+subpackages="$pkgname-dbg $pkgname-diag"
+source="com.qnx.qnx800.target.driver.cypress_dhd_sdio_rpi5_2_11-$_cypress_dhd_sdio_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.driver.cypress_dhd_sdio_rpi5_2_11/$_cypress_dhd_sdio_ver/download
+    qwdi_wifi_rpi5.conf
+"
+builddir="$srcdir"
+
+prepare() {
+    for qpkg in *.qpkg; do
+        tar xf $qpkg
+    done
+}
+
+package() {
+    mkdir -p "$pkgdir"
+
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        _qarch=aarch64le
+    fi
+
+    install -m 0755 -d "$pkgdir"/usr/lib/dll
+    install -D -m 0644 "$srcdir"/qwdi_wifi_rpi5.conf "$pkgdir"/etc/qwdi/qwdi_wifi_rpi5.conf
+    
+    echo "Moving arch-specific ($_qarch) files"
+    cp -r "$srcdir"/target/qnx/$_qarch/lib/dll "$pkgdir"/usr/lib/
+}
+
+diag () {
+    amove usr/lib/dll/*-diag.so
+}
+
+dbg() {
+    amove usr/lib/dll/*.sym
+}
+
+
+
+sha512sums="
+0cb95a954fd7eaf847d44c285209e9f4006c25da7ea124d5119573f26252d4c506f2c1ff3056b5fab6d3d7463b2139b35af4026fb9da4c88d6a682eafd7d1bbc  com.qnx.qnx800.target.driver.cypress_dhd_sdio_rpi5_2_11-0.3.0.00006T202607281203L.qpkg
+063bb520172f17e96da10bc910b6182df1e8df386757d2c37e775ab343a91330245a1911ab8fb225ec30a426ed2c00fcd5e0ad85d81b04ba011a29688df22a04  qwdi_wifi_rpi5.conf
+"
