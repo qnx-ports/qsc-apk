@@ -1,0 +1,58 @@
+# Maintainer: jscaffidi <jscaffidi@qnx.com>
+pkgname="qnx-wpa_supplicant"
+pkgver=8.0.5
+_wpa_supplicant_version=0.0.6.00014T202605060705L
+pkgrel=1
+pkgdesc="QNX Random Service"
+url="https://qnx.com"
+arch="all"
+license="LicenseRef-QDL-Non-Commercial"
+options="!strip !tracedeps !check"
+depends="qnx-crypto qnx-secpol qnx-libqh qnx-libslog2"
+subpackages="$pkgname-dbg $pkgname-dev"
+source="wpa_supplicant_2.11.iosock_$_wpa_supplicant_version.qpkg::$QSC_URL/com.qnx.qnx800.target.net.wpa_supplicant_2.11.iosock/$_wpa_supplicant_version/download
+    wpa_supplicant.initd
+"
+builddir="$srcdir"
+
+prepare() {
+   for qpkg in *.qpkg; do
+        tar xf $qpkg
+   done
+}
+
+# extglob for trimming out other arch's toolchain
+shopt -s extglob
+package() {
+    mkdir -p "$pkgdir"
+    echo "Moving common headers"
+    mv "$srcdir"/target/qnx/usr "$pkgdir"
+    echo $CARCH
+    _qarch=$CARCH
+    if [[ $CARCH == "aarch64" ]]; then
+        export _qarch=aarch64le
+    fi
+
+    install -p 755 -d $pkgdir/usr/bin
+    install -p 755 -d $pkgdir/usr/lib
+
+    echo "Moving arch-specific ($_qarch) binaries"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/sbin/* "$pkgdir"/usr/bin
+
+    echo "Moving arch-specific ($_qarch) libraries"
+    cp -r "$srcdir"/target/qnx/$_qarch/usr/lib/* "$pkgdir"/usr/lib/
+
+    install -d "$pkgdir/etc/wpa_supplicant"
+}
+
+dbg() {
+    amove usr/bin/*.sym
+    amove usr/lib/*.sym
+}
+
+
+
+sha512sums="
+85573ff739382e470b7187965482664215bec25860b4ab7e54dc2b5acd78b72d31dd0bbf954443a4b399fc375b4778ab9338784858ccb8d7e0005f5fc1fc60d2  wpa_supplicant_2.11.iosock_0.0.6.00014T202605060705L.qpkg
+894fa9e60c7d96f76d2c2323f18b2bff9def3dae8b980f305ac116815a7ff358112d9360e5bfa5832cfa921a66049fb2f05a2d0e79bb80756fbc8c3a58776865  wpa_supplicant.initd
+"
