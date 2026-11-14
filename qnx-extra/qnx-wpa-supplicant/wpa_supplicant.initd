@@ -1,0 +1,27 @@
+#!/usr/bin/openrc-run
+# vi: ft=sh sw=4 et
+description="Starts wpa_supplicant on a network interface"
+net_in="${RC_SVCNAME#*.}"
+config_file="/etc/wpa_supplicant/${net_in}.conf"
+
+supervisor="supervise-daemon"
+command="wpa_supplicant-2.11"
+command_args="-Dqwdi -t -Z100 -i $net_in -c $config_file"
+
+depend() {
+    need io-sock
+    before net
+    provide wlan
+}
+
+start_pre() {
+    if [ "$net_in" = "$RC_SVCNAME" ]; then
+        eerror "${RC_SVCNAME} cannot be started directly. You must create"
+        eerror "symbolic links to it for the network intefacesyou want to start"
+        return 1
+    fi
+
+    checkpath -dm 0755 -o root:root "/run/wpa_supplicant"
+    checkpath "$config_file"
+}
+
