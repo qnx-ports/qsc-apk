@@ -1,6 +1,6 @@
 # Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-io-sock-qwdi-rpi5"
-pkgver=8.0.5
+pkgver=8.0.6
 _cypress_dhd_sdio_ver="0.3.0.00006T202607281203L"
 pkgrel=0
 pkgdesc="io-sock wireless driver for RPI 5"
