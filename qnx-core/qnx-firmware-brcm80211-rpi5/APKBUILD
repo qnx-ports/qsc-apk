@@ -1,9 +1,9 @@
 # Maintainer: Aaron Bassett <abaseett@qnx.com>
 pkgname="qnx-firmware-brcm80211-rpi5"
-pkgver=8.0.5
+pkgver=8.0.6
 _cypress_dhd_sdio_ver="0.0.4.00003T202510060827L"
 _firmware_nonfree_ver="1%2520240709-2_bpo12+1+rpt4"
-pkgrel=1
+pkgrel=0
 pkgdesc="Wifi firmware for RPi 5 brcm80211"
 url="https://qnx.com"
 arch="aarch64"

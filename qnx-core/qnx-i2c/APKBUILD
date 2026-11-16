@@ -1,6 +1,6 @@
 # Maintainer: jscaffidi <jscaffidi@qnx.com>
 pkgname="qnx-i2c"
-pkgver=8.0.5
+pkgver=8.0.6
 _i2c_version="1.0.0.00043T202605220102L"
 pkgrel=0
 pkgdesc="QNX i2c library"

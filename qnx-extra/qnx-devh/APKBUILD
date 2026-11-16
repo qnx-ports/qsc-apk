@@ -1,7 +1,7 @@
 # Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-devh"
-pkgver=8.0.5
-pkgrel=1
+pkgver=8.0.6
+pkgrel=0
 _input_devh_version="0.0.1.00443T202311201012L"
 pkgdesc="QNX800 Device Input - HID Drivers"
 url="https://qnx.com"

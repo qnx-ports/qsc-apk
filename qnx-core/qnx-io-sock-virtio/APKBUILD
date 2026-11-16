@@ -1,8 +1,8 @@
 # Maintainer: Leo Shen <yishen@qnx.com>
 pkgname="qnx-io-sock-virtio"
-pkgver=8.0.5
+pkgver=8.0.6
 _qpkg_name="com.qnx.qnx800.target.net.devsvirtio"
-_qpkg_ver="0.5.0.00015T202605220948L"
+_qpkg_ver="0.6.0.00014T202610210541L"
 pkgrel=0
 pkgdesc="io-sock driver for various virtio NICs"
 url="https://qnx.com"
@@ -45,5 +45,5 @@ dev() {
 
 
 sha512sums="
-ca2e39cb8079111a24a7688b6bf01bbd9b1ca7916b12d8f08c365d51126a3f29ffb58d5b014b881cbcbb776db37878eda5e5d2c8413b39a188fa910f2f609a89  com.qnx.qnx800.target.net.devsvirtio-0.5.0.00015T202605220948L.qpkg
+0aeeca645b1a695c0703af179e60cad5a06084f1c2eddaf1f704c0341b478a1a99a5ca09f25d956511e3eea78ec9e7e011a14b646c691739b108d04d7653dc1d  com.qnx.qnx800.target.net.devsvirtio-0.6.0.00014T202610210541L.qpkg
 "

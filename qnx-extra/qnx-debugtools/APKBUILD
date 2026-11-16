@@ -1,8 +1,8 @@
 # Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-debugtools"
-pkgver=8.0.5
+pkgver=8.0.6
 pkgrel=0
-_utils_debugtools_version="0.1.0.00132T202605281115L"
+_utils_debugtools_version="0.2.0.06031T202610011839L"
 pkgdesc="QNX800 Debug Tools (qconn + pdebug)"
 url="https://qnx.com"
 arch="all"
@@ -43,5 +43,5 @@ dbg() {
 }
 
 sha512sums="
-3b0739fee9a25162aba42a99ae18ed2812f32229407a2d8da75ec1f0d4d1894e0f49b536deb6fc2f6275b761c0b54a345948322f0d8da0591b12256b80925bc0  utils-debugtools-0.1.0.00132T202605281115L.qpkg
+4cfa794ef8f8706c894590874d8a49729b48b90dd901dc08995458777f240179043f85750bf7bbb193d706d8eb56a0bb2e8a12f3713a00cb2d56922c5b61e306  utils-debugtools-0.2.0.06031T202610011839L.qpkg
 "

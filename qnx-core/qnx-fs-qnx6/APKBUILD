@@ -1,6 +1,6 @@
 pkgname="qnx-fs-qnx6"
-pkgver=8.0.5
-_fs_qnx6_version=0.1.1.00132T202605281115L
+pkgver=8.0.6
+_fs_qnx6_version=0.3.2.00020T202610012324L
 pkgrel=0
 pkgdesc="QNX6 filesystem libraries"
 url="https://qnx.com"
@@ -44,5 +44,5 @@ dev() {
 
 
 sha512sums="
-435023bb3fc9162be02ae54d0fd05240f1d48b8d4d89785bc05777b54da59217e56fe9196858b7d63c700bea53755102fdf3831810fd15073af3b2c4694f4f91  fs_qnx6_0.1.1.00132T202605281115L.qpkg
+171c5731e0223a2ad2bc34c1f0ffde31e1b977b535f1d5f9e551e9b68ccc1c2988d32de596a87bc5f7059195b3abb2e0ce580bcef3258eb60d2038e9d4bbd29f  fs_qnx6_0.3.2.00020T202610012324L.qpkg
 "

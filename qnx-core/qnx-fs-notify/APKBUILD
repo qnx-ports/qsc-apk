@@ -1,6 +1,6 @@
 pkgname="qnx-fs-notify"
-pkgver=8.0.5
-_fs_notify_version=0.3.0.00006T202605070015L
+pkgver=8.0.6
+_fs_notify_version=0.3.2.00013T202610012323L
 pkgrel=0
 pkgdesc="QNX File System (inotify) Support"
 url="https://qnx.com"
@@ -44,5 +44,5 @@ dev() {
 }
 
 sha512sums="
-467b5f4e2d2a503d86f36101e88b39c74de7b46188a6d2ccbe550fbb7b829b6e3a70ed89f9aa886ef69d95b84010865330322a8602963774c5ed2476e5e03416  fs_notify_0.3.0.00006T202605070015L.qpkg
+2ce47c77aa839af0a198a3e5850e96608a4fb0fabec359711cf62aa7a4065e203626576d274a3a082f4142feed64dc7d3f08848935b3f555a7d874a2d8d3e20b  fs_notify_0.3.2.00013T202610012323L.qpkg
 "

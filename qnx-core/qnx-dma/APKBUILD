@@ -1,6 +1,6 @@
 # Maintainer: jscaffidi <jscaffidi@qnx.com>
 pkgname="qnx-dma"
-pkgver=8.0.5
+pkgver=8.0.6
 _dma_version="0.0.1.00443T202311201012L"
 pkgrel=0
 pkgdesc="QNX DMA library"

@@ -1,6 +1,6 @@
 pkgname="qnx-fs-core"
-pkgver=8.0.5
-_fs_base_version=0.1.1.00132T202605281115L
+pkgver=8.0.6
+_fs_base_version=0.3.6.00021T202610201726L
 pkgrel=0
 pkgdesc="QNX filesystem core libraries"
 url="https://qnx.com"
@@ -42,5 +42,5 @@ dev() {
 
 
 sha512sums="
-f842d5cb78d81d30abeddb10c373452da87dc05359b79436f918fc37593a536a01569753e3d4288c328c3d844334492e0622cb13e6ec58e06bc1a35af948b36f  fs_base_0.1.1.00132T202605281115L.qpkg
+e5917c729248ed6c2a22f17246d5c83967284f2c9646c086ebe5fde1269a8c149e4e7e85d5ce83a9f44e1639e53eedb112ded5ab101a42b5e4c5814f8205d223  fs_base_0.3.6.00021T202610201726L.qpkg
 "

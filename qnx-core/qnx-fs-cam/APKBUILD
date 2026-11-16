@@ -1,5 +1,5 @@
 pkgname="qnx-fs-cam"
-pkgver=8.0.5
+pkgver=8.0.6
 _fs_cam_version=0.0.1.00443T202311201012L
 pkgrel=0
 pkgdesc="QNX800 filesystem cam libraries"

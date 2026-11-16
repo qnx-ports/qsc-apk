@@ -1,6 +1,6 @@
 pkgname="qnx-slogger2"
-pkgver=8.0.5
-_slogger2_version=0.3.0.00132T202605281115L
+pkgver=8.0.6
+_slogger2_version=0.6.0.06031T202610011839L
 pkgrel=0
 pkgdesc="QNX System Logger 2"
 url="https://qnx.com"
@@ -44,5 +44,5 @@ dev() {
 }
 
 sha512sums="
-decdb4ff6345f990c895736b1e52cda5cdaf1b056398ba26dfcbe4eca4832139822af7fb5df538517a9f1fa7ea81da6ee810c9290aae56b10e58b79dffe80ec2  slogger2_0.3.0.00132T202605281115L.qpkg
+4923cfc09786e2d9f932e8557ed6ad46e6ee6b4805af967490bc83950c7cdef1476793f35ca6b7d954aea2c6af5900cded4806f26ecf40514c2314e57b40a4f6  slogger2_0.6.0.06031T202610011839L.qpkg
 "

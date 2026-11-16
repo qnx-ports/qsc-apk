@@ -1,6 +1,6 @@
 pkgname="qnx-tools"
-pkgver=8.0.5
-_tools_version=0.1.0.00132T202605281115L
+pkgver=8.0.6
+_tools_version=0.2.0.06031T202610011839L
 pkgrel=0
 pkgdesc="QNX System Tools"
 url="https://qnx.com"
@@ -45,5 +45,5 @@ dbg() {
 }
 
 sha512sums="
-0a4e3f4ca3ff5518507e1fcae4770a250ca0c2883f06b669a50c16b9eeaf59d9473719e4879b7f3710b7dcad80d4e7f55c6cb192e334c501ed202130339336da  tools_0.1.0.00132T202605281115L.qpkg
+27245b539237fd9ba4c5f62d672be61e67ac8ace060b592446cd98d1226a2841053ecfc46668f2dd82be596f87623a60345216c22322d7eaf02d1de013a1f70c  tools_0.2.0.06031T202610011839L.qpkg
 "

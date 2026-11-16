@@ -1,8 +1,8 @@
 # Maintainer: jscaffidi <jscaffidi@qnx.com>
 pkgname="qnx-spi"
-pkgver=8.0.5
+pkgver=8.0.6
 _spi_version="0.1.2.00015T202501271455L"
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX spi library"
 url="https://qnx.com"
 arch="all"

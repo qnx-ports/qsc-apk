@@ -1,8 +1,8 @@
 # Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-hid"
-pkgver=8.0.5
+pkgver=8.0.6
 _hid_version=0.1.0.00018T202604301101L
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX io Hid"
 url="https://qnx.com"
 arch="all"

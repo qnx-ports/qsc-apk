@@ -1,7 +1,7 @@
 # Maintainer: Leo Shen <yishen@qnx.com>
 pkgname="qnx-io-sock-pci"
-pkgver=8.0.5
-_iosock_pci_ver="0.5.0.00015T202605220948L"
+pkgver=8.0.6
+_iosock_pci_ver="0.6.0.00011T202610012146L"
 pkgrel=0
 pkgdesc="io-sock driver for various PCI based NICs"
 url="https://qnx.com"
@@ -45,5 +45,5 @@ dev() {
 
 
 sha512sums="
-57e627a0b7e436ea3e307b8d2209ef46db1414fb2320d1d2ba4e608f0461dfcc99591a2e69a80dad853473604a92d8ad12de50139b93d440582c641fc532277e  iosock-pci_0.5.0.00015T202605220948L.qpkg
+050e2cb4c3e9af9d88e4648d38d1cd583215d93431024c46dbfd3c9e20b69751a00bcb193ecbca5df6d9921bc239aae14584452ac8880c496cbe00acb77a5db0  iosock-pci_0.6.0.00011T202610012146L.qpkg
 "

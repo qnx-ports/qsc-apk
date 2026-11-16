@@ -1,5 +1,5 @@
 pkgname="qnx-pci-server"
-pkgver=8.0.5
+pkgver=8.0.6
 _pci_version="3.2.1.03075T202605211339L"
 pkgrel=0
 pkgdesc="QNX PCI Server"
