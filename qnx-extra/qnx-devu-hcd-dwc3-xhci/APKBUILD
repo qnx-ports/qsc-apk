@@ -1,7 +1,7 @@
 # Maintainer: Terence Ang <taang@qnx.com>
 pkgname="qnx-devu-hcd-dwc3-xhci"
 _usb_dwc3_version="0.1.0.00060T202605201516L"
-pkgver=8.0.5
+pkgver=8.0.6
 pkgrel=0
 pkgdesc="QNX XHCI-based USB host controller driver for DWC3"
 url="https://qnx.com"
@@ -40,7 +40,7 @@ dbg() {
     amove usr/lib/dll/*.sym
 }
 
+
 sha512sums="
 f772f81164df0880539e09ea94f53cc983ee886682b68f766f2804071e9f19eaf2071105e11c8987d8ce6260e983a5075670fac5bea9f955b637523ff379388a  usb_hcd_xhci_dwc3_0.1.0.00060T202605201516L.qpkg
 "
-

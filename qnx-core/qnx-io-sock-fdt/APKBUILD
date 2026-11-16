@@ -1,7 +1,7 @@
 # Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-io-sock-fdt"
-pkgver=8.0.5
-_iosock_fdt_ver="0.5.0.00015T202605220948L"
+pkgver=8.0.6
+_iosock_fdt_ver="0.6.0.00011T202610012146L"
 pkgrel=0
 pkgdesc="io-sock driver for various FDT based NICs"
 url="https://qnx.com"
@@ -11,7 +11,7 @@ options="!strip !tracedeps"
 depends="qnx-libfdt"
 subpackages="$pkgname-dev"
 source="
-    iosock-fdt_$_iosock_pci_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.net.devsfdt/$_iosock_fdt_ver/download
+    iosock-fdt_$_iosock_fdt_ver.qpkg::$QSC_URL/com.qnx.qnx800.target.net.devsfdt/$_iosock_fdt_ver/download
 "
 builddir="$srcdir"
 
@@ -47,5 +47,5 @@ dev() {
 
 
 sha512sums="
-83fcf0bef12a36b753a33943c058e9c056a5ec97289e913f0c3b933324ac2d199bc0f74ee5375a3eb9c4d626f813c090e563e450358e89e3c0ab602fb8aebe13  iosock-fdt_.qpkg
+1bb54544614484014ed9e3889ff7ef570f3ab4e49877f2e3a1ce91168a920105f3453758ece853cf465cc6f4892c7e3125884e56585e32779ca72e359670f64f  iosock-fdt_0.6.0.00011T202610012146L.qpkg
 "

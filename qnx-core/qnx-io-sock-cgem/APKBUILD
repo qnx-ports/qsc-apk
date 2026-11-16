@@ -1,8 +1,8 @@
 # Maintainer: Aaron Bassett <abaseett@qnx.com>
 pkgname="qnx-io-sock-cgem"
-pkgver=8.0.5
+pkgver=8.0.6
 _qpkg_name="com.qnx.qnx800.target.net.devs.cgem"
-_qpkg_ver="0.5.0.00015T202605220948L"
+_qpkg_ver="0.6.0.00011T202610012146L"
 pkgrel=0
 pkgdesc="io-sock driver for various cgem interfaces"
 url="https://qnx.com"
@@ -48,5 +48,5 @@ dbg() {
 
 
 sha512sums="
-4951b5d633793c37a39d73b7c3b3d015f8e2e5eead53a671a4a3a4c7ef508669b067f1f553086513bff2679be39f4a87d78dcd76cacc209e434cd80f57ee2f35  com.qnx.qnx800.target.net.devs.cgem-0.5.0.00015T202605220948L.qpkg
+aa7f455a03af298eb7c3bd8fe0118ff4ac8a15c5c83e834b0a6e04dac901de4f94f081ea8f22076bb3dbd8cadacd556e9b841f5eaac3cf9a21da3df959177b47  com.qnx.qnx800.target.net.devs.cgem-0.6.0.00011T202610012146L.qpkg
 "

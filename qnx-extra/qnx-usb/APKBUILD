@@ -1,7 +1,7 @@
 # Maintainer: Terence Ang <taang@qnx.com>
 pkgname="qnx-usb"
 _usb_base_version="0.1.0.00060T202605201516L"
-pkgver=8.0.5
+pkgver=8.0.6
 pkgrel=0
 pkgdesc="QNX usb support"
 _dbg_pkgdesc="$pkgdesc debug symbols and binaries"
@@ -90,7 +90,7 @@ devu-xhci() {
     amove usr/lib/dll/devu-hcd-xhci.so
 }
 
+
 sha512sums="
 99c8d7a23a39e4635ea0a4a9237c969a62f2ec6e24ec86e64d3d53200b3cb19ab129b234c94e48b37c137c46f23f72a45ae426cd87dffb48fb95a45327fabffa  qnx-usb_0.1.0.00060T202605201516L.qpkg
 "
-

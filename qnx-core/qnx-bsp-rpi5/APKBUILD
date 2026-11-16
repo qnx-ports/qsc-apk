@@ -1,7 +1,7 @@
 # Maintainer: Aaron Bassett <abasett@qnx.com>
 pkgname="qnx-bsp-rpi5"
-pkgver=8.0.5
-_bsp_rpi5_version=0.3.0.00381T202512101351L
+pkgver=8.0.6
+_bsp_rpi5_version=0.5.0.00738T202610301506L
 _raspberrypi_firmware_release="1.20250430" 
 pkgrel=0
 pkgdesc="QNX Board Support Package For Raspberry Pi 5"
@@ -25,7 +25,7 @@ prepare() {
         tar xf $qpkg
     done
 
-    unzip -d bsp bsp/BSP_raspberrypi-bcm2712-rpi5_be-800_SVN1024006_JBN381.zip
+    unzip -d bsp bsp/BSP_raspberrypi-bcm2712-rpi5_be-800_*.zip
     patch -p1 -d "$srcdir"/bsp < "$srcdir"/msix-rp1-rework.patch
 }
 
@@ -67,7 +67,7 @@ package() {
 
 
 sha512sums="
-6e98a4eced10b4d51333c568a8237b3828d4f21d3303d669ab6fac32cf06e9060489970755fce87eb698719bbbb5ade6e9744f62b3f8446fca0ec8cb2ad51700  bsp_rpi5_0.3.0.00381T202512101351L.qpkg
+f9f69864cc5a33a598d5888cc691862cce19829acfb601f39b4eadd758fc62df26b6694674c612bee58addb7135739eb6af5fc0d9ef3632e590773b4f09c6c3d  bsp_rpi5_0.5.0.00738T202610301506L.qpkg
 7edf2e3c09862d58c2a5a7ab360f1b2161325709f4715b44379c7324e9e9a4884e3441371b879d926be652ee2c40b976f5b07d69c855e9253d5a59facec9763d  1.20250430.zip
-af817212ded63d8f3fc081fd5049fd148f358324c2c05c322d639bb997ec3d3d23dd401e83e0630420be7b1a5db157090ce63b061f07438a602a26b2b0b7a534  msix-rp1-rework.patch
+12728eaa2e419e05f08ddbee87fed7c1e06cafe13b567c3f8ee8fe32938054cf290bb1cb4c12e60702698deaad547e5722a928bde4125b8186950189a2a65e5b  msix-rp1-rework.patch
 "

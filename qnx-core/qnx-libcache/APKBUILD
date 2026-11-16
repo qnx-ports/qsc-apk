@@ -1,6 +1,6 @@
 # Maintainer: jscaffidi <jscaffidi@qnx.com>
 pkgname="qnx-libcache"
-pkgver=8.0.5
+pkgver=8.0.6
 _libcache_version=0.0.1.00135T202311191043L
 pkgrel=0
 pkgdesc="QNX libcache package"

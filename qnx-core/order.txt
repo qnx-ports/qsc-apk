@@ -45,5 +45,5 @@ qnx-base
 qnx-libcache
 qnx-spi
 qnx-dma
-qnx-bsp-rpi5
 qnx-i2c
+qnx-bsp-rpi5

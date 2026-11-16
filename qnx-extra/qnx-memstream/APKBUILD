@@ -1,6 +1,6 @@
 
 pkgname="qnx-memstream"
-pkgver=8.0.5
+pkgver=8.0.6
 _mem_stream_version=1.0.0.00103T202510151739L
 pkgrel=0
 pkgdesc="QNX800 support for Linux-style memstream dynamic memory buffer streams"
@@ -39,7 +39,7 @@ dev() {
 
 
 
+builddir="$srcdir"
 sha512sums="
 92c9329911680ab0f66ed14f6a0691572390b8f7b9970923ed4e219f2c573183adb2831c91fb03697484905fc7de6a80c1c21accc8476def9be672a03f8539c9  qnx-memstream_1.0.0.00103T202510151739L.qpkg
 "
-builddir="$srcdir"

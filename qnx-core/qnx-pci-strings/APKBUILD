@@ -1,7 +1,7 @@
 pkgname="qnx-pci-strings"
-pkgver=8.0.5
+pkgver=8.0.6
 _pci_strings_version="3.0.1.03075T202605211339L"
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX PCI Strings module"
 url="https://qnx.com"
 arch="all"

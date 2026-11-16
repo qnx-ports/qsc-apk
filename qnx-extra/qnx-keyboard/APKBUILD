@@ -1,5 +1,5 @@
 pkgname="qnx-keyboard"
-pkgver=8.0.5
+pkgver=8.0.6
 _keyboard_version=0.1.0.00007T202411230047L
 pkgrel=0
 pkgdesc="QNX Keyboard Layout Files"

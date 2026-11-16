@@ -1,9 +1,9 @@
 # Maintainer: Aaron Bassett <abassett@qnx.com>
 pkgname="qnx-os-services"
-pkgver=8.0.5
+pkgver=8.0.6
 _os_service_version=1.0.0.03063T202511271306L
 _os_service_mqueue_version=1.2.0.00132T202605281115L
-_os_service_libjson_version=0.5.0.00132T202605281115L
+_os_service_libjson_version=0.6.0.06031T202610011839L
 pkgrel=0
 pkgdesc="QNX Meta Package for Operating System Services Base"
 url="https://qnx.com"
@@ -86,5 +86,5 @@ libjson-dbg() {
 sha512sums="
 b49859c183f4f3a9c1e17901ab12ec5497c4e497cc7e57426ed81c79c7974d18b0b428f5c3f0870ee57d543f021656baead5c1117bbf89d1c3af605054d59fe5  os-services-base_1.0.0.03063T202511271306L.qpkg
 39bc3d48385b27b43a315fc4edc7590cd44ea884ed3a6b91185115aaddef234e26e5e3b620b017cca3998563c2666c38621c554eb6abe92ce2b3f9647e1a9e1b  os-services-mqueue_1.2.0.00132T202605281115L.qpkg
-63a7e8bf5959b9c49c07c71e5a1e555748120d948a5854e296eaeb20540559a1f68e6ceba5c5bcf44a6562e32eb39fa82c25a45fee4c79ad438a6d13ed6f45d7  os-services-libjson_0.5.0.00132T202605281115L.qpkg
+df4a92ef5040a0c01d4412a7ce8fa73edcd7820a00e664f91c89663880c0554a2515e58f53f69ba879348cde6e4c22a867b75d6398c410411e48b98b28b41c14  os-services-libjson_0.6.0.06031T202610011839L.qpkg
 "

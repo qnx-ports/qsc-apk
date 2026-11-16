@@ -1,12 +1,13 @@
 pkgname="qnx-microkernel"
-pkgver=8.0.5
-_core_version=2.6.0.00145T202606051700L
+pkgver=8.0.6
+_core_version=2.8.0.00047T202610300907L
+_forksafe_mutex_version=2.7.0.06031T202610011839L
 _libm_version=0.0.2.02005T202411230033L
 _libelf_version=0.0.1.00135T202311191043L
 _target_base_version=0.0.1.00135T202311191043L
 _core_libraries_version=1.1.0.00132T202605281115L
 _libregex_version=1.0.0.00600T202507302003L
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX Microkernel and core libraries"
 url="https://qnx.com"
 arch="all"
@@ -20,7 +21,7 @@ source="microkernel_core_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.mic
     libelf_$_libelf_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libelf/$_libelf_version/download
     libregex_$_core_libraries_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libregex/$_libregex_version/download
     libcatalog_$_core_libraries_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libcatalog/$_core_libraries_version/download
-    libforksafe_mutex_$_core_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libforksafe_mutex/$_core_version/download
+    libforksafe_mutex_$_forksafe_mutex_version.qpkg::$QSC_URL/com.qnx.qnx800.target.base.libforksafe_mutex/$_forksafe_mutex_version/download
     $_target_base_filename.qpkg::$QSC_URL/com.qnx.qnx800.target.base/$_target_base_version/download
     unix.h-remove-termcap-include.patch
 
@@ -68,12 +69,12 @@ dev() {
 }
 
 sha512sums="
-6272f7ecb2bfae82599e4d53f99f9a728f61c21a3bbdc957c635212e18e3dba2965c5b43920fb1afdcea00d35b1b31f9706796b46f3dcdc78366303fb01502f9  microkernel_core_2.6.0.00145T202606051700L.qpkg
+040e7feb2e1bfde409b6c90e36461381a399607533a7b00bdc63b1a07d6e1eb52c17b8ad6c0d659f0afeca066a4a261970f00c5e1405413ae7b0da819c3014bb  microkernel_core_2.8.0.00047T202610300907L.qpkg
 2b60c46e8264e151a784c59c03b2cbe00a7b93ed3f7fbc10c2299162258f9215574c002f418a052b38378f012333e196043a7453714c340a0f97162ab983dfed  libm_0.0.2.02005T202411230033L.qpkg
 b9aa5aa9c5857558105556f27e6a9fa918fdd0f13015175dc8eb820953ba203ab565319cd883417499e92199858a076af92a1a087c1757a19a205c7f0d9c47cd  libelf_0.0.1.00135T202311191043L.qpkg
 73f2d4d524b7bc5c18aba65145c590b9d68d605bb816a5adc335f7221885b1a37b73b2b823b145d209fbac0e22a001fce15cc492104849f83626a3620fd3396d  libregex_1.1.0.00132T202605281115L.qpkg
 2ccf5415cf3ce95810ba7a3caa409cdaf47b696a26b8d371454fb2cbe49142ee9d78ded320061b78c1a4806d177f2dbfe6d0ccb81be4aa780806fe0392d3746e  libcatalog_1.1.0.00132T202605281115L.qpkg
-ebc0bf8b16d37b51414b5438fdf6201233f1acec0ec01fc765fbcebd7dd10092577fec962d810307a3c9020b6924aee9a4446306f1cacfbcf02887bed5e5b6db  libforksafe_mutex_2.6.0.00145T202606051700L.qpkg
+be9d1f9839c58be026b33bc4635926dc269176f913851b45ee5dc3b0a30ec2f2ae0cb74c0e60412f1b3c59b62de0d10ac5acb684e81b41db02bc15d062399419  libforksafe_mutex_2.7.0.06031T202610011839L.qpkg
 975b393237c8973da2ecd2fa9247028a5795ed61dd50f2afe30ed509f03fb855ae0c5019ad0efa1afb781b2562d3bb01ebfcea8791271a07ac007e87b38f14ca  target_base_0.0.1.00135T202311191043L.qpkg
 2d87f881418e5586127292148aae1ce9c5d2e18f3d4ec5a03a88c35ee14770848bea48d53e319734c0d9305de2f158755e62a74c26eafc04c65688701ea3385a  unix.h-remove-termcap-include.patch
 "

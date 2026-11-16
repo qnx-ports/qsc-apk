@@ -1,7 +1,7 @@
 # Maintainer: Leo Shen <yishen@qnx.com>
 pkgname="qnx-netutils"
-pkgver=8.0.5
-_net_utils_ver=0.5.0.00015T202605220948L
+pkgver=8.0.6
+_net_utils_ver=0.6.0.00011T202610012146L
 pkgrel=0
 pkgdesc="QNX Networking - Utilities"
 url="https://qnx.com"
@@ -53,6 +53,6 @@ dev() {
 
 
 sha512sums="
-59ec7d63f76b4218616a4e8b2cc2908072bf7dbde979535c4208114f847ba2208dd1cf92ff4dd5278d9e0cb8d42b9cce9c156e7605749b2d5b163113c4d729c4  net-utils_0.5.0.00015T202605220948L.qpkg
-695157b5e63ad76497b15382a5ac42274bd004720e2efd9987d99a0e0fda1e39b7475de875f7f54cd93b1736bdc95af07eb5048d02b32c12c607136b56f9a5c9  net-devutils_.qpkg
+28d972bb867e116eb54c85a743cfdd4a9d42328b6d71ea8adbb332ca0fd41bb496d8a849e0220ea1f370cd27a87e762e55095225b236ff6911087161be8c8427  net-utils_0.6.0.00011T202610012146L.qpkg
+499bed9c9fb5d7342a33d3430dd4ac4851fc922661b1e9a523be156cf499f4bec15ccc9ce10074c86d3a7e6cb2038bd55d7127774067ad0eb6adc6f1bdbce4df  net-devutils_.qpkg
 "

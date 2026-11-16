@@ -1,5 +1,5 @@
 pkgname="qnx-devb-virtio"
-pkgver=8.0.5
+pkgver=8.0.6
 _devb_virtio_version="0.1.0.00011T202411230104L"
 pkgrel=0
 pkgdesc="QNX Block Driver Virtio"
