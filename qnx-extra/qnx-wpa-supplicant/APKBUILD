@@ -1,8 +1,8 @@
 # Maintainer: jscaffidi <jscaffidi@qnx.com>
 pkgname="qnx-wpa_supplicant"
-pkgver=8.0.5
+pkgver=8.0.6
 _wpa_supplicant_version=0.0.6.00014T202605060705L
-pkgrel=1
+pkgrel=0
 pkgdesc="QNX Random Service"
 url="https://qnx.com"
 arch="all"
